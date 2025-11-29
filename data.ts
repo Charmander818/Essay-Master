@@ -2592,7 +2592,7 @@ Requires an assessment of the extent to which government policy can influence an
     questionNumber: "5(a)",
     topic: SyllabusTopic.MACROECONOMY,
     chapter: "4.4 Economic growth",
-    maxMarks: 7,
+    maxMarks: 8,
     questionText: "With the help of an aggregate demand and aggregate supply diagram, explain how a decrease in interest rates could cause economic growth and consider whether economic growth will always result in inflation.",
     markScheme: `Follow the point-based marking guidance at the top of this mark scheme and 
 award:
