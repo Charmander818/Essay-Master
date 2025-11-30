@@ -349,12 +349,16 @@ const Sidebar: React.FC<SidebarProps> = ({
                const chapters = syllabusGroups[topic];
                if (!chapters || Object.keys(chapters).length === 0) return null;
 
+               // Calculate total questions for this topic based on current filters
+               const topicTotalCount = Object.values(chapters).reduce((acc, curr) => acc + curr.length, 0);
+
                const sortedChapters = getSortedChapters(chapters);
 
                return (
                  <div key={topic} className="mb-6">
-                   <h2 className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-2 sticky top-0 bg-white/95 py-1 z-10">
-                     {topic.replace(/^\d+\.\s*/, '')}
+                   <h2 className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-2 sticky top-0 bg-white/95 py-1 z-10 flex justify-between items-center border-b border-slate-50 pb-1">
+                     <span>{topic.replace(/^\d+\.\s*/, '')}</span>
+                     <span className="text-[9px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded-full ml-2">{topicTotalCount}</span>
                    </h2>
                    
                    {sortedChapters.map((chapter) => {
