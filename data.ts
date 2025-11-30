@@ -1175,7 +1175,7 @@ AO3 Evaluation (max 2 marks)
   },
   {
     id: "on23-23-2b",
-    year: "2023",
+    year: "2024",
     paper: "9708/23",
     variant: "Oct/Nov",
     questionNumber: "2(b)",
