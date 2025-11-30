@@ -2017,7 +2017,7 @@ AO3 Evaluation
   {
     id: "mj25-22-2a",
     year: "2025",
-    paper: "9708/22",
+    paper: "9708/23",
     variant: "May/June",
     questionNumber: "2(a)",
     topic: SyllabusTopic.PRICE_SYSTEM,
@@ -2036,7 +2036,7 @@ An assessment of the significance of the long run estimate – e.g. possible sho
   {
     id: "mj25-22-2b",
     year: "2025",
-    paper: "9708/22",
+    paper: "9708/23",
     variant: "May/June",
     questionNumber: "2(b)",
     topic: SyllabusTopic.PRICE_SYSTEM,
@@ -2053,7 +2053,7 @@ That clearly analyses at both sides of the question and comes to a valid conclus
   {
     id: "mj25-22-3a",
     year: "2025",
-    paper: "9708/22",
+    paper: "9708/23",
     variant: "May/June",
     questionNumber: "3(a)",
     topic: SyllabusTopic.GOVT_MICRO,
@@ -3943,5 +3943,82 @@ That clearly considers the likely consequences on both parts of the economy
 and comes to a conclusion as to the most likely consequences.
 Accept all valid responses.
 A one-sided response cannot gain any marks for evaluation.`
+  },
+  {
+    id: "custom-1764486302616",
+    year: "2024",
+    paper: "9708/23",
+    variant: "Oct/Nov",
+    questionNumber: "3(a)",
+    topic: SyllabusTopic.GOVT_MICRO,
+    chapter: "3.3 Addressing income and wealth inequality",
+    maxMarks: 8,
+    questionText: "Explain two economic reasons for inequality in the distribution of \nincome and wealth and consider why inequality in the distribution of \nwealth cannot easily be measured.",
+    markScheme: `AO1 Knowledge and understanding (max 3 marks)
+• An explanation of how inequality of income and wealth means an uneven 
+distribution of income and wealth among a population (1).
+• An explanation of two reasons for income and wealth inequality.
+– For example: Poor education and training results in the individual 
+gaining fewer/less marketable skills that prevents them from applying 
+for jobs with higher salaries (1).
+– Low rates of saving which makes it increasingly difficult to buy 
+property. Wealth inequality widens as rising property prices not only 
+make it more difficult to purchase a property, but benefits those who 
+are already property owners (1).
+AO2 Analysis (max 3 marks)
+Points to consider may include (other difficulties may be considered):
+• Wealth is comprised from many sources housing assets, savings, 
+financial instruments, pensions, and different countries have different 
+ways of measuring it (1). 
+• Some wealth may not be included in any calculation should wealthy 
+individuals legally use tax havens to reduce the value of their wealth (1). 
+• Ownership of wealth may be transferred to family members to reduce the 
+value of personal wealth value (1).
+AO3 Evaluation (max 2 marks)
+• For a balanced evaluation of whether wealth inequality cannot always 
+easily be measured (1), leading to a justified conclusion (1).`
+  },
+  {
+    id: "custom-1764486336236",
+    year: "2024",
+    paper: "9708/23",
+    variant: "Oct/Nov",
+    questionNumber: "3(b)",
+    topic: SyllabusTopic.GOVT_MICRO,
+    chapter: "3.3 Addressing income and wealth inequality",
+    maxMarks: 12,
+    questionText: "Assess which policies are likely to be most effective in redistributing \nincome.",
+    markScheme: `AO1 Knowledge and understanding and AO2 Analysis
+Polices may include:
+• Use of policies to redistribute income. For example, the introduction of a 
+minimum wage (or increase an existing minimum wage) will increase the 
+wage of the lowest earners and reduce the difference between the 
+highest and lowest earners.
+• Problems of minimum wages include the possibility of increasing costpush inflation, higher rates of unemployment and that in some countries 
+only a small proportion of the population are in receipt of the minimum 
+wage.
+• Alternative policies that may be considered include progressive tax 
+systems – by increasing the number of tax brackets or increasing the 
+higher tax rates will reduce the post-tax income of higher earners and 
+reduce the difference between the highest and lowest earners. 
+• Problems of the alternative policy – for example, increased incentives for 
+individuals to seek ways to legally avoid the higher tax rates. Increased 
+administrative costs associated with implementing new systems for 
+income assessment and tax collection.
+Level 1 responses will be assertive and lacking in explanations / mainly 
+descriptive and/or or mainly lacking in relevance to the question.
+Level 2 responses may contain some inaccuracies and may be one sided. 
+Analysis will be explained at least in part and will be largely relevant to the 
+question.
+Level 3 responses will consider alternative policies / concepts etc. and will 
+be balanced. Explanations of points raised will be offered and will be accurate 
+and relevant to the question.
+AO3 Evaluation
+• Requires an assessment of at least two policies to be compared against 
+each other which leads to
+• A justified conclusion as to which policy (or combination) is most likely to 
+be most effective in redistributing income.
+Accept all valid responses.
+Note: A one-sided response cannot gain any marks for evaluation.`
   }
 ];
