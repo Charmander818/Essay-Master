@@ -85,7 +85,7 @@ const AddQuestionModal: React.FC<Props> = ({ isOpen, onClose, onSave, initialQue
   // Handle Question Number Change -> Auto-set Max Marks
   const handleQuestionNumberChange = (val: string) => {
     let marks = formData.maxMarks;
-    // Default logic: (a) -> 8 marks, (b) -> 12 marks
+    // Logic: (a) -> 8 marks, (b) -> 12 marks
     if (val.includes('(a)')) marks = 8;
     else if (val.includes('(b)')) marks = 12;
     

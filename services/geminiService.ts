@@ -1,4 +1,3 @@
-
 import { GoogleGenAI, Type } from "@google/genai";
 import { Question, ClozeBlank, ClozeFeedback } from "../types";
 
@@ -22,6 +21,53 @@ export const generateModelAnswer = async (question: Question): Promise<string> =
   try {
     checkForApiKey();
     
+    let instructions = "";
+
+    if (question.maxMarks === 8) {
+      instructions = `
+      **Structure Requirements for 8 Marks (Part a):**
+      
+      **[AO1: Knowledge & Understanding] (Max 3 marks)**
+      - Clearly define key economic terms.
+      - If applicable, describe the diagram clearly.
+      
+      **[AO2: Analysis] (Max 3 marks)**
+      - Explain the economic theory/mechanism.
+      - Use logical chains of reasoning (Cause -> Effect -> Consequence).
+      
+      **[AO3: Evaluation] (Max 2 marks)**
+      - Provide a brief evaluative comment (e.g., short-run vs long-run, elasticity).
+      - **CRITICAL:** You MUST provide a valid Conclusion. 1 mark is strictly reserved for the conclusion.
+      `;
+    } else if (question.maxMarks === 12) {
+      instructions = `
+      **Structure Requirements for 12 Marks (Part b):**
+      
+      **[AO1 & AO2: Knowledge, Understanding & Analysis] (Max 8 marks)**
+      - Provide comprehensive knowledge and detailed analysis together.
+      - Use diagrams where relevant to support analysis.
+      - Develop logical chains of reasoning fully.
+      - Cover both sides of the argument if the question is "Assess" or "Discuss".
+      
+      **[AO3: Evaluation] (Max 4 marks)**
+      - Critically assess the arguments (e.g., assumptions, effectiveness, magnitude).
+      - Provide a detailed, justified conclusion.
+      `;
+    } else {
+      // Fallback for custom questions not following standard mark patterns
+      instructions = `
+      **[AO1: Knowledge & Understanding]**
+      - Define key terms clearly.
+      
+      **[AO2: Analysis]**
+      - Develop analytical points with logical chains.
+      
+      **[AO3: Evaluation]**
+      - Evaluate the extent/significance.
+      - Provide a conclusion.
+      `;
+    }
+
     const prompt = `
       You are a world-class Cambridge International AS Level Economics teacher.
       Write a model essay answer for the following question.
@@ -32,23 +78,11 @@ export const generateModelAnswer = async (question: Question): Promise<string> =
       ${question.markScheme}
       
       **Instructions:**
-      - **Structure the essay strictly** using the following headers (in bold):
-      
-      **[AO1: Knowledge & Understanding]**
-      - Define key terms clearly.
-      - Describe any diagrams if required (e.g. "A diagram would show...").
-      
-      **[AO2: Analysis]**
-      - Write **2-3 distinct paragraphs**. 
-      - Each paragraph should develop a separate analytical point with a complete logical chain (Cause -> Effect -> Consequence).
-      - Ensure logical links are explicit.
-      
-      **[AO3: Evaluation]**
-      - Write **1-2 distinct paragraphs**.
-      - Evaluate the extent, significance, or likelihood (e.g., Short run vs Long run, Elasticity, Magnitude).
+      ${instructions}
       
       - Use precise economic terminology.
       - The tone should be academic and exam-focused.
+      - Use the bold headers exactly as specified above.
     `;
 
     const response = await ai.models.generateContent({
@@ -74,24 +108,41 @@ export const gradeEssay = async (question: Question, studentEssay: string, image
     let essayContentText = studentEssay;
 
     if (imageBase64) {
-       // Clean base64 string if it has data prefix
        const cleanBase64 = imageBase64.replace(/^data:image\/(png|jpeg|jpg|webp);base64,/, "");
-       
        parts.push({
           inlineData: {
-             mimeType: 'image/jpeg', // Assuming jpeg for simplicity, Gemini is flexible
+             mimeType: 'image/jpeg',
              data: cleanBase64
           }
        });
        essayContentText = "See attached image for the student's handwritten essay.";
     }
 
+    let gradingCriteria = "";
+    if (question.maxMarks === 8) {
+       gradingCriteria = `
+       **Grading Criteria (8 Marks - Part a):**
+       - **AO1 (3 marks):** Knowledge of terms and diagrams.
+       - **AO2 (3 marks):** Analytical reasoning and logical chains.
+       - **AO3 (2 marks):** Evaluative comment + Conclusion. (Note: 1 mark is reserved strictly for the conclusion).
+       `;
+    } else if (question.maxMarks === 12) {
+       gradingCriteria = `
+       **Grading Criteria (12 Marks - Part b):**
+       - **AO1 + AO2 (8 marks):** Combined score for knowledge, understanding, and detailed analysis.
+       - **AO3 (4 marks):** Evaluation and justified conclusion.
+       `;
+    }
+
     const prompt = `
       You are a strict Cambridge International AS Level Economics examiner.
-      Grade the following student essay based *strictly* on the provided mark scheme.
+      Grade the following student essay based *strictly* on the provided mark scheme and grading criteria.
 
       **Question:** ${question.questionText}
       **Max Marks:** ${question.maxMarks}
+      
+      ${gradingCriteria}
+
       **Mark Scheme:**
       ${question.markScheme}
 
@@ -101,10 +152,7 @@ export const gradeEssay = async (question: Question, studentEssay: string, image
       **Instructions:**
       - If an image is provided, transcribe the handwriting internally and then grade it.
       - Provide a score out of ${question.maxMarks}.
-      - Provide a breakdown: 
-        - Knowledge & Understanding (AO1)
-        - Analysis (AO2)
-        - Evaluation (AO3)
+      - Provide a breakdown using the headers defined in the "Grading Criteria" above.
       - Provide specific feedback on what was good and what was missing based on the mark scheme.
       - Be constructive but realistic.
     `;
@@ -133,12 +181,13 @@ export const getRealTimeCoaching = async (question: Question, currentText: strin
       You are a helpful Economics tutor watching a student write an essay in real-time.
       
       **Question:** ${question.questionText}
+      **Marks:** ${question.maxMarks}
       **Mark Scheme:** ${question.markScheme}
       **Current Draft:** "${currentText}"
 
       **Task:**
       1. Estimate the current mark range (e.g., "2-3 marks").
-      2. Provide ONE specific, actionable tip to get the *next* mark based on the Mark Scheme. Do not give the whole answer, just a nudge.
+      2. Provide ONE specific, actionable tip to get the *next* mark based on the Mark Scheme.
       3. Keep it brief (under 50 words).
     `;
 
@@ -175,18 +224,16 @@ export const generateClozeExercise = async (modelEssay: string): Promise<{ textW
 
     const prompt = `
       You are an expert Economics teacher creating a "Logic Chain" completion exercise.
-      Take the provided model essay and create a fill-in-the-blank (cloze) test to train students on precision and logic.
+      Take the provided model essay and create a fill-in-the-blank (cloze) test.
 
       **Instructions:**
-      1. Identify **8 to 12** critical parts to remove across the essay.
-      2. Target these specific areas:
-         - **AO1 (Knowledge):** Remove 2-3 key definitions or technical terms (e.g., "opportunity cost", "non-rival").
-         - **AO2 (Analysis):** Remove 4-6 parts of the logical chain. Target the connecting phrases or the middle step of a chain (e.g., "this signals producers to...", "causing a contraction in...").
-         - **AO3 (Evaluation):** Remove 2-3 evaluative qualifiers (e.g., "however, in the short run", "depends on the magnitude of").
-      3. Replace these parts with the placeholder format: [BLANK_1], [BLANK_2], etc.
-      4. Return the modified text and the list of removed sentences/clauses.
-      5. For each blank, provide a specific "hint" (e.g., "Missing logical step", "Evaluation factor", "Definition", "Effect on price").
-      6. **IMPORTANT:** Preserve the paragraph structure (newlines) of the original essay.
+      1. Identify **8 to 12** critical parts to remove.
+      2. Target:
+         - **AO1:** Key definitions/terms.
+         - **AO2:** Logical connectors or middle steps in analysis chains.
+         - **AO3:** Evaluative qualifiers.
+      3. Replace with [BLANK_1], [BLANK_2], etc.
+      4. Return JSON with the text and the list of blanks + hints.
       
       **Input Essay:**
       ${modelEssay}
@@ -250,9 +297,9 @@ export const evaluateClozeAnswers = async (
 
       **Instructions:**
       For each item:
-      1. Compare the Student Answer to the Original.
-      2. Give a score (1-5), where 5 is "Perfectly captures the logic/meaning" (exact wording not required), and 1 is "Incorrect logic".
-      3. Provide a brief, 1-sentence comment correcting the logic if needed.
+      1. Compare Student Answer to Original.
+      2. Score (1-5): 5 = Perfect logic/meaning (exact words not needed), 1 = Incorrect.
+      3. Provide a 1-sentence comment.
     `;
 
     const response = await ai.models.generateContent({
