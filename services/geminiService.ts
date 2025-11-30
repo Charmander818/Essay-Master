@@ -27,61 +27,60 @@ export const generateModelAnswer = async (question: Question): Promise<string> =
       instructions = `
       **Structure Requirements for 8 Marks (Part a):**
       
-      **[AO1: Knowledge & Understanding] (Max 3 marks)**
-      - Clearly define key economic terms.
-      - If applicable, describe the diagram clearly.
+      **[AO1: Knowledge & Understanding] (3 marks)**
+      - Provide precise, textbook definitions. 
+      - Example: Do not just say "inflation is rising prices". Say "inflation is a sustained increase in the general price level".
+      - If a diagram is relevant, describe it explicitly (axes, curves, shifts).
       
-      **[AO2: Analysis] (Max 3 marks)**
-      - Explain the economic theory/mechanism.
-      - Use logical chains of reasoning (Cause -> Effect -> Consequence).
+      **[AO2: Analysis] (3 marks)**
+      - **CRITICAL:** Use complete logical chains of reasoning (A -> B -> C -> D).
+      - Do not skip steps. Explain the *mechanism*.
+      - Example: Instead of "Depreciation increases inflation", write "Depreciation reduces the exchange rate -> imports become relatively more expensive -> costs of raw materials rise -> SRAS shifts left -> Cost-Push Inflation."
       
-      **[AO3: Evaluation] (Max 2 marks)**
-      - Provide a brief evaluative comment (e.g., short-run vs long-run, elasticity).
-      - **CRITICAL:** You MUST provide a valid Conclusion. 1 mark is strictly reserved for the conclusion.
+      **[AO3: Evaluation] (2 marks)**
+      - Provide a specific evaluative comment based on the context (e.g., "This is more likely in countries with few natural resources because...").
+      - **Mandatory:** A clear, justified conclusion.
       `;
     } else if (question.maxMarks === 12) {
       instructions = `
       **Structure Requirements for 12 Marks (Part b):**
       
-      **[AO1 & AO2: Knowledge, Understanding & Analysis] (Max 8 marks)**
-      - Provide comprehensive knowledge and detailed analysis together.
-      - Use diagrams where relevant to support analysis.
-      - Develop logical chains of reasoning fully.
-      - Cover both sides of the argument if the question is "Assess" or "Discuss".
+      **[AO1 & AO2: Knowledge, Understanding & Analysis] (8 marks)**
+      - **Detailed** logical chains are required. No assertions without explanation.
+      - **Context:** You MUST apply your analysis to the specific context in the question (e.g., "high income country", "developing economy").
+      - Provide a balanced argument (Pros vs Cons, or Method A vs Method B).
       
-      **[AO3: Evaluation] (Max 4 marks)**
-      - Critically assess the arguments (e.g., assumptions, effectiveness, magnitude).
-      - Provide a detailed, justified conclusion.
+      **[AO3: Evaluation] (4 marks)**
+      - Critically assess the arguments (e.g., assumptions, short-run vs long-run, elasticity, magnitude).
+      - Provide a detailed, justified conclusion that weighs the arguments.
       `;
     } else {
-      // Fallback for custom questions not following standard mark patterns
       instructions = `
-      **[AO1: Knowledge & Understanding]**
-      - Define key terms clearly.
-      
-      **[AO2: Analysis]**
-      - Develop analytical points with logical chains.
-      
-      **[AO3: Evaluation]**
-      - Evaluate the extent/significance.
-      - Provide a conclusion.
+      **General High-Standard Requirements:**
+      - **AO1:** Define key terms precisely.
+      - **AO2:** Develop detailed analytical chains. No logical jumps.
+      - **AO3:** Evaluate significance and conclude.
       `;
     }
 
     const prompt = `
-      You are a world-class Cambridge International AS Level Economics teacher.
-      Write a model essay answer for the following question.
+      You are a **world-class Cambridge International AS Level Economics Examiner**.
+      Write a **perfect, full-mark model essay** for the following question.
       
       **Question:** ${question.questionText}
       **Max Marks:** ${question.maxMarks}
-      **Mark Scheme Requirements:**
+      **Mark Scheme Guidance:**
       ${question.markScheme}
+      
+      **Strict Writing Standards:**
+      1. **Precision:** Use exact economic terminology (e.g., "Aggregate Demand", "Real GDP", "SRAS", "Purchasing Power").
+      2. **Logical Chains:** Never make an assertion without explaining the mechanism. Every point must form a closed loop.
+      3. **Context is King:** If the question mentions a specific scenario (e.g., "country with few natural resources"), your answer **must** hinge on that fact.
       
       **Instructions:**
       ${instructions}
       
-      - Use precise economic terminology.
-      - The tone should be academic and exam-focused.
+      - The tone should be academic, professional, and exam-focused.
       - Use the bold headers exactly as specified above.
     `;
 
@@ -122,71 +121,73 @@ export const gradeEssay = async (question: Question, studentEssay: string, image
     let rubricTitle = "";
 
     if (question.maxMarks === 8) {
-       rubricTitle = "Cambridge AS Level 8-Mark Rubric";
+       rubricTitle = "Cambridge AS Level 8-Mark Rubric (Strict)";
        gradingRubric = `
-       **Marking Logic (Strict adherence required):**
+       **Strict Marking Logic (3/3/2 Split):**
        
        **AO1: Knowledge & Understanding (3 marks)**
-       - 1 mark for each accurate definition or identification of a key concept.
-       - 1 mark for an accurate, fully labelled diagram (if applicable).
-       - *Penalty:* Inaccurate definitions or incomplete diagrams (missing labels, wrong shifts) lose marks.
+       - **Requirements:** Precise definitions + Accurate Diagram (if asked/relevant).
+       - **Strictness:** 
+         - "Inflation is rising prices" = 0 marks. 
+         - "Inflation is a sustained increase in the general price level" = 1 mark.
+         - If a diagram is missing or inaccurate when asked for, cap AO1.
 
        **AO2: Analysis (3 marks)**
-       - Award marks for **developed chains of reasoning** (Cause -> Effect -> Consequence).
-       - **Zero marks** for "assertions" (statements without explanation).
-       - Example of assertion (0 marks): "Lower interest rates increase investment."
-       - Example of analysis (1 mark): "Lower interest rates reduce the cost of borrowing, which increases the profitability of projects, incentivizing firms to invest."
+       - **Requirements:** DETAILED Logical Chains of Reasoning (A -> B -> C -> D).
+       - **Strictness:** 
+         - **0 Marks for Assertions:** "Depreciation causes inflation" is an assertion. 0 Marks.
+         - **High Marks:** Must show the mechanism. "Depreciation reduces the value of currency -> import prices rise -> raw material costs increase -> SRAS shifts left -> Cost Push Inflation."
+         - **Context:** If the question mentions "few natural resources", the analysis MUST explain why this matters (e.g., dependency on imports).
 
        **AO3: Evaluation (2 marks)**
-       - 1 mark for a specific evaluative comment (e.g., depends on elasticity, time lag, or ceteris paribus).
-       - **1 mark strictly reserved for a valid Conclusion.** No conclusion = Max 1/2 for AO3.
+       - 1 mark for specific evaluative comment (e.g., "depends on PED of imports").
+       - 1 mark **strictly** for a valid Conclusion.
        `;
     } else {
        // 12 Mark Logic based on Tables A & B from Official Mark Scheme
-       rubricTitle = "Cambridge AS Level 12-Mark Levels-Based Rubric";
+       rubricTitle = "Cambridge AS Level 12-Mark Levels-Based Rubric (Strict)";
        gradingRubric = `
        **TABLE A: AO1 Knowledge & Understanding + AO2 Analysis (Max 8 marks)**
        
        *Level 3 (6–8 marks):*
-       - Detailed knowledge of relevant concepts.
-       - Analysis is **developed** and **detailed** with accurate chains of reasoning.
-       - Accurate use of diagrams/formulae where necessary.
-       - Well-organized and focused.
+       - **Detailed** knowledge and **Developed** analysis.
+       - **Logical Chains:** Reasoning must be complete (no logical jumps). 
+         - *Bad:* "Investment increases growth." 
+         - *Good:* "Investment is a component of AD -> AD shifts right -> Real GDP increases -> Economic Growth." OR "Investment increases capital stock -> LRAS shifts right -> Potential growth."
+       - **Context:** Analysis must be applied to the specific context in the question.
        
        *Level 2 (3–5 marks):*
-       - Some knowledge, but explanations may be limited, over-generalized, or contain inaccuracies.
-       - Analysis is present but lacks detail (more assertions than explanations).
-       - Diagrams may be partially accurate or not fully explained.
-       - **CRITICAL:** One-sided answers (only advantages OR disadvantages) are capped at **Level 2 (Max 5 marks)** for this section.
+       - Some knowledge, but explanations are limited or generic.
+       - **Assertions:** Points are stated but not fully explained.
+       - **Partial Accuracy:** Diagrams may be missing labels or shifts.
+       - **One-sided:** Answers that only look at one side (e.g., only advantages) are CAPPED at Level 2.
 
        *Level 1 (1–2 marks):*
-       - Small number of relevant points.
-       - Significant errors or omissions.
-       - Largely descriptive with little economic analysis.
+       - Descriptive, errors, or very brief.
 
        **TABLE B: AO3 Evaluation (Max 4 marks)**
        
        *Level 2 (3–4 marks):*
-       - Provides a **justified conclusion** that addresses the specific question.
-       - Making developed, reasoned, and well-supported evaluative comments throughout.
+       - **Justified Conclusion:** The conclusion must follow logically from the analysis.
+       - **Developed Evaluation:** "Depends on X" is explained (e.g., "Depends on the elasticity of demand because if PED is inelastic...").
        
        *Level 1 (1–2 marks):*
-       - Vague or general conclusion.
-       - Simple evaluative comments with no development or supporting evidence.
-       - **CRITICAL:** One-sided answers cannot gain **ANY** evaluation marks (0/4).
-
-       **Common Examiner Deductions (Apply these strictly):**
-       - **Assertion vs. Explanation:** Do not credit points that are simply stated. "X leads to Y" is an assertion. "X leads to Y because Z..." is analysis.
-       - **Diagrams:** If a diagram is drawn but not referred to in the text, or is inaccurate (missing labels, wrong equilibrium), reduce marks.
-       - **Focus:** If the question asks for "Best Way", and the student only discusses one way, cap marks significantly.
+       - Vague/General conclusion ("It depends").
+       - **One-sided:** Answers that are one-sided get 0 marks for Evaluation.
        `;
     }
 
     const prompt = `
       You are a **strict** Cambridge International AS Level Economics (9708) Examiner.
-      Your task is to grade the student's essay **harshly and accurately** against the official standard.
-      
-      **Do not be benevolent.** High marks (Level 3) are reserved only for answers that demonstrate detailed logical chains of reasoning and accurate conceptual understanding.
+      Your goal is to grade the student's essay to professional standards, specifically penalizing logical gaps and superficial answers.
+
+      **CRITICAL GRADING RULES:**
+      1. **No "Benefit of the Doubt":** If a student skips a logical step (e.g. jumps from "depreciation" to "inflation" without explaining *import prices*), DO NOT give credit for Analysis. Mark it as an Assertion.
+      2. **Terminology:** Require standard economic terms (e.g., "Aggregate Demand", "Real GDP", "SRAS", "Purchasing Power").
+      3. **The "Why" Rule:** Every point must form a logical loop.
+         - *Example of Failure:* "Depreciation increases exports." (Assertion)
+         - *Example of Success:* "Depreciation makes exports cheaper in foreign currency terms -> increases international competitiveness -> quantity demanded for exports rises -> Export revenue rises (assuming elastic demand)." (Analysis)
+      4. **Context Matters:** If the question includes specific context (e.g., "low income country", "resource scarce"), the answer MUST use that context to get top marks.
 
       **Question:** ${question.questionText}
       **Max Marks:** ${question.maxMarks}
@@ -201,13 +202,13 @@ export const gradeEssay = async (question: Question, studentEssay: string, image
       ${essayContentText}
 
       **Instructions for Output:**
-      1. **Total Score:** Give a specific mark out of ${question.maxMarks}.
+      1. **Total Score:** Give a specific mark out of ${question.maxMarks}. Be stingy.
       2. **Breakdown:** Show marks for AO1, AO2, and AO3 separately.
-      3. **Examiner Feedback:**
-         - Identify specific **Assertions** that should have been **Explanations**. Quote the student's text and say "This is an assertion. To get marks, you needed to explain..."
-         - Identify any errors in diagrams or definitions.
-         - If the answer is one-sided (for 12 marks), explicitly state that marks were capped due to lack of balance.
-         - Provide one clear "Next Step" for improvement.
+      3. **Detailed Critique:**
+         - **Identify Logical Jumps:** Quote specific sentences where the student made an **Assertion** instead of an **Explanation**. Show exactly what step was missing.
+         - **Context Check:** Did they use the specific context (e.g. "few natural resources")? If not, penalize.
+         - **Terminology:** Highlight imprecise language.
+         - **Next Step:** Provide one concrete way to turn their Level 2 point into a Level 3 point.
     `;
 
     parts.push({ text: prompt });
@@ -226,22 +227,41 @@ export const gradeEssay = async (question: Question, studentEssay: string, image
   }
 };
 
-export const getRealTimeCoaching = async (question: Question, currentText: string): Promise<{scoreEstimate: string, advice: string}> => {
+export const getRealTimeCoaching = async (question: Question, currentText: string): Promise<{ao1: number, ao2: number, ao3: number, total: number, advice: string}> => {
   try {
     checkForApiKey();
 
+    let distribution = "";
+    
+    if (question.maxMarks === 8) {
+        distribution = "Max Marks Distribution: AO1: 3, AO2: 3, AO3: 2";
+    } else if (question.maxMarks === 12) {
+        distribution = "Max Marks Distribution: AO1+AO2: 8, AO3: 4.";
+    } else {
+        distribution = `Max Marks: ${question.maxMarks}`;
+    }
+
     const prompt = `
-      You are a helpful Economics tutor watching a student write an essay in real-time.
+      You are a **strict** Cambridge Economics Examiner watching a student write in real-time.
       
       **Question:** ${question.questionText}
-      **Marks:** ${question.maxMarks}
+      **Total Marks:** ${question.maxMarks}
+      **${distribution}**
       **Mark Scheme:** ${question.markScheme}
       **Current Draft:** "${currentText}"
 
+      **Grading Standards:**
+      - **AO1:** Only award if definitions are precise (e.g. "SRAS shift", not just "supply change").
+      - **AO2:** Only award if **logical chains are complete**. If they jump from A to Z, do not give the mark. They must show the mechanism (A -> B -> C -> Z).
+      - **AO3:** Only award for evaluation that refers to the specific context (e.g., "few natural resources").
+
       **Task:**
-      1. Estimate the current mark range (e.g., "2-3 marks").
-      2. Provide ONE specific, actionable tip to get the *next* mark based on the Mark Scheme.
-      3. Keep it brief (under 50 words).
+      1. Estimate current AO1, AO2, AO3 scores (integers). Be stingy.
+      2. Calculate Total.
+      3. **Advice:** Identify the most immediate logical gap. 
+         - *Example:* "You said depreciation causes inflation. Explain WHY. Mention import prices and production costs."
+         - *Example:* "You defined inflation loosely. Use 'sustained increase in general price level'."
+      4. Keep advice brief (under 50 words).
     `;
 
     const response = await ai.models.generateContent({
@@ -252,22 +272,29 @@ export const getRealTimeCoaching = async (question: Question, currentText: strin
         responseSchema: {
           type: Type.OBJECT,
           properties: {
-            scoreEstimate: { type: Type.STRING },
+            ao1: { type: Type.INTEGER, description: "Strict score for Knowledge & Understanding" },
+            ao2: { type: Type.INTEGER, description: "Strict score for Analysis (Logical Chains)" },
+            ao3: { type: Type.INTEGER, description: "Strict score for Evaluation (Context)" },
+            total: { type: Type.INTEGER, description: "Total score" },
             advice: { type: Type.STRING }
           },
-          propertyOrdering: ["scoreEstimate", "advice"]
+          required: ["ao1", "ao2", "ao3", "total", "advice"],
+          propertyOrdering: ["total", "ao1", "ao2", "ao3", "advice"]
         }
       }
     });
     
     const json = JSON.parse(response.text || "{}");
     return {
-        scoreEstimate: json.scoreEstimate || "Unknown",
+        ao1: json.ao1 || 0,
+        ao2: json.ao2 || 0,
+        ao3: json.ao3 || 0,
+        total: json.total || 0,
         advice: json.advice || "Keep writing..."
     };
   } catch (error) {
     console.error("Gemini API Error:", error);
-    return { scoreEstimate: "...", advice: "Check API Key" };
+    return { ao1: 0, ao2: 0, ao3: 0, total: 0, advice: "Check API Key" };
   }
 };
 
