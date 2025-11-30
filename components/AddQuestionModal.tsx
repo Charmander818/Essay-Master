@@ -82,6 +82,20 @@ const AddQuestionModal: React.FC<Props> = ({ isOpen, onClose, onSave, initialQue
     }));
   };
 
+  // Handle Question Number Change -> Auto-set Max Marks
+  const handleQuestionNumberChange = (val: string) => {
+    let marks = formData.maxMarks;
+    // Default logic: (a) -> 8 marks, (b) -> 12 marks
+    if (val.includes('(a)')) marks = 8;
+    else if (val.includes('(b)')) marks = 12;
+    
+    setFormData(prev => ({
+      ...prev,
+      questionNumber: val,
+      maxMarks: marks
+    }));
+  };
+
   if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -98,6 +112,13 @@ const AddQuestionModal: React.FC<Props> = ({ isOpen, onClose, onSave, initialQue
   const currentTopics = SYLLABUS_STRUCTURE[level].topics;
   const chaptersMap = SYLLABUS_STRUCTURE[level].chapters as Record<string, string[]>;
   const currentChapters = chaptersMap[formData.topic] || [];
+
+  const questionNumberOptions = [
+    '2(a)', '2(b)', 
+    '3(a)', '3(b)', 
+    '4(a)', '4(b)', 
+    '5(a)', '5(b)'
+  ];
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
@@ -190,11 +211,27 @@ const AddQuestionModal: React.FC<Props> = ({ isOpen, onClose, onSave, initialQue
           <div className="grid grid-cols-2 gap-4 border-t border-slate-100 pt-4">
              <div>
               <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Question No.</label>
-              <input type="text" placeholder="e.g. 2(a)" required value={formData.questionNumber} onChange={e => setFormData({...formData, questionNumber: e.target.value})} className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-100 outline-none transition-all" />
+              <select 
+                required 
+                value={formData.questionNumber} 
+                onChange={e => handleQuestionNumberChange(e.target.value)}
+                className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-100 outline-none transition-all"
+              >
+                <option value="" disabled>Select Number...</option>
+                {questionNumberOptions.map(q => (
+                  <option key={q} value={q}>{q}</option>
+                ))}
+              </select>
             </div>
             <div>
               <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Max Marks</label>
-              <input type="number" required value={formData.maxMarks} onChange={e => setFormData({...formData, maxMarks: parseInt(e.target.value)})} className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-100 outline-none transition-all" />
+              <input 
+                type="number" 
+                required 
+                value={formData.maxMarks} 
+                onChange={e => setFormData({...formData, maxMarks: parseInt(e.target.value)})} 
+                className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-100 outline-none transition-all" 
+              />
             </div>
           </div>
 
