@@ -3673,5 +3673,285 @@ policy to reduce the rate of inflation compared with at least one other policy
 and arrives at a reasoned conclusion concerning whether the supply side 
 policy is the ‘best’ policy.
 A one-sided response cannot gain any marks for evaluation.`
+  },
+  {
+    id: "custom-1764470334825",
+    year: "2025",
+    paper: "9708/24",
+    variant: "May/June",
+    questionNumber: "2(a)",
+    topic: SyllabusTopic.PRICE_SYSTEM,
+    chapter: "2.2 Price elasticity, income elasticity and cross elasticity of demand",
+    maxMarks: 8,
+    questionText: "With the help of a formula, explain the meaning of price elasticity of \ndemand and consider the significance to a firm of having price elastic or \nprice inelastic demand for its product.",
+    markScheme: `AO1 Knowledge and understanding (max 3marks)
+• It measures the responsiveness of changes in demand to changes in 
+price (1)
+• Correct formula (1)
+• Meaning of price elastic and price inelastic in terms of the percentage / 
+proportionate response of changes in demand to changes in price (1)
+AO2 Analysis (max 3 marks)
+• Analysis of the impact of rising OR falling prices on the demand for a 
+firm’s products when PED is inelastic (1)
+• Analysis of the impact of rising OR falling prices on the demand for a 
+firm’s products when PED is elastic (1)
+• Analysis of the effect of both rising and falling prices on the demand for a 
+firm’s products when PED is both elastic and inelastic (3).
+AO3 Evaluation (max 2 marks)
+That offers a valid judgement on the importance of the distinction between 
+price elastic and price inelastic demand for determining the impact of price 
+changes on the sales of a firm’s products. 
+1 mark for assessing what a firm should do to influence demand/spending 
+when demand is elastic. 1 mark for assessing what a firm should do to 
+influence demand/spending when demand is inelastic.`
+  },
+  {
+    id: "custom-1764470394856",
+    year: "2025",
+    paper: "9708/24",
+    variant: "May/June",
+    questionNumber: "2(b)",
+    topic: SyllabusTopic.GOVT_MICRO,
+    chapter: "3.2 Methods and effects of government intervention in markets",
+    maxMarks: 12,
+    questionText: "Assess whether governments should always support the provision of \nmerit goods in markets such as those for education or health care.",
+    markScheme: `AO1 Knowledge and understanding and AO2Analysis
+• An understanding of what is meant by merit goods
+• An understanding of the reasons why governments should support the 
+provision of merit goods, including:
+• The perceived benefits of merit goods and their underconsumption due to 
+information failure / price etc., meaning that governments should support 
+their provision e.g., through direct provision, subsidies, the provision of 
+information etc.
+• HOWEVER, the reasons why governments should not always support the 
+provision of merit goods include:
+• Government inefficiency, the opportunity cost of not spending money on 
+alternative projects, the lack of government funding to finance this 
+provision leading to a possible budget deficit. 
+• Information failure may still exist. 
+• Private provision may be possible and more efficient.
+Level 1 responses will be assertive and lacking in explanations / mainly 
+descriptive and / or or mainly lacking in relevance to the question.
+Level 2 responses may contain some inaccuracies and may be one sided. 
+Analysis will be explained at least in part and will be largely relevant to the 
+question.
+Level 3 responses will consider benefits/drawbacks etc. and will be 
+balanced. Explanations of points raised will be offered and will be accurate 
+and relevant to the question.AO3 Evaluation
+That clearly assesses whether governments should always support the 
+provision of merit goods such as education and health care by considering the 
+advantages and disadvantages of doing so and reaches a valid conclusion.
+one-sided response cannot gain any marks for evaluation.`
+  },
+  {
+    id: "custom-1764470428333",
+    year: "2025",
+    paper: "9708/24",
+    variant: "May/June",
+    questionNumber: "3(a)",
+    topic: SyllabusTopic.PRICE_SYSTEM,
+    chapter: "2.5 Consumer and producer surplus",
+    maxMarks: 8,
+    questionText: "With the help of a diagram, explain the impact of introducing an effective \nminimum price of a product and consider the effect on the consumer \nsurplus for that product.",
+    markScheme: `AO1 Knowledge and understanding (max 3 marks)
+• For an accurately drawn supply and demand diagram (1)
+• Showing a minimum price above the equilibrium and the resultant 
+increase in supply and fall in demand (1)
+• An explanation that this will lead to supply exceeding demand leading to 
+a surplus in the market (1)
+Max 3 marks
+AO2 Analysis (max 3 marks)
+• An explanation of what is meant by consumer surplus (1)
+• Use of the diagram to clearly show the fall in consumer surplus (1)
+• An explanation to clearly explain why consumer surplus will fall (1)
+Max 3 marks
+AO3 Evaluation (max 2 marks)
+That clearly considers the overall effect on consumer surplus of introducing a 
+minimum price (it will fall) but the extent of the fall will be affected e.g., by 
+PED.`
+  },
+  {
+    id: "custom-1764470457536",
+    year: "2025",
+    paper: "9708/24",
+    variant: "May/June",
+    questionNumber: "3(b)",
+    topic: SyllabusTopic.GOVT_MICRO,
+    chapter: "3.3 Addressing income and wealth inequality",
+    maxMarks: 12,
+    questionText: "Assess whether a minimum wage policy is the best way to redistribute \nincome in an economy.",
+    markScheme: `AO1 Knowledge and understanding and AO2Analysis
+• An understanding of what is meant by a minimum wage policy
+• An explanation of the benefits of using a minimum wage policy to 
+redistribute income. These may include:
+• It may raise the relative wages of the lower paid, provides an incentive to 
+enter the labour market, and may redistribute profits from employers to 
+workers.
+• An explanation of the possible disadvantages of using a minimum wage 
+policy to redistribute income. These may include:
+• It may lead to inflation so low-income earners may not benefit, it may 
+cause unemployment, higher paid workers may be able to maintain 
+differentials so income is not redistributed, it may not be enforced.
+• The policy MUST be compared to at least one other policy to redistribute 
+income, for example the use of transfer payments, progressive income, 
+inheritance and capital taxes and / or state provision of essential goods 
+and services. The advantages and disadvantages of the chosen 
+alternative/s must be analysed.
+Level 1 responses will be assertive and lacking in explanations / mainly 
+descriptive and / or or mainly lacking in relevance to the question.
+Level 2 responses may contain some inaccuracies and may be one sided. 
+Analysis will be explained at least in part and will be largely relevant to the 
+question.
+Level 3 responses will consider alternative policies / concepts etc. and will 
+be balanced. Explanations of points raised will be offered and will be accurate 
+and relevant to the question.
+AO3 Evaluation
+That clearly assesses the advantages and disadvantages of using a minimum 
+wage policy to redistribute income in an economy and compares this to the 
+advantages and disadvantages of using at least one other government policy 
+and reaches a valid conclusion as to whether minimum wage policy is the 
+best way to redistribute income in an economy.
+A one-sided response cannot gain any marks for evaluation.`
+  },
+  {
+    id: "custom-1764470490855",
+    year: "2025",
+    paper: "9708/24",
+    variant: "May/June",
+    questionNumber: "4(a)",
+    topic: SyllabusTopic.GOVT_MACRO,
+    chapter: "5.4 Supply-side policy",
+    maxMarks: 8,
+    questionText: "Explain why expenditure on education and training is a supply-side \npolicy and consider why its impact on the general price level may differ \nbetween the short run and the long run.",
+    markScheme: `AO1 Knowledge and understanding (max 3 marks)
+• Supply side policy consists of government policy tools designed to 
+increase aggregate supply (1)
+• The effect is to shift the aggregate supply curve to the right (1)
+• Government spending on education and training should increase worker 
+skills and productivity and therefore increase a country’s productive 
+capacity and therefore increase AS / shift the LRAS curve to the right (1)
+AO2 Analysis (max 3 marks)
+• In the short run, increased government expenditure will increase the level 
+of AD which may lead to an increase in inflation and the general price 
+level. (up to 2 marks)
+• In the long run, increased expenditure on education and training should 
+increase productivity and productive capacity and the shift in LRAS 
+should lower the general price level. (up to 2 marks)
+AO3 Evaluation (max 2 marks)
+• That offers an overall assessment as to whether expenditure on 
+education and training will have a different impact on the price level in the 
+long run compared to the short run. 
+• For example, if the expenditure is ineffective and does not have the 
+intended impact on productive capacity and productivity, this may simply 
+increase the general price level.
+• For example, time-lags mean short-run impact is minimal as the policy 
+will only take effect in the long-run.
+Reserve 1 mark for a justified conclusion.`
+  },
+  {
+    id: "custom-1764470518368",
+    year: "2025",
+    paper: "9708/24",
+    variant: "May/June",
+    questionNumber: "4(b)",
+    topic: SyllabusTopic.MACROECONOMY,
+    chapter: "4.6 Price stability",
+    maxMarks: 12,
+    questionText: "Assess whether the consequences of inflation in an economy are \nalways negative.",
+    markScheme: `AO1 Knowledge and understanding and AO2Analysis
+• An understanding of inflation
+• Explanation of possible negative consequences of inflation in an 
+economy, for example, the uncompetitiveness of exports leading to a 
+worsening of the current account of the balance of payments, shoe 
+leather costs arising from searching for better returns, menu costs arising 
+from continually changing prices, planning difficulties arising from the 
+uncertainty caused by inflation and a redistribution of income, e.g. those 
+on fixed incomes will lose out. 
+• Explanation of possible positive consequences of inflation in an 
+economy, such as an increase in borrowing arising from debt being less 
+in real terms, an increase in the profits of firms, possibly leading to more 
+workers being employed, and an increase in the value of assets, such as 
+property
+Level 1 responses will be assertive and lacking in explanations / mainly 
+descriptive and / or or mainly lacking in relevance to the question.
+Level 2 responses may contain some inaccuracies and may be one sided. 
+Analysis will be explained at least in part and will be largely relevant to the 
+question.
+Level 3 responses will consider alternative policies / concepts etc. and will 
+be balanced. Explanations of points raised will be offered and will be accurate 
+and relevant to the question.
+AO3 Evaluation
+That clearly assesses whether the consequences of inflation are always 
+negative by considering both the negative and positive consequences and 
+reaches a valid conclusion as to whether the consequences are always 
+negative.
+A one-sided response cannot gain any marks for evaluation.`
+  },
+  {
+    id: "custom-1764470554000",
+    year: "2025",
+    paper: "9708/24",
+    variant: "May/June",
+    questionNumber: "5(a)",
+    topic: SyllabusTopic.INTERNATIONAL,
+    chapter: "6.5 Policies to correct imbalances in the current account of the balance of payments",
+    maxMarks: 8,
+    questionText: "With the help of a formula, explain the causes of an improvement in the \nterms of trade in an economy and consider whether such an \nimprovement can ever be harmful to an economy.",
+    markScheme: `AO1 Knowledge and understanding (max 3 marks)
+• For an accurate formula i.e., index of export prices / index of import prices 
+(1)
+• An improvement is when the value / ratio increases (1)
+• An improvement is when export prices rise and / or import prices fall (1)
+AO2 Analysis (max 3 marks)
+For example:
+• An improvement in the terms of trade may be seen to be beneficial as 
+more imports can be purchased from the same volume of imports (1)
+• However, an increase in export prices may lead to fewer exports in the 
+long run (1)
+• Which may lead to a current account deficit which may be considered 
+harmful (1)
+AO3 Evaluation (max 2 marks)
+That offers an overall assessment as to whether an improvement in the terms 
+of trade can ever be harmful to an economy. 
+Reserve 1 mark for a justified conclusion.`
+  },
+  {
+    id: "custom-1764470588830",
+    year: "2025",
+    paper: "9708/24",
+    variant: "May/June",
+    questionNumber: "5(b)",
+    topic: SyllabusTopic.INTERNATIONAL,
+    chapter: "6.4 Exchange rates",
+    maxMarks: 12,
+    questionText: "Assess whether the depreciation of an exchange rate is always \nbeneficial to an economy.",
+    markScheme: `AO1 Knowledge and understanding and AO2Analysis
+• An understanding of what is meant by a depreciation of the exchange 
+rate
+• Explanation of the potential advantages of the depreciation of an 
+exchange rate: It can lead to an increase in a country’s exports because 
+the prices of these products are less than they were previously; this can 
+help to reduce a current account deficit on an economy’s balance of 
+payments; an increase in exports can stimulate an increase in aggregate 
+demand (AD).
+• Explanation of the potential disadvantages of the depreciation of an 
+exchange rate: It will have the effect of making imports more expensive, 
+both of finished products and of raw materials; if raw materials are more 
+expensive, this will increase the cost of production of domestic firms, and 
+this could bring about cost-push inflation.
+Level 1 responses will be assertive and lacking in explanations / mainly 
+descriptive and / or mainly lacking in relevance to the question.
+Level 2 responses may contain some inaccuracies and may be one sided. 
+Analysis will be explained at least in part and will be largely relevant to the 
+question.
+Level 3 responses will consider alternative policies / concepts etc. and will 
+be balanced. Explanations of points raised will be offered and will be accurate 
+and relevant to the question.
+AO3 Evaluation (max 4 marks)
+That offers an overall assessment as to whether a depreciation in the 
+exchange rate is always beneficial to an economy by assessing both the 
+advantages and disadvantages of the depreciation and also considering the 
+significance of PED values for both exports and imports and reaches a valid 
+conclusion.`
   }
 ];
