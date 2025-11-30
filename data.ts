@@ -3437,5 +3437,183 @@ Evaluation must focus on the impact of the tools of protection on the terms of
 trade. This should lead to a justified conclusion. 
 Accept all valid responses. 
 A one-sided response cannot gain any marks for evaluation.`
+  },
+  {
+    id: "custom-1764467799981",
+    year: "2024",
+    paper: "9708/22",
+    variant: "Feb/March",
+    questionNumber: "2(a)",
+    topic: SyllabusTopic.GOVT_MICRO,
+    chapter: "3.2 Methods and effects of government intervention in markets",
+    maxMarks: 8,
+    questionText: "With the help of a demand and supply diagram, explain how the \nintroduction of an indirect tax affects equilibrium in a market and\nconsider the extent to which the incidence of the tax will fall on the \nconsumer.",
+    markScheme: `AO1 Knowledge and Understanding (max 3 marks)
+An accurate definition of an indirect tax (1) shown through an accurate 
+diagram, correctly labelled axes and equilibrium price and quantity (1). 
+Understanding that indirect taxes are used to discourage the consumption of 
+demerit goods (1).
+AO2 Analysis (max 3 marks)
+Uses the diagram to explain that an indirect tax shifts the supply curve to the 
+left (1), which causes an increase in the price of the good to the consumer (1) 
+and reduces the quantity demanded (1).
+AO3 Evaluation (max 2 marks)
+One mark for a valid explanation that the incidence of tax borne by the 
+consumer will depend on the PED of the product (1), (and that the more price 
+inelastic demand is the greater the proportion of the tax is passed onto the 
+consumer (1)), with a second mark for a justified conclusion.`
+  },
+  {
+    id: "custom-1764467830306",
+    year: "2024",
+    paper: "9708/22",
+    variant: "Feb/March",
+    questionNumber: "2(b)",
+    topic: SyllabusTopic.GOVT_MICRO,
+    chapter: "3.2 Methods and effects of government intervention in markets",
+    maxMarks: 12,
+    questionText: "Assess whether the improved provision of information is likely to be the \nbest method to reduce the consumption of demerit goods.",
+    markScheme: `AO1 Knowledge and understanding and AO2 Analysis
+• The meaning of improved provision of information
+• How improved information would reduce the consumption of demerit 
+goods; consumers are aware of the ‘true’ costs from consuming demerit 
+goods and respond by reducing their demand – this may include a shift to 
+the left of the demand curve, or a shift to left of the MPC curve
+• An explanation of the limitations of improved information – habitual 
+consumption, peer pressure, irrational behaviour
+• An explanation of an alternative policy – taxation, minimum prices, 
+regulation backed by fines.
+AO3 Evaluation
+• Consideration that fully assesses the relative effectiveness of the policies 
+analysed in reducing the consumption of demerit goods and arrives at a 
+reasoned conclusion concerning whether improved provision of 
+information is the ‘best’ approach.`
+  },
+  {
+    id: "custom-1764467855981",
+    year: "2024",
+    paper: "9708/22",
+    variant: "Feb/March",
+    questionNumber: "3(a)",
+    topic: SyllabusTopic.PRICE_SYSTEM,
+    chapter: "2.2 Price elasticity, income elasticity and cross elasticity of demand",
+    maxMarks: 8,
+    questionText: "With the help of a formula, explain the meaning of income elasticity of \ndemand and consider the extent to which a rise in income will increase \nthe consumption of all goods and services.",
+    markScheme: `AO1 Knowledge and Understanding (max 3 marks)
+An accurate definition of income elasticity of demand (1) and accurate formula 
+(1). Understanding of the difference between normal and inferior goods (1).
+AO2 Analysis (max 3 marks)
+Normal goods have a positive value (1). Uses a diagram (upwards sloping 
+income demand curve) or the formula to show why an increase in income 
+increases the consumption of such goods (1) – this should be justified with an 
+appropriate example (1).
+AO3 Evaluation (max 2 marks)
+One mark for a valid explanation that if the good is inferior good then the 
+demand for the good will fall when incomes rise (1) as consumers adjust their 
+spending habits and consumer more normal/luxury goods. The second mark 
+is for a justified conclusion.`
+  },
+  {
+    id: "custom-1764467883712",
+    year: "2024",
+    paper: "9708/22",
+    variant: "Feb/March",
+    questionNumber: "3(b)",
+    topic: SyllabusTopic.PRICE_SYSTEM,
+    chapter: "2.2 Price elasticity, income elasticity and cross elasticity of demand",
+    maxMarks: 12,
+    questionText: "Assess whether an estimate of the price elasticity of demand for a \nproduct is likely to be more useful to a firm than an estimate of its price \nelasticity of supply",
+    markScheme: `AO1 Knowledge and understanding and AO2 Analysis
+• The meaning of the terms PED/PES
+• How PED estimates would be useful to business owners –it would 
+indicate the likely changes to revenue in response to changes in the price 
+of a product.
+• An explanation of the limitations of PED estimates – does not consider 
+the prices of complements/substitutes; income level of the consumer; 
+trends; ignores the relevance of costs so changes to profits are uncertain.
+• An explanation of how PES estimates would be useful to business 
+owners - the potential to invest in spare capacity which can be used if 
+demand rises; increase overtime payments to increase production; 
+whether or not to outsource to other firms who can meet supply.
+• An explanation of the limitations of PES estimates – e.g., practical ability 
+to increase the PES; the associated costs in making supply more 
+elastic/responsive.
+AO3 Evaluation
+• Consideration that fully assesses the relative effectiveness of both 
+PED/PES estimates and their implications for business decision-making 
+and arrives at a reasoned conclusion concerning which concept (or 
+otherwise) is most useful.`
+  },
+  {
+    id: "custom-1764467908593",
+    year: "2024",
+    paper: "9708/22",
+    variant: "Feb/March",
+    questionNumber: "4(a)",
+    topic: SyllabusTopic.INTERNATIONAL,
+    chapter: "6.4 Exchange rates",
+    maxMarks: 8,
+    questionText: "Explain what is meant by a depreciation of the exchange rate and\nconsider whether a depreciation is likely to increase domestic real \noutput.",
+    markScheme: `AO1 Knowledge and Understanding (max 3 marks)
+An accurate definition the exchange rate (1). Understanding that there is likely 
+to be a depreciation of the exchange rate if the demand for a currency falls (1) 
+or there is an increase in the supply of a currency (1).
+AO2 Analysis (max 3 marks)
+A depreciation of the exchange rate will reduce (increase) the perceived price 
+of exports (imports) (1) which will increase the value of both (X-M) and 
+aggregate demand (1) and increase the rate of domestic real output (1).
+AO3 Evaluation (max 2 marks)
+One mark for a valid explanation that this assumes that the economy is not 
+operating at full capacity (1) or depends on the elasticity of demand for goods 
+that are traded internationally (1). The second mark is for a justified 
+conclusion.`
+  },
+  {
+    id: "custom-1764467934880",
+    year: "2024",
+    paper: "9708/22",
+    variant: "Feb/March",
+    questionNumber: "4(b)",
+    topic: SyllabusTopic.INTERNATIONAL,
+    chapter: "6.5 Policies to correct imbalances in the current account of the balance of payments",
+    maxMarks: 12,
+    questionText: "Assess whether contractionary fiscal policy is likely to be the best way \nto reduce a current account deficit on the balance of payments.",
+    markScheme: `AO1 Knowledge and understanding and AO2 Analysis
+• Understanding of the terms fiscal policy/current account deficit.
+• How contractionary fiscal policy might reduce a current account deficit –
+this may include increased taxation might reduce imports/reduce 
+demand-pull inflationary pressure resulting in improved international price 
+competitiveness.
+• An explanation of the limitations of fiscal policy – impact on domestic 
+growth, unemployment.
+• An explanation of an alternative policy – monetary and/or supply side 
+policies, minimum prices, regulation backed by fines.
+AO3 Evaluation
+• Consideration that fully assesses the relative effectiveness of the policies 
+analysed in reducing a current account deficit and arrives at a reasoned 
+conclusion concerning whether fiscal policy is the ‘best’ approach.`
+  },
+  {
+    id: "custom-1764467962157",
+    year: "2024",
+    paper: "9708/22",
+    variant: "Feb/March",
+    questionNumber: "5(b)",
+    topic: SyllabusTopic.MACROECONOMY,
+    chapter: "4.4 Economic growth",
+    maxMarks: 12,
+    questionText: "Assess whether economic growth is always desirable for an economy.",
+    markScheme: `AO1 Knowledge and understanding and AO2 Analysis
+• The meaning of the term economic growth.
+• An explanation of the potential benefits of economic growth for an 
+economy – higher incomes, reduction in unemployment, improved 
+government finances, increased international competitiveness, increases 
+in both consumer and business confidence, increased life expectancy.
+• An explanation of the costs of economic growth for an economy –
+inflation, current account deficits, inequality, pollution.
+AO3 Evaluation
+• Consideration that fully assesses the relative perspectives of economic 
+growth for an economy and arrives at a reasoned conclusion concerning 
+which viewpoint (or otherwise) is most likely.`
   }
 ];
