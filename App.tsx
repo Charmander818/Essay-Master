@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useMemo } from 'react';
 import Sidebar from './components/Sidebar';
 import EssayGenerator from './components/EssayGenerator';
@@ -11,6 +12,7 @@ import { questions as initialQuestions } from './data';
 import { generateModelAnswer, generateClozeExercise } from './services/geminiService';
 
 const STORAGE_KEY_CUSTOM_QUESTIONS = 'cie_econ_custom_questions_v2';
+const STORAGE_KEY_DELETED_IDS = 'cie_econ_deleted_ids_v1';
 const STORAGE_KEY_WORK = 'cie_economics_work_v1';
 const SESSION_KEY_AUTH = 'cie_econ_auth_session';
 
@@ -31,6 +33,11 @@ const App: React.FC = () => {
     return saved ? JSON.parse(saved) : [];
   });
 
+  const [deletedIds, setDeletedIds] = useState<string[]>(() => {
+    const saved = localStorage.getItem(STORAGE_KEY_DELETED_IDS);
+    return saved ? JSON.parse(saved) : [];
+  });
+
   const allQuestions = useMemo(() => {
     // Create a map of custom questions for easy lookup (ID -> Question)
     const customMap = new Map(customQuestions.map(q => [q.id, q]));
@@ -42,9 +49,9 @@ const App: React.FC = () => {
     // 2. Add purely new custom questions (those with IDs NOT in initialQuestions)
     const newCustom = customQuestions.filter(q => !initialIds.has(q.id));
 
-    // Combine them
-    return [...mergedInitial, ...newCustom];
-  }, [customQuestions]);
+    // 3. Combine them and filter out deleted IDs
+    return [...mergedInitial, ...newCustom].filter(q => !deletedIds.includes(q.id));
+  }, [customQuestions, deletedIds]);
 
   const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(null);
   const [mode, setMode] = useState<AppMode>(AppMode.GENERATOR);
@@ -64,6 +71,10 @@ const App: React.FC = () => {
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY_CUSTOM_QUESTIONS, JSON.stringify(customQuestions));
   }, [customQuestions]);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY_DELETED_IDS, JSON.stringify(deletedIds));
+  }, [deletedIds]);
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY_WORK, JSON.stringify(questionStates));
@@ -106,6 +117,12 @@ const App: React.FC = () => {
   };
 
   const handleSaveQuestion = (question: Question) => {
+    // If the question was previously deleted (e.g. user is re-adding/editing a deleted static question),
+    // remove it from the deleted list.
+    if (deletedIds.includes(question.id)) {
+        setDeletedIds(prev => prev.filter(id => id !== question.id));
+    }
+
     // Upsert logic: If the question ID already exists in customQuestions (whether it was originally 
     // a custom question or an edited static question), update it. Otherwise, add it.
     setCustomQuestions(prev => {
@@ -127,7 +144,16 @@ const App: React.FC = () => {
 
   const handleDeleteQuestion = (id: string) => {
     if (window.confirm("Are you sure you want to delete this question?")) {
-      setCustomQuestions(prev => prev.filter(q => q.id !== id));
+      // 1. If it's a purely custom question (starts with 'custom-'), remove it from data
+      if (id.startsWith('custom-')) {
+         setCustomQuestions(prev => prev.filter(q => q.id !== id));
+      } else {
+         // 2. If it's a standard question (or edited standard), mark ID as deleted
+         setDeletedIds(prev => [...prev, id]);
+         // Also remove any custom override to keep data clean
+         setCustomQuestions(prev => prev.filter(q => q.id !== id));
+      }
+
       if (selectedQuestion?.id === id) {
         setSelectedQuestion(null);
       }

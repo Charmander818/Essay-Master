@@ -175,6 +175,15 @@ const Sidebar: React.FC<SidebarProps> = ({
     }
   }, [selectedQuestionId, sortOption, questions, selectedLevel]);
 
+  const hasActiveFilters = yearFilter !== 'all' || seasonFilter !== 'all' || paperFilter !== 'all' || searchQuery !== '';
+
+  const clearFilters = () => {
+    setYearFilter('all');
+    setSeasonFilter('all');
+    setPaperFilter('all');
+    setSearchQuery('');
+  };
+
   return (
     <div className="w-80 bg-white border-r border-slate-200 h-screen flex flex-col">
       
@@ -219,31 +228,43 @@ const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         {/* Year, Season & Paper Filters */}
-        <div className="grid grid-cols-2 gap-2">
-            <select 
-              value={yearFilter} 
-              onChange={(e) => setYearFilter(e.target.value)}
-              className="bg-slate-50 border border-slate-200 text-slate-700 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
+        <div className="relative">
+          {hasActiveFilters && (
+            <button 
+              onClick={clearFilters}
+              className="absolute -top-7 right-0 text-[10px] bg-slate-200 hover:bg-slate-300 text-slate-600 px-2 py-0.5 rounded-full flex items-center gap-1 transition-colors"
+              title="Clear all filters"
             >
-                <option value="all">All Years</option>
-                {availableYears.map(y => <option key={y} value={y}>{y}</option>)}
-            </select>
-            <select 
-              value={seasonFilter} 
-              onChange={(e) => setSeasonFilter(e.target.value)}
-              className="bg-slate-50 border border-slate-200 text-slate-700 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
-            >
-                <option value="all">All Seasons</option>
-                {availableSeasons.map(s => <option key={s} value={s}>{s}</option>)}
-            </select>
-            <select 
-              value={paperFilter} 
-              onChange={(e) => setPaperFilter(e.target.value)}
-              className="col-span-2 bg-slate-50 border border-slate-200 text-slate-700 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
-            >
-                <option value="all">All Papers</option>
-                {availablePapers.map(p => <option key={p} value={p}>{p}</option>)}
-            </select>
+              <span>Clear</span>
+              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+          )}
+          <div className="grid grid-cols-2 gap-2">
+              <select 
+                value={yearFilter} 
+                onChange={(e) => setYearFilter(e.target.value)}
+                className="bg-slate-50 border border-slate-200 text-slate-700 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
+              >
+                  <option value="all">All Years</option>
+                  {availableYears.map(y => <option key={y} value={y}>{y}</option>)}
+              </select>
+              <select 
+                value={seasonFilter} 
+                onChange={(e) => setSeasonFilter(e.target.value)}
+                className="bg-slate-50 border border-slate-200 text-slate-700 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
+              >
+                  <option value="all">All Seasons</option>
+                  {availableSeasons.map(s => <option key={s} value={s}>{s}</option>)}
+              </select>
+              <select 
+                value={paperFilter} 
+                onChange={(e) => setPaperFilter(e.target.value)}
+                className="col-span-2 bg-slate-50 border border-slate-200 text-slate-700 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
+              >
+                  <option value="all">All Papers</option>
+                  {availablePapers.map(p => <option key={p} value={p}>{p}</option>)}
+              </select>
+          </div>
         </div>
 
         {/* Search Bar */}
