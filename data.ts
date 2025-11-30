@@ -1714,25 +1714,6 @@ AO3 Evaluation
 • Justified conclusion.`
   },
   {
-    id: "on24-23-3b",
-    year: "2024",
-    paper: "9708/23",
-    variant: "Oct/Nov",
-    questionNumber: "3(b)",
-    topic: SyllabusTopic.GOVT_MICRO,
-    chapter: "3.2 Methods and effects of government intervention in markets",
-    maxMarks: 12,
-    questionText: "Assess whether bus and rail (mass transit) systems in cities should receive substantial subsidies from governments.",
-    markScheme: `AO1 Knowledge and understanding and AO2 Analysis:
-• Explanation of what is meant by a subsidy (reward accurate diagrams if provided but these are not necessary) with reference to the impact on price and quantity.
-• Likely advantages of a subsidy for mass transit systems e.g., it can be considered a merit good that helps lower income families, improves labour mobility, reduces road congestion, and improves air quality/reduces the use of private cars which may be considered to be a demerit good.
-• Likely disadvantages of subsidies e.g., opportunity cost, poor decisions as a result of information failure, government inability to provide funding etc.
-• If only 1 sided answer i.e., only advantages or disadvantages are discussed, then L2 maximum.
-
-AO3 Evaluation
-• For an evaluation of the relative importance of the advantages and disadvantages of subsidies that leads to a justified conclusion`
-  },
-  {
     id: "on24-23-4a",
     year: "2024",
     paper: "9708/23",
