@@ -118,43 +118,96 @@ export const gradeEssay = async (question: Question, studentEssay: string, image
        essayContentText = "See attached image for the student's handwritten essay.";
     }
 
-    let gradingCriteria = "";
+    let gradingRubric = "";
+    let rubricTitle = "";
+
     if (question.maxMarks === 8) {
-       gradingCriteria = `
-       **Grading Criteria (8 Marks - Part a):**
-       - **AO1 (3 marks):** Knowledge of terms and diagrams.
-       - **AO2 (3 marks):** Analytical reasoning and logical chains.
-       - **AO3 (2 marks):** Evaluative comment + Conclusion. (Note: 1 mark is reserved strictly for the conclusion).
+       rubricTitle = "Cambridge AS Level 8-Mark Rubric";
+       gradingRubric = `
+       **Marking Logic (Strict adherence required):**
+       
+       **AO1: Knowledge & Understanding (3 marks)**
+       - 1 mark for each accurate definition or identification of a key concept.
+       - 1 mark for an accurate, fully labelled diagram (if applicable).
+       - *Penalty:* Inaccurate definitions or incomplete diagrams (missing labels, wrong shifts) lose marks.
+
+       **AO2: Analysis (3 marks)**
+       - Award marks for **developed chains of reasoning** (Cause -> Effect -> Consequence).
+       - **Zero marks** for "assertions" (statements without explanation).
+       - Example of assertion (0 marks): "Lower interest rates increase investment."
+       - Example of analysis (1 mark): "Lower interest rates reduce the cost of borrowing, which increases the profitability of projects, incentivizing firms to invest."
+
+       **AO3: Evaluation (2 marks)**
+       - 1 mark for a specific evaluative comment (e.g., depends on elasticity, time lag, or ceteris paribus).
+       - **1 mark strictly reserved for a valid Conclusion.** No conclusion = Max 1/2 for AO3.
        `;
-    } else if (question.maxMarks === 12) {
-       gradingCriteria = `
-       **Grading Criteria (12 Marks - Part b):**
-       - **AO1 + AO2 (8 marks):** Combined score for knowledge, understanding, and detailed analysis.
-       - **AO3 (4 marks):** Evaluation and justified conclusion.
+    } else {
+       // 12 Mark Logic based on Tables A & B from Official Mark Scheme
+       rubricTitle = "Cambridge AS Level 12-Mark Levels-Based Rubric";
+       gradingRubric = `
+       **TABLE A: AO1 Knowledge & Understanding + AO2 Analysis (Max 8 marks)**
+       
+       *Level 3 (6–8 marks):*
+       - Detailed knowledge of relevant concepts.
+       - Analysis is **developed** and **detailed** with accurate chains of reasoning.
+       - Accurate use of diagrams/formulae where necessary.
+       - Well-organized and focused.
+       
+       *Level 2 (3–5 marks):*
+       - Some knowledge, but explanations may be limited, over-generalized, or contain inaccuracies.
+       - Analysis is present but lacks detail (more assertions than explanations).
+       - Diagrams may be partially accurate or not fully explained.
+       - **CRITICAL:** One-sided answers (only advantages OR disadvantages) are capped at **Level 2 (Max 5 marks)** for this section.
+
+       *Level 1 (1–2 marks):*
+       - Small number of relevant points.
+       - Significant errors or omissions.
+       - Largely descriptive with little economic analysis.
+
+       **TABLE B: AO3 Evaluation (Max 4 marks)**
+       
+       *Level 2 (3–4 marks):*
+       - Provides a **justified conclusion** that addresses the specific question.
+       - Making developed, reasoned, and well-supported evaluative comments throughout.
+       
+       *Level 1 (1–2 marks):*
+       - Vague or general conclusion.
+       - Simple evaluative comments with no development or supporting evidence.
+       - **CRITICAL:** One-sided answers cannot gain **ANY** evaluation marks (0/4).
+
+       **Common Examiner Deductions (Apply these strictly):**
+       - **Assertion vs. Explanation:** Do not credit points that are simply stated. "X leads to Y" is an assertion. "X leads to Y because Z..." is analysis.
+       - **Diagrams:** If a diagram is drawn but not referred to in the text, or is inaccurate (missing labels, wrong equilibrium), reduce marks.
+       - **Focus:** If the question asks for "Best Way", and the student only discusses one way, cap marks significantly.
        `;
     }
 
     const prompt = `
-      You are a strict Cambridge International AS Level Economics examiner.
-      Grade the following student essay based *strictly* on the provided mark scheme and grading criteria.
+      You are a **strict** Cambridge International AS Level Economics (9708) Examiner.
+      Your task is to grade the student's essay **harshly and accurately** against the official standard.
+      
+      **Do not be benevolent.** High marks (Level 3) are reserved only for answers that demonstrate detailed logical chains of reasoning and accurate conceptual understanding.
 
       **Question:** ${question.questionText}
       **Max Marks:** ${question.maxMarks}
       
-      ${gradingCriteria}
-
-      **Mark Scheme:**
+      **Official Mark Scheme Guidance:**
       ${question.markScheme}
+
+      **${rubricTitle}:**
+      ${gradingRubric}
 
       **Student Essay:**
       ${essayContentText}
 
-      **Instructions:**
-      - If an image is provided, transcribe the handwriting internally and then grade it.
-      - Provide a score out of ${question.maxMarks}.
-      - Provide a breakdown using the headers defined in the "Grading Criteria" above.
-      - Provide specific feedback on what was good and what was missing based on the mark scheme.
-      - Be constructive but realistic.
+      **Instructions for Output:**
+      1. **Total Score:** Give a specific mark out of ${question.maxMarks}.
+      2. **Breakdown:** Show marks for AO1, AO2, and AO3 separately.
+      3. **Examiner Feedback:**
+         - Identify specific **Assertions** that should have been **Explanations**. Quote the student's text and say "This is an assertion. To get marks, you needed to explain..."
+         - Identify any errors in diagrams or definitions.
+         - If the answer is one-sided (for 12 marks), explicitly state that marks were capped due to lack of balance.
+         - Provide one clear "Next Step" for improvement.
     `;
 
     parts.push({ text: prompt });
