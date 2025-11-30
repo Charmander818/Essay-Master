@@ -12,6 +12,7 @@ interface SidebarProps {
   onEditQuestion: (q: Question) => void;
   questionStates: Record<string, QuestionState>;
   onExportAll: () => void;
+  onExportExcel: () => void;
   onBatchGenerate: () => void;
   onOpenCodeExport: () => void;
   isBatchProcessing: boolean;
@@ -30,6 +31,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   onEditQuestion,
   questionStates,
   onExportAll,
+  onExportExcel,
   onBatchGenerate,
   onOpenCodeExport,
   isBatchProcessing,
@@ -425,20 +427,27 @@ const Sidebar: React.FC<SidebarProps> = ({
                 </div>
             </div>
          )}
-         <div className="grid grid-cols-2 gap-2">
+         <div className="grid grid-cols-3 gap-2">
              <button
                onClick={onBatchGenerate}
                disabled={isBatchProcessing}
                className="px-2 py-1.5 bg-white border border-slate-200 text-slate-700 text-[10px] font-bold uppercase tracking-wide rounded shadow-sm hover:bg-slate-50 disabled:opacity-50"
              >
-               Auto-Gen All
+               Auto-Gen
              </button>
              <button
                onClick={onExportAll}
                disabled={isBatchProcessing}
                className="px-2 py-1.5 bg-slate-800 text-white text-[10px] font-bold uppercase tracking-wide rounded shadow-sm hover:bg-slate-700 disabled:opacity-50"
              >
-               Export Word
+               Word
+             </button>
+             <button
+               onClick={onExportExcel}
+               disabled={isBatchProcessing}
+               className="px-2 py-1.5 bg-green-600 text-white text-[10px] font-bold uppercase tracking-wide rounded shadow-sm hover:bg-green-700 disabled:opacity-50"
+             >
+               Excel
              </button>
          </div>
          <button

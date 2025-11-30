@@ -1152,7 +1152,7 @@ AO3 Evaluation
   },
   {
     id: "on23-23-2a",
-    year: "2023",
+    year: "2024",
     paper: "9708/23",
     variant: "Oct/Nov",
     questionNumber: "2(a)",
@@ -1757,28 +1757,6 @@ AO3 Evaluation
 • Justified conclusion.`
   },
   {
-    id: "on24-23-3a",
-    year: "2024",
-    paper: "9708/23",
-    variant: "Oct/Nov",
-    questionNumber: "3(a)",
-    topic: SyllabusTopic.BASIC_IDEAS,
-    chapter: "1.6 Classification of goods and services",
-    maxMarks: 8,
-    questionText: "Explain why the provision of bus and local rail (mass transit) services in cities is classified as a private good and not a public good and consider why such services might only be provided by the private sector.",
-    markScheme: `AO1 Knowledge and understanding (max 3 marks)
-• Explanation of what is meant by excludability/non excludability (1)
-• Explanation of what is meant by rivalry/non rivalry (1)
-• Correct application to private and public goods (1)
-
-AO2 Analysis (max 3 marks)
-• Why is a mass transit service a private good with reference to both characteristics and therefore only provided by the private sector? (up to 2 marks)
-• Why is a mass transit service not a public good with reference to both characteristics and therefore not provided by the public sector? (up to 2 marks)
-
-AO3 Evaluation (max 2 marks)
-• Assessment of whether a mass transit service might only be provided by the private sector with 1 mark reserved for a justified conclusion.`
-  },
-  {
     id: "on24-23-3b",
     year: "2024",
     paper: "9708/23",
@@ -2231,7 +2209,7 @@ For a clear comparison of the analysis of the benefits and drawbacks of both sce
   {
     id: "mj25-23-2a",
     year: "2025",
-    paper: "9708/23",
+    paper: "9708/22",
     variant: "May/June",
     questionNumber: "2(a)",
     topic: SyllabusTopic.BASIC_IDEAS,

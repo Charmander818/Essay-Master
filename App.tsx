@@ -310,6 +310,41 @@ const App: React.FC = () => {
     document.body.removeChild(link);
   };
 
+  const handleExportExcel = () => {
+    // CSV Header: Year,Code,Season,Question No,Question,MS,Topic,Chapter,Marks
+    const headers = ["Year", "Code", "Season", "Question No", "Question", "Mark Scheme", "Topic", "Chapter", "Marks"];
+    
+    const escapeCsv = (text: string) => {
+      if (!text) return "";
+      const cleaned = text.replace(/"/g, '""'); // Escape double quotes
+      return `"${cleaned}"`; // Wrap in quotes to handle commas and newlines
+    };
+
+    const rows = allQuestions.map(q => {
+      return [
+        escapeCsv(q.year),
+        escapeCsv(q.paper),
+        escapeCsv(q.variant),
+        escapeCsv(q.questionNumber),
+        escapeCsv(q.questionText),
+        escapeCsv(q.markScheme),
+        escapeCsv(q.topic),
+        escapeCsv(q.chapter),
+        escapeCsv(q.maxMarks.toString())
+      ].join(",");
+    });
+
+    const csvContent = "\uFEFF" + [headers.join(","), ...rows].join("\n"); // Add BOM for Excel utf-8 compatibility
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `CIE_Economics_Question_Bank_${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   // --- Login Screen ---
   if (!isAuthenticated) {
     return (
@@ -369,6 +404,7 @@ const App: React.FC = () => {
         onEditQuestion={(q) => { setQuestionToEdit(q); setIsModalOpen(true); }}
         questionStates={questionStates}
         onExportAll={handleExportAll}
+        onExportExcel={handleExportExcel}
         onBatchGenerate={handleBatchGenerate}
         isBatchProcessing={isBatchProcessing}
         batchProgress={batchProgress}
