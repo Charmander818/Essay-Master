@@ -2833,5 +2833,337 @@ macroeconomic policies that leads to:
  A valid conclusion as to which policy would be most likely to meet the 
 economic objective of a low rate of unemployment. 
  Accept all valid responses.`
+  },
+  {
+    id: "custom-1764466213433",
+    year: "2024",
+    paper: "9708/22",
+    variant: "May/June",
+    questionNumber: "2(a)",
+    topic: SyllabusTopic.GOVT_MICRO,
+    chapter: "3.3 Addressing income and wealth inequality",
+    maxMarks: 8,
+    questionText: "Explain how the Gini coefficient is used to measure income inequality \nand consider the relative strength of two economic reasons suggested \nfor such inequality in a low-income country.",
+    markScheme: `AO1 Knowledge and Understanding (max 3 marks) 
+For a clear understanding of what the Gini coefficient is e.g., it is a numerical 
+measure of the extent of income inequality in an economy (1) if there is no 
+inequality the value will be zero and at the other extreme, if all income is 
+earned by one person the value will be one (1) For an explanation that the 
+nearer the value is to zero income is more equally distributed and/or the 
+nearer the value is to one the more it is unequally distributed (1). 
+AO2 Analysis (max 3 marks) 
+Reasons may include: 
+ A lack of employment opportunities e.g., which will mean that income 
+levels are low (1) which may be more of a problem in low-income 
+countries because industry may be less well developed (1). 
+ Poor vocational training e.g., leading to fewer people being able to 
+develop their skills and earn a higher income (1). This may be more of a 
+problem in such countries because of the lack of finance to provide such 
+training. (1) 
+ A lack of investment in education and health e.g., meaning that some 
+people may not receive a better level of education or may suffer long term 
+health issues which will lower their potential income levels. (1) This may 
+be more common in such countries due to a lack of government budget 
+(1)
+ Other reasons include: 
+ Poor infrastructure 
+ Lack of access to loan finance 
+Analysis must focus on the strength of two of these reasons in a low-income 
+country. Maximum of 2 marks if only one reason considered. 
+One mark per reason explained (+1) if clearly related to a low-income 
+country. 
+Accept any valid reason provided it is explained in terms of economics. 
+Maximum of 2 marks if only one reason is considered. 
+AO3 Evaluation (max 2 marks) 
+Up to 2 marks for evaluating the relative strength of the two reasons with 1 
+mark reserved for a balanced judgement as to which may be the most likely 
+reason in a low-income economy`
+  },
+  {
+    id: "custom-1764466248644",
+    year: "2024",
+    paper: "9708/22",
+    variant: "May/June",
+    questionNumber: "2(b)",
+    topic: SyllabusTopic.GOVT_MICRO,
+    chapter: "3.3 Addressing income and wealth inequality",
+    maxMarks: 12,
+    questionText: "Assess the extent to which government policies to redistribute income \nand wealth are likely to be successful.",
+    markScheme: `AO1 Knowledge and understanding and AO2 Analysis 
+Policies may include: 
+ Minimum wage rates 
+ Transfer payments 
+ Progressive income taxes 
+ State provision of essential goods and services 
+ Investment in infrastructure 
+Accept any valid policies but the analysis must focus on how they may be 
+used to redistribute income and wealth and their advantages and 
+disadvantages to be credited. 
+E.g., A minimum wage rate that is set above the equilibrium, should increase 
+the income levels of those on the lowest levels and therefore possibly ensure 
+that poverty is reduced. However, if everyone’s income levels increased, this 
+will not have a redistribution effect. It will not impact on the self-employed. It 
+may lead to unemployment and more poverty leading to less redistribution if 
+businesses cannot afford the higher rates. 
+E.g., Progressive income taxes should ensure that those on lower incomes 
+pay less tax as a percentage of income than those on higher incomes. This 
+should have a redistributive effect. However, those on higher incomes may 
+have the ability to reduce their tax burden or may simply leave the country. It 
+may also reduce incentives to earn more. 
+Note: if only one policy is considered, the maximum level will be Level 2. 
+Level 1 responses will be assertive and lacking in explanations / mainly 
+descriptive and/or or mainly lacking in relevance to the question. 
+Level 2 responses may contain some inaccuracies and will be one sided. 
+Analysis will be explained at least in part and will be largely relevant to the 
+question. 
+Level 3 responses will consider alternative policies / concepts etc. and will 
+be balanced. Explanations of points raised will be offered and will be accurate 
+and relevant to the question.AO3 Evaluation 
+ Requires an assessment of the likely success of more than one 
+government policy leading to 
+ A justified conclusion as to whether such policies are ever likely to be 
+successful. 
+A one-sided response cannot gain any marks for evaluation. 
+Please use a text box to show the mark split e.g., L2 5 L1 2`
+  },
+  {
+    id: "custom-1764466284650",
+    year: "2024",
+    paper: "9708/22",
+    variant: "May/June",
+    questionNumber: "3(a)",
+    topic: SyllabusTopic.BASIC_IDEAS,
+    chapter: "1.6 Classification of goods and services",
+    maxMarks: 8,
+    questionText: "With the help of an example of each, explain the difference between a \nmerit good and a demerit good and consider whether a subsidy given to \na merit good will always be effective in increasing its consumption.",
+    markScheme: `AO1 Knowledge and Understanding (max 3 marks) 
+A merit good is thought to be desirable but is underprovided / underconsumed 
+due to information failure/a lack of awareness/better than is realised (1) 
+whereas a demerit good is thought to be undesirable but is overprovided / 
+overconsumed due to information failure/a lack of awareness/worse than is 
+realised (1) Third mark to be awarded for valid examples of both a merit and 
+a demerit good. (1) 
+AO2 Analysis (max 3 marks) 
+ Points to consider: 
+ A subsidy may encourage poorer households to consume more merit 
+goods as the reason for underconsumption may be unaffordability as it 
+reduces the price of merit goods. (1)
+ However, quantity demanded may be price inelastic meaning it is less 
+responsive to price changes so quantity demanded will be less 
+responsive to the change in price/the rise in quantity demanded would be 
+less than the decrease in price. (1)
+ The problem of information failure persists meaning that consumers 
+remain unaware of the benefits and therefore do not increase 
+consumption, regardless of the fall in price. (1)
+AO3 Evaluation (max 2 marks) 
+ For a balanced evaluation of whether a subsidy will always be effective 
+with 1 mark reserved for a justified conclusion.`
+  },
+  {
+    id: "custom-1764466320438",
+    year: "2024",
+    paper: "9708/22",
+    variant: "May/June",
+    questionNumber: "3(b)",
+    topic: SyllabusTopic.GOVT_MICRO,
+    chapter: "3.2 Methods and effects of government intervention in markets",
+    maxMarks: 12,
+    questionText: "Assess whether fixing a minimum price is likely to be the best policy to \nreduce the consumption of a demerit good.",
+    markScheme: `AO1 Knowledge and understanding and AO2 Analysis 
+ Use of minimum pricing to increase the price of the demerit good and 
+reduce consumption. 
+ Problems of using minimum pricing may include discussions around 
+inelastic PED, problem of information failure persists, informal markets 
+may appear etc. 
+ Alternative policies that may be considered include increasing indirect 
+taxes, education, provision of information and analysis should focus on 
+the advantages and disadvantages of such policies in reducing the 
+consumption of demerit goods. 
+ Points to consider will include ease of introducing the policy, time and 
+cost, reception by consumers etc. 
+ Accept any valid policies but the analysis must focus on how they may 
+reduce the consumption of demerit goods and discuss their advantages 
+and disadvantages. 
+Level 1 responses will be assertive and lacking in explanations / mainly 
+descriptive and/or or mainly lacking in relevance to the question. 
+Level 2 responses may contain some inaccuracies and will be one sided. 
+Analysis will be explained at least in part and will be largely relevant to the 
+question. 
+Level 3 responses will consider alternative policies / concepts etc. and will 
+be balanced. Explanations of points raised will be offered and will be accurate 
+and relevant to the question. 
+AO3 Evaluation 
+ Requires an assessment of at least one other policy to be compared 
+against minimum pricing policy which leads to
+ A justified conclusion as to whether a minimum pricing is the best policy 
+to reduce the consumption of demerit goods.
+A one-sided response cannot gain any marks for evaluation.`
+  },
+  {
+    id: "custom-1764466352683",
+    year: "2024",
+    paper: "9708/22",
+    variant: "May/June",
+    questionNumber: "4(a)",
+    topic: SyllabusTopic.MACROECONOMY,
+    chapter: "4.2 Introduction to the circular flow of income",
+    maxMarks: 8,
+    questionText: "With the help of a diagram, explain what is meant by the circular flow of \nincome in an open economy and consider the extent to which it can \nexplain economic growth in such an economy.",
+    markScheme: `AO1 Knowledge and Understanding (max 3 marks) 
+A simple circular flow diagram (1) that clearly shows/ explains separately that 
+expenditure flows from households to firms (1) and that income flows from 
+firms to households (1) Note:, this is all that is required for the knowledge 
+and understanding marks regardless of the complexity of the diagram.
+AO2 Analysis (max 3 marks) 
+ The first two marks are for an analysis of injections greater than 
+withdrawals and how this leads to economic growth/increase in national 
+income and (1) for an analysis of withdrawals greater than injections and 
+how this leads to a fall in economic growth/national income (1). 
+ Reference must be made in some way to the fact that in open economy 
+injections include income from exports and that leakages includes 
+expenditure on imports along with at least one other example of an 
+injection and one other example of a leakage for the (1). 
+AO3 Evaluation (max 2 marks) 
+ Evaluation should explain how the relative sizes of injections and 
+leakages will lead either to economic growth or a fall in economic growth 
+with 1 mark reserved for a justified conclusion.`
+  },
+  {
+    id: "custom-1764466397438",
+    year: "2024",
+    paper: "9708/22",
+    variant: "May/June",
+    questionNumber: "4(b)",
+    topic: SyllabusTopic.GOVT_MACRO,
+    chapter: "5.4 Supply-side policy",
+    maxMarks: 12,
+    questionText: "Assess whether supply-side policy is the most effective way to achieve \nlong-run economic growth.",
+    markScheme: `AO1 Knowledge and understanding and AO2 Analysis 
+ Long-run economic growth is likely to need both growth of AD and AS 
+ Analysis of the role of supply side policy in achieving long-run economic 
+growth and its advantages and disadvantages. E.g., supply side policy 
+such as training and education is more likely to increase AS, but this can 
+also lead to an increase in AD, for example as better training leads to an 
+increase in income and therefore an increase in consumer spending. It is 
+also less likely to result in inflation. However, it is costly and will take time. 
+ Analysis of the extent to which supply side policy can lead to growth in 
+both AD and AS. For an explanation that a problem with supply side 
+policy is that it is less effective in directly increasing the level of AD. 
+ Analysis of at least one alternative policy e.g., fiscal policy or monetary 
+policy and how they may achieve long-run economic growth, together 
+with their advantages and disadvantages e.g., fiscal policy such as a 
+reduction in income tax is more likely to increase AD and can be relatively 
+quick. It may also indirectly lead to an increase in AS if more people are 
+encouraged to enter the workforce. However, if AS does not increase, it 
+may be inflationary. It may also reduce the amount available for 
+government spending. 
+ Analysis of the extent to which these policies can lead to growth in both 
+AD and AS. For an explanation that a problem with such policies is that 
+they are less effective in directly increasing the level of AS. 
+Level 1 responses will be assertive and lacking in explanations / mainly 
+descriptive and/or or mainly lacking in relevance to the question. 
+Level 2 responses may contain some inaccuracies and will be one sided. 
+Analysis will be explained at least in part and will be largely relevant to the 
+question. 
+Level 3 responses will consider alternative policies / concepts etc. and will 
+be balanced. Explanations of points raised will be offered and will be accurate 
+and relevant to the question.AO3 Evaluation 
+ Requires an assessment of at least one other government policy to be 
+compared against supply side policy in achieving long-run economic 
+growth which leads to 
+ A justified conclusion as to whether supply side policy is the most 
+effective way to achieve long-run economic growth or whether a different 
+policy / combination of policies may be more successful that takes into 
+account the advantages and disadvantages of such policies in increasing 
+both AS and AD. 
+A one-sided response cannot gain any marks for evaluation.`
+  },
+  {
+    id: "custom-1764466434121",
+    year: "2024",
+    paper: "9708/22",
+    variant: "May/June",
+    questionNumber: "5(a)",
+    topic: SyllabusTopic.INTERNATIONAL,
+    chapter: "6.2 Protectionism",
+    maxMarks: 8,
+    questionText: "Explain what is meant by the term protectionism and consider the \neffectiveness of using tariffs as a method of protectionism.",
+    markScheme: `AO1 Knowledge and Understanding (max 3 marks) 
+Protectionism is when governments attempt to protect domestic businesses 
+against foreign competition (1). It seeks to reduce the impact of the free 
+market/ restrict free trade (1) by increasing the price competitiveness of 
+domestic businesses against foreign competitors (1). 
+AO2 Analysis (max 3 marks) 
+ An explanation of how tariffs work (diagram will help although this is not 
+essential) as a method of protectionism i.e., increasing prices of imports 
+and increasing the price competitiveness of domestic businesses. NB: no 
+marks for a diagram unless it is used to explain the impact on the price of 
+imports and how it protects domestic businesses. Up to 2 marks e.g., for 
+an explanation of how tariffs increase the price of imports (1) and how 
+this protects domestic businesses as it increases their price 
+competitiveness (1)
+ Problems may include possible retaliation, inelastic PED for imports, 
+possible cost push inflationary pressure. Up to 2 marks e.g., retaliation 
+by other countries may offset the impact, if the demand for imports is 
+price inelastic then imports may not fall and domestic businesses will not 
+benefit, if the impact is on imported raw materials, this will lead to cost 
+push inflation and domestic businesses who rely on such imports will not 
+benefit. 
+ If only uses or problems of tariffs are discussed, maximum mark of 
+2. 
+AO3 Evaluation (max 2 marks) 
+ Evaluation should consider how effective tariffs may be considering both 
+how they can protect domestic businesses and the associated problems 
+with 1 mark reserved for a justified conclusion.`
+  },
+  {
+    id: "custom-1764466475125",
+    year: "2024",
+    paper: "9708/22",
+    variant: "May/June",
+    questionNumber: "5(b)",
+    topic: SyllabusTopic.INTERNATIONAL,
+    chapter: "6.2 Protectionism",
+    maxMarks: 12,
+    questionText: "Assess whether free trade is always better than a policy of \nprotectionism for a developing economy that wishes to trade \ninternationally",
+    markScheme: `AO1 Knowledge and understanding and AO2 Analysis 
+ Analysis of the advantages and disadvantages of free trade and
+ Analysis of the advantages and disadvantages of protectionism 
+ Both in the context of a developing economy. 
+Guidance: 
+The advantages of free trade may include: 
+ Efficient allocation of resources due to specialisation and comparative 
+advantage. 
+ An opportunity to take advantage of different factor endowments. 
+ Competitive pressure to keep costs down / increase efficiency / lower 
+prices for consumers. 
+ Higher output / economies of scale and increased choice and availability 
+for consumers. 
+ Disadvantages may include: 
+ Over exploitation of scarce resources. 
+ Closure of domestic industries and /or problems for developing industries 
+leading to unemployment particularly in a developing economy. 
+ Dumping / unfair competition. 
+ It is likely that the advantages of protectionism will result from the 
+disadvantages of free trade and the disadvantages of protectionism will 
+result from the advantages of free trade. 
+Level 1 responses will be assertive and lacking in explanations / mainly 
+descriptive and/or or mainly lacking in relevance to the question. 
+Level 2 responses may contain some inaccuracies and will be one sided. 
+Analysis will be explained at least in part and will be largely relevant to the 
+question. 
+Level 3 responses will consider alternative policies / concepts etc. and will 
+be balanced. Explanations of points raised will be offered and will be accurate 
+and relevant to the question. 
+NOTE: if the analysis is not in the context of a developing economy, 
+then L2 maximum.AO3 Evaluation 
+ Requires an assessment of the advantages and disadvantages of both 
+free trade and protectionism in the context of a developing economy and 
+a comparison of both policies which leads to 
+ A justified conclusion as to which policy may be best for a developing 
+economy that wishes to trade internationally. 
+ Note: if the evaluation is not in the context of a developing 
+economy, then no evaluation marks can be awarded.
+A one-sided response cannot gain any marks for evaluation.`
   }
 ];
