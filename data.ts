@@ -2185,7 +2185,7 @@ Unless there is some method of effectively charging consumers by making public g
   {
     id: "mj25-23-2b",
     year: "2025",
-    paper: "9708/23",
+    paper: "9708/22",
     variant: "May/June",
     questionNumber: "2(b)",
     topic: SyllabusTopic.GOVT_MICRO,
@@ -2208,7 +2208,7 @@ That clearly analyses and compares both the extent of how both are achievable to
   {
     id: "mj25-23-3a",
     year: "2025",
-    paper: "9708/23",
+    paper: "9708/22",
     variant: "May/June",
     questionNumber: "3(a)",
     topic: SyllabusTopic.PRICE_SYSTEM,
