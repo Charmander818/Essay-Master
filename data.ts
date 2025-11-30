@@ -1279,49 +1279,6 @@ AO3 Evaluation
 • For an evaluation of whether supply side policy is the only way of reducing long term unemployment leading to a reasoned conclusion.`
   },
   {
-    id: "on23-23-5a",
-    year: "2023",
-    paper: "9708/23",
-    variant: "Oct/Nov",
-    questionNumber: "5(a)",
-    topic: SyllabusTopic.INTERNATIONAL,
-    chapter: "6.2 Protectionism",
-    maxMarks: 8,
-    questionText: "Explain two methods of protection in international trade and consider which of these is likely to have the bigger impact on employment and output in the economy which imposes them.",
-    markScheme: `AO1 Knowledge and understanding (max 3 marks)
-• Protectionism is when governments attempt to protect domestic businesses against foreign competition (1). 
-• Explanation of two methods of protection – e.g., tariffs, import quotas, export subsidies, embargoes, excessive administrative burdens (‘red tape’) and how each method distorts the free market/supports domestic production (1+1).
-
-AO2 Analysis (max 3 marks overall)
-Points to consider:
-• An explanation of how each method affects domestic employment (1+1). For example, tariffs increase import prices and encourage expenditure switching to domestic production. This increases the level of employment as more workers are recruited to meet the additional output. 
-• However, if the demand for imports is price inelastic in demand, then the reduction in imports may be less (1), therefore domestic output (and employment) may not rise as much as when compared to import quotas (1). 
-
-AO3 Evaluation (max 2 marks)
-• Evaluation should consider which method is likely to have the biggest impact on employment (1), leading to a justified conclusion (1).`
-  },
-  {
-    id: "on23-23-5b",
-    year: "2023",
-    paper: "9708/23",
-    variant: "Oct/Nov",
-    questionNumber: "5(b)",
-    topic: SyllabusTopic.INTERNATIONAL,
-    chapter: "6.5 Policies to correct imbalances in the current account",
-    maxMarks: 12,
-    questionText: "Assess whether protectionism is always the best way of reducing a deficit on the current account of the balance of payments.",
-    markScheme: `AO1 Knowledge and understanding and AO2 Analysis
-Protectionism:
-• Advantages of protectionism – for example, tariffs can reduce the value of imports in the short term as infant industries grow and gain the economies of scale to enable them to be internationally price competitive. This reduction in foreign dependency will reduce the value of imports which (ceteris paribus) reduce a deficit on the current account.
-• Problems of protectionism includes – the ability to reduce the value of imports will be influenced by the price elasticity of demand for imports. Moreover, the possibility of retaliation thereby reducing the value of exports. This may not only limit any reduction in the current account deficit but may hinder a government’s ability to achieve other macroeconomic objectives – e.g., reducing the level of unemployment or possibility of increasing cost-push inflation.
-• Alternative policies that may be considered include contractionary monetary policy – higher interest rates will increase the cost of debt and mortgage repayments and leave people with less money to spend. Therefore, this will reduce their consumption of imports, improving the current account. 
-• Problems of the alternative policy – for example, an increase in interest rates will tend to cause hot money flows and therefore an appreciation in the exchange rate. This appreciation makes exports less competitive, and imports more attractive. Assuming demand is relatively elastic, this appreciation will worsen the current account.
-
-AO3 Evaluation
-• Requires an assessment of the protectionism and at least one other policy in reducing a current account deficit which leads to 
-• A justified conclusion as to which policy may be best way to reduce economic growth or whether a combination of policies might be more appropriate.`
-  },
-  {
     id: "on24-21-2a",
     year: "2024",
     paper: "9708/21",
@@ -1717,7 +1674,7 @@ AO3 Evaluation
   },
   {
     id: "on24-23-2a",
-    year: "2024",
+    year: "2023",
     paper: "9708/23",
     variant: "Oct/Nov",
     questionNumber: "2(a)",
@@ -1736,7 +1693,7 @@ An assessment as to why the impact on consumers and producers may differ accordi
   },
   {
     id: "on24-23-2b",
-    year: "2024",
+    year: "2023",
     paper: "9708/23",
     variant: "Oct/Nov",
     questionNumber: "2(b)",
@@ -3931,5 +3888,60 @@ exchange rate is always beneficial to an economy by assessing both the
 advantages and disadvantages of the depreciation and also considering the 
 significance of PED values for both exports and imports and reaches a valid 
 conclusion.`
+  },
+  {
+    id: "custom-1764485522632",
+    year: "2023",
+    paper: "9708/23",
+    variant: "Oct/Nov",
+    questionNumber: "5(a)",
+    topic: SyllabusTopic.INTERNATIONAL,
+    chapter: "6.5 Policies to correct imbalances in the current account of the balance of payments",
+    maxMarks: 8,
+    questionText: "Explain how import tariffs might correct an imbalance in the current \naccount of the balance of payments and consider whether these tariffs \nare the best way of correcting such an imbalance.",
+    markScheme: `AO1 Knowledge and understanding (max 3 marks)
+• What is meant by an import tariff (1)
+• What is measured by the current account of the balance of payments (1)
+• What is meant by an imbalance in the current account of the balance of 
+payments in terms of a surplus or deficit. (1)
+AO2 Analysis (max 3 marks)
+For an analysis of how import tariffs will affect the prices of imports (1) and 
+how this may affect domestic consumption on imports (1) and how this may 
+correct the imbalance (1)
+Note: a diagram may be useful but cannot be expected.
+AO3 Evaluation (max 2 marks)
+Final effect is uncertain e.g., as a result of the PED for imports (1); other 
+policies can be used (1); whether trading competitors retaliate (1). Reserve 
+(1) for a justified conclusion.`
+  },
+  {
+    id: "custom-1764485643062",
+    year: "2023",
+    paper: "9708/23",
+    variant: "Oct/Nov",
+    questionNumber: "5(b)",
+    topic: SyllabusTopic.INTERNATIONAL,
+    chapter: "6.5 Policies to correct imbalances in the current account of the balance of payments",
+    maxMarks: 12,
+    questionText: "A country has a persistent deficit on the current account of its balance \nof payments.\nAssess the likely consequences for the domestic and external economy \nof this country.",
+    markScheme: `AO1 Knowledge and understanding and AO2 Analysis
+• Explanation of what is meant by a persistent deficit on the current 
+account of the balance of payments.
+• Analysis of the consequences of a persistent deficit on the domestic 
+economy e.g., in terms of employment levels, economic growth, inflation, 
+living standards, government budget, business confidence, possible need 
+to restructure the economy etc.
+• Analysis of the consequences of a persistent deficit on the external 
+economy e.g., exchange rates, ability to trade, need for imports, debt 
+interest, etc.
+Note: accept answers that refer to the impact on other economies when 
+another economy has a persistent current account deficit.
+Max L 2 if only the consequences on the domestic or the external economy 
+are considered.
+AO3 Evaluation
+That clearly considers the likely consequences on both parts of the economy 
+and comes to a conclusion as to the most likely consequences.
+Accept all valid responses.
+A one-sided response cannot gain any marks for evaluation.`
   }
 ];
