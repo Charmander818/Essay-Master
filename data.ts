@@ -1886,31 +1886,6 @@ AO3 Evaluation
 • A justified conclusion as to which policy may be best way to reduce economic growth or whether a combination of policies might be more appropriate.`
   },
   {
-    id: "fm25-22-2a",
-    year: "2025",
-    paper: "9708/22",
-    variant: "Feb/March",
-    questionNumber: "2(a)",
-    topic: SyllabusTopic.BASIC_IDEAS,
-    chapter: "1.5 Production possibility curves",
-    maxMarks: 8,
-    questionText: "With the help of a diagram, explain the reasons for a movement within a production possibility curve (PPC) and a shift of a PPC and consider the extent to which opportunity cost determines the shape of a PPC.",
-    markScheme: `AO1 Knowledge and understanding (max 3 marks)
-A knowledge and understanding of a PPC diagram:
-• Vertical axis correctly labelled, e.g. Good Y, Consumer Goods, Agricultural Goods. (1)
-• Horizontal axis correctly labelled, e.g. Good X, Capital Goods, Manufactured Goods. (1)
-• PPC touches both axes. (1)
-
-AO2 Analysis (max 3 marks)
-An analysis of the reasons for a movement within a PPC and a shift of a PPC:
-• Movement within a PPC is caused by a reallocation of existing resources. (1)
-• A shift of a PPC is the result of an increase in the quantity and/or quality of resources or the impact of an improvement in technology. (1)
-• A shift of a PPC does not involve the concept of opportunity cost because with the use of additional resources, more of two goods could be produced. (1)
-
-AO3 Evaluation (max 2 marks)
-Offers a valid judgement on the extent to which opportunity cost determines the shape of a PPC, distinguishing between constant opportunity costs (a straight line) and increasing opportunity costs (a curve) (1) to reach a conclusion. (1)`
-  },
-  {
     id: "fm25-22-2b",
     year: "2025",
     paper: "9708/21",
@@ -1928,156 +1903,6 @@ Offers a valid judgement on the extent to which opportunity cost determines the 
 AO3 Evaluation
 • Evaluation of the influence of both the quantity and the quality of resources/factors of production in bringing about a shift to the right of a PPC.
 • Evaluation of the potential influence of both the quantity and quality of resources in expanding an economy’s productive capacity through the increased availability and quality of inputs.`
-  },
-  {
-    id: "fm25-22-3a",
-    year: "2025",
-    paper: "9708/21",
-    variant: "May/June",
-    questionNumber: "3(a)",
-    topic: SyllabusTopic.GOVT_MICRO,
-    chapter: "3.2 Methods and effects of government intervention in markets",
-    maxMarks: 8,
-    questionText: "With the help of a diagram, explain how changes in a subsidy can influence the price and quantity sold of a product in a market and consider how expenditure on a subsidy is affected by the price elasticity of demand for the product.",
-    markScheme: `AO1 Knowledge and understanding (max 3 marks)
-A knowledge and understanding of a subsidy diagram:
-• Axes correctly labelled (vertical axis: Price, horizontal axis: Quantity) and demand and supply curves correctly labelled. (1)
-• An increase in a subsidy causing the supply curve to shift to the right bringing about a fall in price and a rise in quantity with new equilibrium positions (for price and for quantity) clearly shown. (1)
-• A decrease in a subsidy would cause the supply curve to shift to the left, raising price and lowering quantity with new equilibrium positions (for price and for quantity) clearly shown. (1)
-
-AO2 Analysis (max 3 marks)
-An analysis of the impact of a subsidy in a market:
-• A subsidy is a sum of money paid by a government to a producer. (1)
-• The effect of an increase in a subsidy is that the price charged to a consumer will be lower than it would otherwise have been, leading to an increase in quantity; this may be done to keep down the price, and encourage the consumption, of certain products. (1)
-• The effect of a decrease in a subsidy would have the opposite effect. (1)
-
-AO3 Evaluation (max 2 marks)
-Offers a valid judgement on how expenditure on a subsidy is affected by the price elasticity of demand for the product (1) to reach a conclusion. (1)`
-  },
-  {
-    id: "fm25-22-3b",
-    year: "2025",
-    paper: "9708/22",
-    variant: "May/June",
-    questionNumber: "3(b)",
-    topic: SyllabusTopic.GOVT_MICRO,
-    chapter: "3.2 Methods and effects of government intervention in markets",
-    maxMarks: 12,
-    questionText: "Assess whether an increase in the tax on a demerit good is always the best way to reduce the consumption of such a product.",
-    markScheme: `AO1 Knowledge and understanding and AO2 Analysis
-Explanation of the potential advantages and benefits of an increase in the tax on a demerit good:
-• The increase in the indirect tax will increase the price of the product.
-• The increase in price is likely to decrease the consumption of the product.
-Explanation of the potential disadvantages and limitations of an increase in the tax on a demerit good:
-• The demand for the demerit good may be relatively inelastic meaning that the increase in tax will only have a relatively slight impact.
-• Other methods may be more effective in decreasing consumption, such as an information campaign to make consumers more aware of the potential disadvantages of consuming a demerit good or the establishment of a minimum price for a demerit good.
-
-AO3 Evaluation
-• Evaluation of the potential effectiveness of an increase in the tax on a demerit good.
-• Evaluation of whether other methods, such as an information/education campaign, might be more effective. 
-• In conclusion, whether an increase in the tax on a demerit good is always the best way to decrease the consumption of such a good.`
-  },
-  {
-    id: "fm25-22-4a",
-    year: "2025",
-    paper: "9708/21",
-    variant: "May/June",
-    questionNumber: "4(a)",
-    topic: SyllabusTopic.MACROECONOMY,
-    chapter: "4.2 Introduction to the circular flow of income",
-    maxMarks: 8,
-    questionText: "Explain how the circular flow of income in an economy changes when that economy moves from a closed to an open economy and consider what determines the extent of this change.",
-    markScheme: `AO1 Knowledge and understanding (max 3 marks)
-A knowledge and understanding of the meaning of the circular flow of income in an economy:
-• The way in which income flows around an economy, from firms to households and back to firms in a continuous process. (1)
-• Payments are made to factors of production in the form of income, profit and rent. (1)
-• Payments from all these sources are spent on goods and services.(1)
-
-AO2 Analysis (max 3 marks)
-An analysis of injections and withdrawals/leakages as an economy moves from a closed economy to an open economy:
-• CLOSED ECONOMY – Injections: Investment (I) and Government spending (G)
-• Withdrawals/leakages: Savings (S) and Taxes (T)
-• OPEN ECONOMY – Injections: Spending on exports (X) is added to I and G
-• Withdrawals/leakages: Spending on imports (M) is added to S and T
-
-AO3 Evaluation (max 2 marks)
-Offers a valid judgement on what determines the extent of the change from a closed to an open economy (1) to reach a conclusion. (1)`
-  },
-  {
-    id: "fm25-22-4b",
-    year: "2025",
-    paper: "9708/21",
-    variant: "May/June",
-    questionNumber: "4(b)",
-    topic: SyllabusTopic.INTERNATIONAL,
-    chapter: "6.2 Protectionism",
-    maxMarks: 12,
-    questionText: "Assess whether the potential benefits of free trade always outweigh the arguments for protectionism.",
-    markScheme: `AO1 Knowledge and understanding and AO2 Analysis
-Explanation of the potential benefits of free trade:
-• Increase in world output.
-• Resources are allocated more efficiently as a result of specialisation.
-• Production can be at lower cost.
-• Consumers can have a wider range of products to choose from.
-• There can be a substantial increase in economic growth.
-• There can be an improved standard of living.
-Explanation of the arguments for protectionism:
-• Infant industry argument: infant or sunrise industries are protected to allow them to be able to compete with already established firms.
-• Declining or sunset industries: these can be protected to give time for the factors of production to be transferred to alternative uses.
-• Strategic industries: these can be protected because of their importance to an economy.
-• Current account deficit: protectionism may be used to reduce a deficit.
-• Anti-dumping: protection against firms selling at a price below cost.
-
-AO3 Evaluation
-• Consideration of the relative strength of the two sets of arguments. 
-• Consideration of who may benefit from free trade and protectionism. 
-• In conclusion, whether the potential benefits of free trade always outweigh the arguments for protectionism.`
-  },
-  {
-    id: "fm25-22-5a",
-    year: "2025",
-    paper: "9708/21",
-    variant: "May/June",
-    questionNumber: "5(a)",
-    topic: SyllabusTopic.GOVT_MACRO,
-    chapter: "5.2 Fiscal policy",
-    maxMarks: 8,
-    questionText: "Explain the difference between a budget surplus and a budget deficit and consider the extent to which a budget surplus is better than a budget deficit.",
-    markScheme: `AO1 Knowledge and understanding (max 3 marks)
-A knowledge and understanding of a government budget. (1)
-A knowledge and understanding of a budget surplus. (1)
-A knowledge and understanding of a budget deficit. (1)
-
-AO2 Analysis (max 3 marks)
-An analysis of the budget position:
-• The benefits and limitations of a budget surplus. (2)
-• The benefits and limitations of a budget deficit. (2)
-
-AO3 Evaluation (max 2 marks)
-Offers a valid judgement on the extent to which a budget surplus is better than a budget deficit (1) to reach a conclusion. (1)`
-  },
-  {
-    id: "fm25-22-5b",
-    year: "2025",
-    paper: "9708/21",
-    variant: "May/June",
-    questionNumber: "5(b)",
-    topic: SyllabusTopic.GOVT_MACRO,
-    chapter: "5.2 Fiscal policy",
-    maxMarks: 12,
-    questionText: "Assess whether expansionary fiscal policy always benefits an economy.",
-    markScheme: `AO1 Knowledge and understanding and AO2 Analysis
-Potential advantages of an expansionary fiscal policy:
-• Lower taxes/higher government spending will increase AD in an economy.
-• Higher AD could lead to lower unemployment.
-Potential disadvantages of an expansionary fiscal policy:
-• The budget deficit will need to be financed, which will increase the national debt.
-• The increase in AD could be inflationary. 
-
-AO3 Evaluation
-• The effect on an economy will depend on the extent of the expansionary fiscal policy.
-• A recognition that expansionary fiscal policy can have both advantages and disadvantages.
-• In conclusion, whether an expansionary fiscal policy is always beneficial to an economy.`
   },
   {
     id: "mj25-21-2a",
@@ -2103,25 +1928,6 @@ An analysis of the reasons for a movement within a PPC and a shift of a PPC:
 
 AO3 Evaluation (max 2 marks)
 Offers a valid judgement on the extent to which opportunity cost determines the shape of a PPC, distinguishing between constant opportunity costs (a straight line) and increasing opportunity costs (a curve) (1) to reach a conclusion. (1)`
-  },
-  {
-    id: "mj25-21-2b",
-    year: "2025",
-    paper: "9708/21",
-    variant: "May/June",
-    questionNumber: "2(b)",
-    topic: SyllabusTopic.BASIC_IDEAS,
-    chapter: "1.5 Production possibility curves",
-    maxMarks: 12,
-    questionText: "Assess whether a shift to the right of a PPC is only caused by an increase in the quantity of resources.",
-    markScheme: `AO1 Knowledge and understanding and AO2 Analysis
-• An increase in the quantity of resources: an increase in the quantity of land, labour, capital or enterprise would enable an economy to produce more of all goods and so the PPC shifts outwards.
-• An increase in the quality of resources: it is not only an increase in the quantity of resources that can cause a shift to the right of a PPC; if there is an increase in the quality and productivity of the factors of production, this will also lead to a shift to the right of a PPC.
-• Technological change: this could be a cause of a shift to the right of a PPC.
-
-AO3 Evaluation
-• Evaluation of the influence of both the quantity and the quality of resources/factors of production in bringing about a shift to the right of a PPC.
-• Evaluation of the potential influence of both the quantity and quality of resources in expanding an economy’s productive capacity through the increased availability and quality of inputs.`
   },
   {
     id: "mj25-21-3a",
@@ -2331,7 +2137,7 @@ AO3 Evaluation (max 2 marks)
   {
     id: "mj25-22-3b",
     year: "2025",
-    paper: "9708/22",
+    paper: "9708/23",
     variant: "May/June",
     questionNumber: "3(b)",
     topic: SyllabusTopic.GOVT_MICRO,
@@ -2488,7 +2294,7 @@ The extent to which the discussed policy will shift the supply curve to the righ
   {
     id: "mj25-23-3b",
     year: "2025",
-    paper: "9708/23",
+    paper: "9708/22",
     variant: "May/June",
     questionNumber: "3(b)",
     topic: SyllabusTopic.PRICE_SYSTEM,
