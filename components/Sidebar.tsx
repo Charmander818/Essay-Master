@@ -1,3 +1,4 @@
+
 import React, { useMemo, useState, useEffect } from 'react';
 import { Question, SyllabusTopic, QuestionState } from '../types';
 import { SYLLABUS_STRUCTURE, Level } from '../syllabusData';
@@ -42,6 +43,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   // New Filter States
   const [yearFilter, setYearFilter] = useState<string>('all');
   const [seasonFilter, setSeasonFilter] = useState<string>('all');
+  const [paperFilter, setPaperFilter] = useState<string>('all');
 
   // Collapse state for chapters: Key = "TopicName-ChapterName"
   const [expandedChapters, setExpandedChapters] = useState<Record<string, boolean>>({});
@@ -50,6 +52,11 @@ const Sidebar: React.FC<SidebarProps> = ({
   const availableYears = useMemo(() => {
     const years = new Set(questions.map(q => q.year));
     return Array.from(years).sort().reverse();
+  }, [questions]);
+
+  const availablePapers = useMemo(() => {
+    const papers = new Set(questions.map(q => q.paper));
+    return Array.from(papers).sort();
   }, [questions]);
 
   const availableSeasons = ["Feb/March", "May/June", "Oct/Nov"];
@@ -69,7 +76,10 @@ const Sidebar: React.FC<SidebarProps> = ({
       // 3. Season Filter
       if (seasonFilter !== 'all' && q.variant !== seasonFilter) return false;
 
-      // 4. Search Filter
+      // 4. Paper Filter
+      if (paperFilter !== 'all' && q.paper !== paperFilter) return false;
+
+      // 5. Search Filter
       if (lowerQuery) {
         const textMatch = q.questionText.toLowerCase().includes(lowerQuery);
         const yearMatch = q.year.includes(lowerQuery);
@@ -78,7 +88,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         if (!textMatch && !yearMatch && !paperMatch && !chapterMatch) return false;
       }
 
-      // 5. Mode Filter
+      // 6. Mode Filter
       if (filterMode === 'saved') {
         const state = questionStates[q.id];
         const hasWork = state && (
@@ -93,7 +103,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
       return true;
     });
-  }, [questions, selectedLevel, searchQuery, filterMode, questionStates, yearFilter, seasonFilter]);
+  }, [questions, selectedLevel, searchQuery, filterMode, questionStates, yearFilter, seasonFilter, paperFilter]);
 
 
   // --- Grouping & Sorting Logic ---
@@ -208,7 +218,7 @@ const Sidebar: React.FC<SidebarProps> = ({
            </button>
         </div>
 
-        {/* Year & Season Filters */}
+        {/* Year, Season & Paper Filters */}
         <div className="grid grid-cols-2 gap-2">
             <select 
               value={yearFilter} 
@@ -225,6 +235,14 @@ const Sidebar: React.FC<SidebarProps> = ({
             >
                 <option value="all">All Seasons</option>
                 {availableSeasons.map(s => <option key={s} value={s}>{s}</option>)}
+            </select>
+            <select 
+              value={paperFilter} 
+              onChange={(e) => setPaperFilter(e.target.value)}
+              className="col-span-2 bg-slate-50 border border-slate-200 text-slate-700 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
+            >
+                <option value="all">All Papers</option>
+                {availablePapers.map(p => <option key={p} value={p}>{p}</option>)}
             </select>
         </div>
 

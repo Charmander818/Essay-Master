@@ -32,9 +32,18 @@ const App: React.FC = () => {
   });
 
   const allQuestions = useMemo(() => {
-    const staticIds = new Set(initialQuestions.map(q => q.id));
-    const uniqueCustom = customQuestions.filter(q => !staticIds.has(q.id));
-    return [...initialQuestions, ...uniqueCustom];
+    // Create a map of custom questions for easy lookup (ID -> Question)
+    const customMap = new Map(customQuestions.map(q => [q.id, q]));
+    const initialIds = new Set(initialQuestions.map(q => q.id));
+
+    // 1. Start with initial questions. If an edited version exists in customMap, use that instead.
+    const mergedInitial = initialQuestions.map(q => customMap.has(q.id) ? customMap.get(q.id)! : q);
+
+    // 2. Add purely new custom questions (those with IDs NOT in initialQuestions)
+    const newCustom = customQuestions.filter(q => !initialIds.has(q.id));
+
+    // Combine them
+    return [...mergedInitial, ...newCustom];
   }, [customQuestions]);
 
   const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(null);
@@ -97,23 +106,21 @@ const App: React.FC = () => {
   };
 
   const handleSaveQuestion = (question: Question) => {
-    if (questionToEdit) {
-      if (question.id.startsWith('custom-')) {
-          setCustomQuestions(prev => prev.map(q => q.id === question.id ? question : q));
-      } else {
-          alert("Note: You are editing a standard question locally. This change is saved in your browser but won't affect the official list unless exported.");
-          setCustomQuestions(prev => {
-              return [...prev.filter(q => q.id !== question.id), question];
-          });
+    // Upsert logic: If the question ID already exists in customQuestions (whether it was originally 
+    // a custom question or an edited static question), update it. Otherwise, add it.
+    setCustomQuestions(prev => {
+      const exists = prev.some(q => q.id === question.id);
+      if (exists) {
+        return prev.map(q => q.id === question.id ? question : q);
       }
+      return [...prev, question];
+    });
 
-      if (selectedQuestion?.id === question.id) {
-        setSelectedQuestion(question);
-      }
-    } else {
-      setCustomQuestions(prev => [...prev, question]);
+    // Update selection if we are currently viewing the edited question
+    if (selectedQuestion?.id === question.id) {
       setSelectedQuestion(question);
     }
+    
     setQuestionToEdit(null);
     setIsModalOpen(false);
   };

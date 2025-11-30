@@ -3615,5 +3615,257 @@ AO3 Evaluation
 • Consideration that fully assesses the relative perspectives of economic 
 growth for an economy and arrives at a reasoned conclusion concerning 
 which viewpoint (or otherwise) is most likely.`
+  },
+  {
+    id: "custom-1764468086199",
+    year: "2025",
+    paper: "9708/22",
+    variant: "Feb/March",
+    questionNumber: "2(a)",
+    topic: SyllabusTopic.BASIC_IDEAS,
+    chapter: "1.5 Production possibility curves",
+    maxMarks: 8,
+    questionText: "With the help of a production possibility curve (PPC) diagram, explain \nthe terms scarcity and choice and consider the extent to which every \nchoice has an equal opportunity cost.",
+    markScheme: `AO1 Knowledge and Understanding (max 3 marks)
+An accurate PPC diagram – a concave or straight-line curve that meets both 
+axes with appropriate and correctly labelled axes (1); explanation of scarcity 
+and / or opportunity cost (1) and how the scarcity in factor 
+endowments/scarce results and infinite wants results in choices having to be 
+made (1).
+AO2 Analysis (max 3 marks)
+If the candidates uses a straight line PPC
+Uses the diagram to explain that scarcity is shown as a point on the straight 
+line PPC (1); the opportunity cost of changing production combinations is 
+shown as a movement along the PPC (1), the opportunity cost is equal due to 
+the negative one gradient of the PPC (accept constant trade off although not 
+strictly true) (1)
+If the candidates uses a concave PPC
+Uses the diagram to explain that scarcity is shown as a point on the concave 
+PPC (1); the opportunity cost of changing production combinations is shown 
+as a movement along the PPC (1), the opportunity cost is not equal due to the 
+increased trade-off the greater the proportion of resources allocated to the 
+production of a good (1)
+AO3 Evaluation (max 2 marks)
+One mark for a valid explanation that the extent to which each choice has an 
+equal opportunity cost depends on the shape of the PPC (1) or whether or not 
+there are unused factors of production when the choice is being made (1).
+Reserve 1 mark for a justified conclusion.`
+  },
+  {
+    id: "custom-1764468111958",
+    year: "2025",
+    paper: "9708/22",
+    variant: "Feb/March",
+    questionNumber: "2(b)",
+    topic: SyllabusTopic.BASIC_IDEAS,
+    chapter: "1.4 Resource allocation in different economic systems",
+    maxMarks: 12,
+    questionText: "Assess whether the allocation of resources by the free market is always \ndesirable for an economy.",
+    markScheme: `AO1 Knowledge and understanding and AO2 Analysis
+An understanding of the term free market economy
+An explanation of the potential advantages of a free market economy –
+efficient allocation of scarce resources, competitive prices and increased 
+choice for consumers, increased innovation and invention, increased 
+investment (via the profit motive), reduction in monopoly power 
+An explanation of the potential disadvantages of a free market economy –
+under-provision of merit goods/overproduction of demerit goods, absence of 
+public goods, negative externalities, private sector monopolies, increased 
+income and wealth inequalities
+Level 1 responses will be assertive and lacking in explanations / mainly 
+descriptive and/or or mainly lacking in relevance to the question.
+Level 2 responses may contain some inaccuracies and may be one sided. 
+Analysis will be explained at least in part and will be largely relevant to the 
+question.
+Level 3 responses will consider alternative policies / concepts etc. and will 
+be balanced. Explanations of points raised will be offered and will be accurate 
+and relevant to the question.
+AO3 Evaluation
+Consideration that fully assesses the extent to which the allocation of 
+resources in the free market is always desirable.
+A one-sided response cannot gain any marks for evaluation.`
+  },
+  {
+    id: "custom-1764468130473",
+    year: "2025",
+    paper: "9708/22",
+    variant: "Feb/March",
+    questionNumber: "3(a)",
+    topic: SyllabusTopic.BASIC_IDEAS,
+    chapter: "1.6 Classification of goods and services",
+    maxMarks: 8,
+    questionText: "Explain what is meant by a public good and a private good (economic \ngood) and consider the extent to which a beach could be described as a \npublic good.",
+    markScheme: `AO1 Knowledge and Understanding (max 3 marks)
+Explanation of rivalrous/non rivalrous (1) Explanation of excludable/non 
+excludable (1) Correctly applied to a public good and a private good (economic 
+good) to explain the difference (1)
+AO2 Analysis (max 3 marks)
+The extent to which a beach might be rivalrous (1); the extent to which a 
+beach might be excludable (1); the alternatives are also considered (1)
+AO3 Evaluation (max 2 marks)
+One mark for a valid explanation that the extent a beach could be described 
+as a public good (e.g. a quasi-public good). Reserve one mark for a justified 
+conclusion.`
+  },
+  {
+    id: "custom-1764468161612",
+    year: "2025",
+    paper: "9708/22",
+    variant: "Feb/March",
+    questionNumber: "3(b)",
+    topic: SyllabusTopic.GOVT_MICRO,
+    chapter: "3.2 Methods and effects of government intervention in markets",
+    maxMarks: 12,
+    questionText: "Assess whether a subsidy is likely to be the best method to increase the \nconsumption of merit goods.",
+    markScheme: `AO1 Knowledge and understanding and AO2 Analysis
+The meaning of the terms subsidy/merit goods
+An explanation of how a subsidy would reduce the costs of production which 
+would, in turn, reduce the price and increase the quantity demanded.
+An explanation of potential problems from using subsidies – opportunity cost 
+of increased government spending, increased dependency, incorrect 
+targeting, when to remove provision.
+An explanation of alternative methods e.g. improved information but the 
+analysis must focus on how the method would increase the consumption of 
+merit goods.
+Accept any valid policies but the analysis must focus on how they may 
+increase the consumption of merit goods and discuss their advantages and 
+disadvantages.
+Level 1 responses will be assertive and lacking in explanations / mainly 
+descriptive and/or or mainly lacking in relevance to the question.
+Level 2 responses may contain some inaccuracies and may be one sided. 
+Analysis will be explained at least in part and will be largely relevant to the 
+question.
+Level 3 responses will consider alternative policies / concepts etc. and will 
+be balanced. Explanations of points raised will be offered and will be accurate 
+and relevant to the question.
+AO3 Evaluation
+Consideration that fully assesses the relative effectiveness of subsidies with 
+at least one other method and arrives at a reasoned conclusion - for example, 
+the relevance of elasticities of demand
+A justified conclusion as to whether introducing subsidies is the best method 
+to increase the consumption of merit goods.
+A one-sided response cannot gain any marks for evaluation.`
+  },
+  {
+    id: "custom-1764468257868",
+    year: "2025",
+    paper: "9708/22",
+    variant: "Feb/March",
+    questionNumber: "4(a)",
+    topic: SyllabusTopic.INTERNATIONAL,
+    chapter: "6.5 Policies to correct imbalances in the current account of the balance of payments",
+    maxMarks: 8,
+    questionText: "With the help of a formula, explain two reasons for an improvement in \nthe terms of trade and consider the extent to which an improvement in \nthe terms of trade will benefit an economy.",
+    markScheme: `AO1 Knowledge and Understanding (max 3 marks)
+An accurate definition of the terms of trade OR An accurate formula (1)
+Understanding that there is likely to be an improvement in the terms of trade if 
+export prices rise (1) relative to import prices (1).
+AO2 Analysis (max 3 marks)
+An improvement in the terms of trade means that a unit of export buys 
+relatively more imports (1) which may lead to an improvement in living 
+standards (1) as imported goods appear cheaper to consumers (1). BUT this 
+may lead to a current account deficit (1) MAX 2 if only benefits considered
+AO3 Evaluation (max 2 marks)
+That assesses the advantages and disadvantages of an improvement in the 
+terms of trade in terms of e.g., levels of unemployment and PED values and 
+reaches a conclusion as to whether this is of benefit to an economy. Reserve 1 
+mark for a valid conclusion.`
+  },
+  {
+    id: "custom-1764468318362",
+    year: "2025",
+    paper: "9708/22",
+    variant: "Feb/March",
+    questionNumber: "4(b)",
+    topic: SyllabusTopic.INTERNATIONAL,
+    chapter: "6.5 Policies to correct imbalances in the current account of the balance of payments",
+    maxMarks: 12,
+    questionText: "Assess whether the consequences of free trade are always positive for \nan economy.",
+    markScheme: `AO1 Knowledge and understanding and AO2 Analysis
+Understanding of the terms free trade
+How free trade may benefit an economy – this may include – increased 
+economic growth, reduction in unemployment, improved public finances, 
+improved balance of payments.
+An explanation of the drawbacks of free trade – reduced domestic growth, 
+increases in structural unemployment, over reliance on other countries for 
+goods not produced domestically, possibility of current account deficit.
+Level 1 responses will be assertive and lacking in explanations / mainly 
+descriptive and/or or mainly lacking in relevance to the question.
+Level 2 responses may contain some inaccuracies and may be one sided. 
+Analysis will be explained at least in part and will be largely relevant to the 
+question.
+Level 3 responses will consider both the potential positives and negatives 
+and will be balanced. Explanations of points raised will be offered and will be 
+accurate and relevant to the question.
+AO3 Evaluation
+Consideration that fully assesses the consequences of free trade and arrives 
+at a reasoned conclusion concerning whether it is always positive – this may 
+include reference to availability of factor endowments, how ‘open’ an economy 
+is, stage of development etc.
+A one-sided response cannot gain any marks for evaluation`
+  },
+  {
+    id: "custom-1764468341875",
+    year: "2025",
+    paper: "9708/22",
+    variant: "Feb/March",
+    questionNumber: "5(a)",
+    topic: SyllabusTopic.GOVT_MACRO,
+    chapter: "5.2 Fiscal policy",
+    maxMarks: 8,
+    questionText: "With the help of an AD/AS diagram, explain what is meant by an \nexpansionary fiscal policy and consider the extent to which an \nexpansionary fiscal policy will increase the level of aggregate demand.",
+    markScheme: `AO1 Knowledge and Understanding (max 3 marks)
+A clear understanding of what is meant by:
+Expansionary fiscal policy being an increase in government spending and/or 
+reduction in tax rates (1)
+Aggregate demand is the total demand for an economy’s goods and services 
+at a given price level / it is the total of C + I + G +(X-M) (1)
+An accurate diagram showing AD and AS curves (1)
+AO2 Analysis (max 3 marks)
+An explanation of how a decrease in income tax (for example) will increase 
+disposable income (1) that cause an increase in consumption/which (as a 
+component of AD) causes an increase in aggregate demand (1). A diagram 
+showing a rightwards shift in the AD curve (1).
+AO3 Evaluation (max 2 marks)
+One mark for an explanation of whether expansionary fiscal policy will 
+increase the level of aggregate demand (1). One mark for a justified 
+conclusion.`
+  },
+  {
+    id: "custom-1764468363957",
+    year: "2025",
+    paper: "9708/22",
+    variant: "Feb/March",
+    questionNumber: "5(b)",
+    topic: SyllabusTopic.GOVT_MACRO,
+    chapter: "5.4 Supply-side policy",
+    maxMarks: 12,
+    questionText: "Assess whether supply-side policy is the best method to reduce the rate \nof inflation.",
+    markScheme: `AO1 Knowledge and understanding and AO2 Analysis
+The meaning of the terms supply-side policy and inflation
+An explanation of how supply-side policy would reduce the rate of inflation 
+from increasing the productive capacity of an economy – e.g., improving the 
+quality of factors of production via – education and training, improved health 
+provision, development of infrastructure (road/rail links, broadband)
+An explanation of the drawbacks of using supply-side policy to reduce the rate 
+of inflation – significant time lags, opportunity cost of government spending, 
+lack of retained profit for firms to train staff, the quality of education and 
+training, possible increase in government debt.
+An explanation of the advantages and disadvantages of at least one 
+alternative policy that might be used to reduce the rate of inflation e.g., 
+monetary and/or fiscal policy.
+Level 1 responses will be assertive and lacking in explanations / mainly 
+descriptive and/or or mainly lacking in relevance to the question.
+Level 2 responses may contain some inaccuracies and may be one sided. 
+Analysis will be explained at least in part and will be largely relevant to the 
+question.
+Level 3 responses will consider alternative policies / concepts etc. and will 
+be balanced. Explanations of points raised will be offered and will be accurate 
+and relevant to the question.
+AO3 Evaluation
+Consideration that fully assesses the relative effectiveness of supply side 
+policy to reduce the rate of inflation compared with at least one other policy 
+and arrives at a reasoned conclusion concerning whether the supply side 
+policy is the ‘best’ policy.
+A one-sided response cannot gain any marks for evaluation.`
   }
 ];
