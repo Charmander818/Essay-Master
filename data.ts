@@ -3165,5 +3165,277 @@ economy that wishes to trade internationally.
  Note: if the evaluation is not in the context of a developing 
 economy, then no evaluation marks can be awarded.
 A one-sided response cannot gain any marks for evaluation.`
+  },
+  {
+    id: "custom-1764467347029",
+    year: "2024",
+    paper: "9708/23",
+    variant: "May/June",
+    questionNumber: "2(a)",
+    topic: SyllabusTopic.PRICE_SYSTEM,
+    chapter: "2.1 Demand and supply curves",
+    maxMarks: 8,
+    questionText: "From 2030, the only new car production allowed in the United Kingdom \n(UK) will be for electric cars. \nExcluding the price of electric cars, explain the determinants of demand \nfor electric cars and consider which of these determinants is likely to be \nof greatest significance at the present time.",
+    markScheme: `AO1 Knowledge and Understanding (max 3 marks) 
+Knowledge and understanding of income, price and availability of substitutes 
+and fashion, taste and attitudes. 
+For an explanation of what is meant by the role of income, price and 
+availability of substitutes, complements, fashion, taste, and attitudes as 
+determinants of demand. (1x3) 
+AO2 Analysis (max 3 marks) 
+For analysis of the significance at the present time of at least 2 of these 
+determinants. e.g., attitudes may have a great significance because of an 
+increased awareness of the impact on the environment. e.g., income may 
+have a great significance if economies are in recession. e.g., if petrol prices 
+rise leading to a fall in demand for petrol-driven cars then the demand for 
+electric cars may rise. 
+Up to 2 marks for any developed point. 
+AO3 Evaluation (max 2 marks) 
+For a clear consideration which of the determinants is likely to be the most 
+significant at the present time. Reserve 1 mark for a justified conclusion.`
+  },
+  {
+    id: "custom-1764467372727",
+    year: "2024",
+    paper: "9708/23",
+    variant: "May/June",
+    questionNumber: "2(b)",
+    topic: SyllabusTopic.PRICE_SYSTEM,
+    chapter: "2.2 Price elasticity, income elasticity and cross elasticity of demand",
+    maxMarks: 12,
+    questionText: "Assess whether cross elasticity of demand is likely to be more \nimportant in determining the demand for electric cars than income \nelasticity of demand .",
+    markScheme: `AO1 Knowledge and understanding and AO2 Analysis 
+ Explanation of what is meant by cross elasticity of demand. 
+ The significance of the price and availability of substitute models of both 
+petrol and electric cars and their complements e.g., petrol and charging 
+points etc. 
+ The weaknesses of the concept. 
+ Explanation of what is meant by income elasticity of demand. 
+ The significance of income in the decision to purchase an electric car 
+including the relationship of changes in income to changes in demand. 
+ The weaknesses of the concept. 
+Level 1 responses will be assertive and lacking in explanations / mainly 
+descriptive and/or or mainly lacking in relevance to the question. 
+Level 2 responses may contain some inaccuracies and will be one sided. 
+Analysis will be explained at least in part and will be largely relevant to the 
+question. 
+Level 3 responses will consider alternative policies / concepts etc. and will 
+be balanced. Explanations of points raised will be offered and will be accurate 
+and relevant to the question. 
+AO3 Evaluation 
+That clearly assesses the extent to which cross elasticity of demand is likely 
+to be more important than income elasticity of demand in determining the 
+demand for electric cars by comparing the significance and weaknesses of 
+both concepts and reaches a justified conclusion.`
+  },
+  {
+    id: "custom-1764467408173",
+    year: "2024",
+    paper: "9708/23",
+    variant: "May/June",
+    questionNumber: "3(a)",
+    topic: SyllabusTopic.BASIC_IDEAS,
+    chapter: "1.4 Resource allocation in different economic systems",
+    maxMarks: 8,
+    questionText: "Use a production possibility curve (PPC) diagram to explain how a \ngovernment in a mixed economy might allocate more resources to \nconsumption and less resources to investment and consider a limitation \nof this approach to resource allocation.",
+    markScheme: `AO1 Knowledge and understanding (max 3 marks) 
+ For a fully accurate diagram that is clearly labeled as consumer goods 
+and capital goods with the curve touching both axes. (1)
+ The diagram must show the movement from capital goods to consumer 
+goods e.g., by means of an arrow (1)
+ Accompanied by an explanation that this is a movement along the curve 
+(rather than a shift). (1)
+AO2 Analysis (max 3 marks 
+Of how a government might allocate more resources to consumption and less 
+to investment e.g.: 
+ By reducing taxes on income / consumer expenditure. (1)
+ By increasing government expenditure to provide subsidies for 
+consumers. (1)
+ By reducing government support to businesses for investment. (1) 
+(Maximum of 2 marks overall)
+ PLUS 1 mark if shown on a diagram as either a movement along the 
+curve or shift within the curve that is clearly explained.
+AO3 Evaluation (max 2 marks) 
+For a clear assessment of the limitations of this approach including an 
+assessment of time lags, the possible response of businesses and 
+consumers etc. Reserve 1 mark for a justified conclusion`
+  },
+  {
+    id: "custom-1764467476501",
+    year: "2024",
+    paper: "9708/23",
+    variant: "May/June",
+    questionNumber: "3(b)",
+    topic: SyllabusTopic.GOVT_MICRO,
+    chapter: "3.2 Methods and effects of government intervention in markets",
+    maxMarks: 12,
+    questionText: "Assess whether producers are the only ones to benefit when an \neconomy decides to allocate additional resources to investment.",
+    markScheme: `AO1 Knowledge and understanding and AO2 Analysis
+ For an explanation / analysis of the benefits and costs to a producer e.g., 
+producers will benefit as additional investment is likely to reduce costs of 
+production, make them more price competitive both domestically and 
+internationally, increase their profits etc. Costs may include the fact that 
+taxes may have to rise to fund the additional investment, much of the 
+growth will be international so businesses who focus on the domestic 
+market may not benefit. 
+ For an explanation/ analysis of the benefits and costs to the consumer 
+e.g., in the long term this may lead to wider choice and lower prices but in 
+the short term, taxes may increase to fund the additional investment, 
+there may be fewer goods available to consumers and higher prices. 
+ For an explanation/ analysis of the benefits and costs to a government 
+e.g., an increase in tax revenue in the long-term but an increase in 
+expenditure in the short-term. 
+Level 1 responses will be assertive and lacking in explanations / mainly 
+descriptive and/or or mainly lacking in relevance to the question. 
+Level 2 responses may contain some inaccuracies and will be one sided. 
+Analysis will be explained at least in part and will be largely relevant to the 
+question. 
+Level 3 responses will consider alternative policies / concepts etc. and will 
+be balanced. Explanations of points raised will be offered and will be accurate 
+and relevant to the question 
+AO3 Evaluation 
+For an assessment of whether producers are the only ones to benefit from 
+additional investment compared to consumers and the government which may
+depend on the level of development of economy and extent of government 
+involvement.`
+  },
+  {
+    id: "custom-1764467509995",
+    year: "2024",
+    paper: "9708/23",
+    variant: "May/June",
+    questionNumber: "4(a)",
+    topic: SyllabusTopic.MACROECONOMY,
+    chapter: "4.3 Aggregate Demand and Aggregate Supply analysis",
+    maxMarks: 8,
+    questionText: "With the help of a diagram, explain how increases in aggregate demand \naffect the level of real output and the price level in an economy and \nconsider when such increases may become a problem.",
+    markScheme: `AO1 Knowledge and understanding (max 3 marks)
+ An understanding of the components of AD i.e., C+G+I+X-M. (1)
+ An accurately labeled AD/AS diagram showing the initial equilibrium 
+point. (1) 
+ That also shows a shift or shifts to the right of the AD curve and the 
+subsequent changes in the price level and real GDP. (1)
+AO2 Analysis (max 3 marks)
+ For an explanation of why AD might increase. (1)
+ For an explanation of why this increase may not cause problems such as 
+inflation e.g., because of the shape of the AS curve, because AS may 
+increase in line with AD if the increase is due to an increase in I. (1)
+ For an explanation of why it may cause problems e.g., the economy is at 
+full capacity and AS cannot increase. (1)
+AO3 Evaluation (max 2 marks)
+For valid evaluation e.g., a recognition that increases in AD may result in an 
+inflationary increase in the price level beyond the full employment level of 
+output. Reserve 1 mark for a justified conclusion.`
+  },
+  {
+    id: "custom-1764467541490",
+    year: "2024",
+    paper: "9708/23",
+    variant: "May/June",
+    questionNumber: "4(b)",
+    topic: SyllabusTopic.MACROECONOMY,
+    chapter: "4.5 Unemployment",
+    maxMarks: 12,
+    questionText: "Assess whether increases in aggregate demand are the best way of \nreducing unemployment in a high-income country.",
+    markScheme: `AO1 Knowledge and understanding and AO2 Analysis
+ An understanding of what is meant by unemployment and the main types 
+in a high-income economy. 
+ For a recognition that increases in aggregate demand arise normally from 
+fiscal and / or monetary policy. 
+ An analysis of how policies to increase AD e.g., by reducing taxes, 
+increasing government spending, reducing interest rates etc., may reduce 
+cyclical unemployment but may not reduce structural unemployment. 
+ An analysis of how supply side policy may reduce unemployment by 
+influencing AS e.g., through training and education, deregulation etc., but 
+has limitations e.g., it is a long-term approach and may be costly and 
+does not address the issue of falls in AD responsible for cyclical 
+unemployment 
+Level 1 responses will be assertive and lacking in explanations / mainly 
+descriptive and/or or mainly lacking in relevance to the question. 
+Level 2 responses may contain some inaccuracies and will be one sided. 
+Analysis will be explained at least in part and will be largely relevant to the 
+question. 
+Level 3 responses will consider alternative policies / concepts etc. and will 
+be balanced. Explanations of points raised will be offered and will be accurate 
+and relevant to the question. 
+L2 max if no reference to high-income countries 
+AO3 Evaluation 
+For a clear assessment as to whether increases in AD compared with 
+increases in AS are the best way to reduce unemployment in a high-income 
+economy leading to a justified conclusion. 
+N.B. if no reference to a high-income country, no evaluation marks may 
+be awarded`
+  },
+  {
+    id: "custom-1764467597137",
+    year: "2024",
+    paper: "9708/23",
+    variant: "May/June",
+    questionNumber: "5(a)",
+    topic: SyllabusTopic.INTERNATIONAL,
+    chapter: "6.5 Policies to correct imbalances in the current account of the balance of payments",
+    maxMarks: 8,
+    questionText: "Explain two possible causes of a change in the terms of trade in an \neconomy and consider which of these causes is likely to be more \nimportant for low-income countries.",
+    markScheme: `AO1 Knowledge and understanding (max 3 marks)
+ Explanation of what is meant by the terms of trade i.e., the ratio of export 
+price index to the import price index. (1)
+ It measures the number of exports that have to be sold to buy a given 
+number of imports. (1)
+ Terms of trade are said to improve when the ratio increases and / or to 
+deteriorate when the ratio falls. (1) 
+AO2 Analysis (max 3 marks)
+ The two main causes of changes in the terms of trade occur e.g., when 
+there is an increase in export prices and a fall in import prices. Such 
+changes are often the result of changes in the demand for exports and 
+the demand for imports. (1) 
+ Low-income countries are more likely to export primary goods and to 
+import manufactured goods. The demand for primary goods may be lower 
+than that for manufactured goods when income rises, e.g., for agricultural 
+goods, so import prices may fall and terms of trade deteriorates. (1) 
+ However, commodity prices such as oil may have an inelastic demand 
+and prices may rise leading to an improvement in terms of trade. (1) . 
+AO3 Evaluation (max 2 marks)
+For evaluation that considers the significance of changes in terms of trade 
+for low-income countries that are producers of food stuffs and similar 
+products compared to the benefits for low-income countries that have exports 
+of products such as minerals that are in high demand in high-income 
+countries. Reserve 1 mark for a justified conclusion.`
+  },
+  {
+    id: "custom-1764467624350",
+    year: "2024",
+    paper: "9708/23",
+    variant: "May/June",
+    questionNumber: "5(b)",
+    topic: SyllabusTopic.INTERNATIONAL,
+    chapter: "6.2 Protectionism",
+    maxMarks: 12,
+    questionText: "Assess the extent to which different tools of protection can impact on \nthe terms of trade in an economy.",
+    markScheme: `AO1 Knowledge and understanding and AO2 Analysis 
+ An explanation of what is meant by tools of protection. 
+ Explanation of the different tools of protection and how they may impact 
+the terms of trade. 
+ Examples include tariffs which are used to increase import prices which 
+will reduce the terms of trade but may improve them if domestic 
+producers including infant industries are encouraged to invest and build 
+up demand and increase export prices. However, retaliation and inelastic 
+PED for imports may reduce the positive impact. 
+ Other examples include import quotas, embargoes, exchange rate 
+manipulation etc. At least one additional tool should be explained and 
+analysed in terms of its advantages and disadvantages in relation to its 
+impact on the terms of trade. 
+Level 1 responses will be assertive and lacking in explanations / mainly 
+descriptive and/or or mainly lacking in relevance to the question. 
+Level 2 responses may contain some inaccuracies and will be one sided. 
+Analysis will be explained at least in part and will be largely relevant to the 
+question. 
+Level 3 responses will consider alternative policies / concepts etc. and will 
+be balanced. Explanations of points raised will be offered and will be accurate 
+and relevant to the question. 
+AO3 Evaluation
+Evaluation must focus on the impact of the tools of protection on the terms of 
+trade. This should lead to a justified conclusion. 
+Accept all valid responses. 
+A one-sided response cannot gain any marks for evaluation.`
   }
 ];
