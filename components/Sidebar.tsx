@@ -1,4 +1,3 @@
-
 import React, { useMemo, useState, useEffect } from 'react';
 import { Question, SyllabusTopic, QuestionState } from '../types';
 import { SYLLABUS_STRUCTURE, Level } from '../syllabusData';
@@ -21,6 +20,79 @@ interface SidebarProps {
 
 type FilterMode = 'all' | 'saved' | 'custom';
 type SortOption = 'syllabus' | 'year' | 'marks';
+
+// Moved QuestionCard outside to prevent re-creation on every render and fix type issues with 'key'
+const QuestionCard: React.FC<{
+  q: Question;
+  selectedQuestionId: string | null;
+  onSelectQuestion: (q: Question) => void;
+  onEditQuestion: (q: Question) => void;
+  onDeleteQuestion: (id: string) => void;
+  questionStates: Record<string, QuestionState>;
+  sortOption: SortOption;
+}> = ({ q, selectedQuestionId, onSelectQuestion, onEditQuestion, onDeleteQuestion, questionStates, sortOption }) => {
+  const hasSavedWork = questionStates[q.id] && (
+    (questionStates[q.id].generatorEssay && questionStates[q.id].generatorEssay.length > 0) || 
+    (questionStates[q.id].graderEssay && questionStates[q.id].graderEssay.length > 0) || 
+    (questionStates[q.id].realTimeEssay && questionStates[q.id].realTimeEssay.length > 0) ||
+    (questionStates[q.id].clozeData)
+  );
+
+  return (
+    <div className="relative group mb-2">
+      <button
+        onClick={() => onSelectQuestion(q)}
+        className={`w-full text-left px-3 py-2.5 rounded-lg text-sm transition-all duration-200 border shadow-sm ${
+          selectedQuestionId === q.id
+            ? "bg-blue-50 border-blue-200 text-blue-800 ring-1 ring-blue-200"
+            : "bg-white border-slate-100 text-slate-600 hover:border-blue-200 hover:text-blue-700"
+        }`}
+      >
+        <div className="flex justify-between items-center mb-1.5">
+          <span className="text-[10px] font-bold uppercase tracking-wide text-slate-400 flex items-center gap-1.5">
+            <span className="bg-slate-100 px-1.5 rounded text-slate-500">
+              {q.year} {q.variant.split('/')[0]}
+            </span>
+            {hasSavedWork && (
+              <span title="Contains saved work" className="text-emerald-500">
+                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+              </span>
+            )}
+            {q.id.startsWith('custom-') && (
+              <span title="Custom Question" className="text-purple-400">
+                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" /></svg>
+              </span>
+            )}
+          </span>
+          <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${q.maxMarks >= 12 ? 'bg-purple-50 text-purple-700' : 'bg-amber-50 text-amber-700'}`}>
+            {q.maxMarks}m
+          </span>
+        </div>
+        <p className="line-clamp-2 leading-relaxed text-xs font-medium">{q.questionText}</p>
+        {sortOption !== 'syllabus' && (
+            <p className="text-[10px] text-slate-400 mt-1 truncate">{q.chapter}</p>
+        )}
+      </button>
+
+      <div className="absolute right-2 bottom-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 backdrop-blur-sm rounded-md p-1 shadow-sm border border-slate-100 pointer-events-none group-hover:pointer-events-auto">
+        <button 
+          onClick={(e) => { e.stopPropagation(); onEditQuestion(q); }}
+          className="p-1 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors"
+          title="Edit"
+        >
+          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
+        </button>
+        <button 
+          onClick={(e) => { e.stopPropagation(); onDeleteQuestion(q.id); }}
+          className="p-1 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
+          title="Delete"
+        >
+          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+        </button>
+      </div>
+    </div>
+  );
+};
 
 const Sidebar: React.FC<SidebarProps> = ({ 
   questions, 
@@ -350,7 +422,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                if (!chapters || Object.keys(chapters).length === 0) return null;
 
                // Calculate total questions for this topic based on current filters
-               const topicTotalCount = Object.values(chapters).reduce((acc, curr) => acc + curr.length, 0);
+               const topicTotalCount = Object.values(chapters).reduce((acc, curr: Question[]) => acc + curr.length, 0);
 
                const sortedChapters = getSortedChapters(chapters);
 
@@ -389,7 +461,18 @@ const Sidebar: React.FC<SidebarProps> = ({
                          
                          {isExpanded && (
                            <div className="pl-2 animate-fade-in-down">
-                             {topicQuestions.map(q => <QuestionCard key={q.id} q={q} />)}
+                             {topicQuestions.map(q => (
+                               <QuestionCard 
+                                 key={q.id} 
+                                 q={q} 
+                                 selectedQuestionId={selectedQuestionId}
+                                 onSelectQuestion={onSelectQuestion}
+                                 onEditQuestion={onEditQuestion}
+                                 onDeleteQuestion={onDeleteQuestion}
+                                 questionStates={questionStates}
+                                 sortOption={sortOption}
+                               />
+                             ))}
                            </div>
                          )}
                        </div>
@@ -404,7 +487,18 @@ const Sidebar: React.FC<SidebarProps> = ({
         {/* FLAT VIEW (Year / Marks) */}
         {sortOption !== 'syllabus' && flatSortedQuestions && (
            <div className="space-y-1 mt-2">
-              {flatSortedQuestions.map(q => <QuestionCard key={q.id} q={q} />)}
+              {flatSortedQuestions.map(q => (
+                <QuestionCard 
+                    key={q.id} 
+                    q={q} 
+                    selectedQuestionId={selectedQuestionId}
+                    onSelectQuestion={onSelectQuestion}
+                    onEditQuestion={onEditQuestion}
+                    onDeleteQuestion={onDeleteQuestion}
+                    questionStates={questionStates}
+                    sortOption={sortOption}
+                />
+              ))}
            </div>
         )}
 
@@ -464,70 +558,6 @@ const Sidebar: React.FC<SidebarProps> = ({
       </div>
     </div>
   );
-
-  function QuestionCard({ q }: { q: Question }) {
-    const hasSavedWork = questionStates[q.id] && (
-      (questionStates[q.id].generatorEssay && questionStates[q.id].generatorEssay.length > 0) || 
-      (questionStates[q.id].graderEssay && questionStates[q.id].graderEssay.length > 0) || 
-      (questionStates[q.id].realTimeEssay && questionStates[q.id].realTimeEssay.length > 0) ||
-      (questionStates[q.id].clozeData)
-    );
-
-    return (
-      <div className="relative group mb-2">
-        <button
-          onClick={() => onSelectQuestion(q)}
-          className={`w-full text-left px-3 py-2.5 rounded-lg text-sm transition-all duration-200 border shadow-sm ${
-            selectedQuestionId === q.id
-              ? "bg-blue-50 border-blue-200 text-blue-800 ring-1 ring-blue-200"
-              : "bg-white border-slate-100 text-slate-600 hover:border-blue-200 hover:text-blue-700"
-          }`}
-        >
-          <div className="flex justify-between items-center mb-1.5">
-            <span className="text-[10px] font-bold uppercase tracking-wide text-slate-400 flex items-center gap-1.5">
-              <span className="bg-slate-100 px-1.5 rounded text-slate-500">
-                {q.year} {q.variant.split('/')[0]}
-              </span>
-              {hasSavedWork && (
-                <span title="Contains saved work" className="text-emerald-500">
-                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
-                </span>
-              )}
-              {q.id.startsWith('custom-') && (
-                <span title="Custom Question" className="text-purple-400">
-                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" /></svg>
-                </span>
-              )}
-            </span>
-            <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${q.maxMarks >= 12 ? 'bg-purple-50 text-purple-700' : 'bg-amber-50 text-amber-700'}`}>
-              {q.maxMarks}m
-            </span>
-          </div>
-          <p className="line-clamp-2 leading-relaxed text-xs font-medium">{q.questionText}</p>
-          {sortOption !== 'syllabus' && (
-             <p className="text-[10px] text-slate-400 mt-1 truncate">{q.chapter}</p>
-          )}
-        </button>
-
-        <div className="absolute right-2 bottom-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 backdrop-blur-sm rounded-md p-1 shadow-sm border border-slate-100 pointer-events-none group-hover:pointer-events-auto">
-          <button 
-            onClick={(e) => { e.stopPropagation(); onEditQuestion(q); }}
-            className="p-1 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors"
-            title="Edit"
-          >
-            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
-          </button>
-          <button 
-            onClick={(e) => { e.stopPropagation(); onDeleteQuestion(q.id); }}
-            className="p-1 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
-            title="Delete"
-          >
-            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-          </button>
-        </div>
-      </div>
-    );
-  }
 };
 
 export default Sidebar;

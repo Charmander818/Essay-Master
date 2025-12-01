@@ -98,7 +98,7 @@ export const generateModelAnswer = async (question: Question): Promise<string> =
   }
 };
 
-export const gradeEssay = async (question: Question, studentEssay: string, imageBase64?: string): Promise<string> => {
+export const gradeEssay = async (question: Question, studentEssay: string, imagesBase64?: string[]): Promise<string> => {
   try {
     checkForApiKey();
 
@@ -106,15 +106,28 @@ export const gradeEssay = async (question: Question, studentEssay: string, image
     
     let essayContentText = studentEssay;
 
-    if (imageBase64) {
-       const cleanBase64 = imageBase64.replace(/^data:image\/(png|jpeg|jpg|webp);base64,/, "");
-       parts.push({
-          inlineData: {
-             mimeType: 'image/jpeg',
-             data: cleanBase64
-          }
+    if (imagesBase64 && imagesBase64.length > 0) {
+       imagesBase64.forEach((img) => {
+         // Attempt to detect mime type from base64 header, default to jpeg
+         const match = img.match(/^data:(image\/[a-zA-Z+]+);base64,/);
+         const mimeType = match ? match[1] : 'image/jpeg';
+         const cleanBase64 = img.replace(/^data:image\/[a-zA-Z+]+;base64,/, "");
+
+         parts.push({
+            inlineData: {
+               mimeType: mimeType,
+               data: cleanBase64
+            }
+         });
        });
-       essayContentText = "See attached image for the student's handwritten essay.";
+
+       const imageNote = `\n\n[Note: The student has attached ${imagesBase64.length} page(s) of handwritten notes. Please treat them as a sequence constituting the full answer.]`;
+       
+       if (!essayContentText.trim()) {
+           essayContentText = "See attached images for the student's handwritten essay." + imageNote;
+       } else {
+           essayContentText += imageNote;
+       }
     }
 
     let gradingRubric = "";
@@ -188,6 +201,7 @@ export const gradeEssay = async (question: Question, studentEssay: string, image
          - *Example of Failure:* "Depreciation increases exports." (Assertion)
          - *Example of Success:* "Depreciation makes exports cheaper in foreign currency terms -> increases international competitiveness -> quantity demanded for exports rises -> Export revenue rises (assuming elastic demand)." (Analysis)
       4. **Context Matters:** If the question includes specific context (e.g., "low income country", "resource scarce"), the answer MUST use that context to get top marks.
+      5. **Multiple Pages:** If multiple images are provided, they are ordered pages of the same essay. Read them sequentially.
 
       **Question:** ${question.questionText}
       **Max Marks:** ${question.maxMarks}
