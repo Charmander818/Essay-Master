@@ -42,7 +42,7 @@ const AnalysisCard: React.FC<{ title: string, color: string, points: AnalysisPoi
 );
 
 const DebateCard: React.FC<{ debate: DebateAnalysis }> = ({ debate }) => (
-  <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-6">
+  <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-6 break-inside-avoid">
     <div className="bg-slate-800 px-4 py-3 border-b border-slate-700 flex justify-between items-center">
         <h3 className="font-bold text-white tracking-wide">{debate.topic}</h3>
         <div className="flex gap-1">
@@ -104,7 +104,7 @@ const TopicAnalysis: React.FC<Props> = ({ questions, savedAnalyses, onSaveAnalys
   const [selectedTopic, setSelectedTopic] = useState<SyllabusTopic>(SYLLABUS_STRUCTURE["AS"].topics[0]);
   const [selectedChapter, setSelectedChapter] = useState<string>("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [copyStatus, setCopyStatus] = useState("Copy Full Analysis");
+  const [showExportMenu, setShowExportMenu] = useState(false);
 
   // Initialize chapter when topic changes
   useMemo(() => {
@@ -140,50 +140,190 @@ const TopicAnalysis: React.FC<Props> = ({ questions, savedAnalyses, onSaveAnalys
     setSelectedTopic(newTopic);
   };
 
-  const handleCopyAll = () => {
+  const handlePrint = () => {
     if (!currentAnalysis) return;
-
-    let text = `Topic Analysis: ${currentAnalysis.chapter}\n`;
-    text += `Questions Analyzed: ${currentAnalysis.questionCount}\n\n`;
-
-    text += `=== AO1: Knowledge & Understanding ===\n`;
-    currentAnalysis.ao1.forEach((p, i) => {
-        text += `${i + 1}. ${p.point}\n   [Refs: ${p.sourceRefs.join(', ')}]\n`;
-    });
-    text += `\n`;
-
-    text += `=== AO2: Analysis Chains ===\n`;
-    currentAnalysis.ao2.forEach((p, i) => {
-        text += `${i + 1}. ${p.point}\n   [Refs: ${p.sourceRefs.join(', ')}]\n`;
-    });
-    text += `\n`;
-
-    if (currentAnalysis.debates && currentAnalysis.debates.length > 0) {
-        text += `=== DEBATES & EVALUATION SUMMARIES ===\n\n`;
-        currentAnalysis.debates.forEach((d) => {
-            text += `TOPIC: ${d.topic.toUpperCase()}\n`;
-            
-            text += `  [PROS / EFFECTIVENESS]:\n`;
-            d.pros.forEach(p => text += `  - ${p}\n`);
-            
-            text += `  [CONS / LIMITATIONS]:\n`;
-            d.cons.forEach(p => text += `  - ${p}\n`);
-            
-            text += `  [DEPENDS ON]:\n`;
-            d.dependencies.forEach(p => text += `  - ${p}\n`);
-            
-            text += `  [Refs: ${d.sourceRefs.join(', ')}]\n\n`;
-        });
+    
+    // Create a new window for printing
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) {
+        alert("Please allow popups to use the print feature.");
+        return;
     }
 
-    text += `=== General AO3 Points ===\n`;
-    currentAnalysis.ao3.forEach((p, i) => {
-        text += `${i + 1}. ${p.point}\n   [Refs: ${p.sourceRefs.join(', ')}]\n`;
-    });
+    // Generate HTML for printing
+    const html = `
+      <html>
+        <head>
+          <title>Topic Analysis - ${currentAnalysis.chapter}</title>
+          <style>
+            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 40px; color: #333; }
+            h1 { color: #1e293b; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; }
+            h2 { color: #334155; margin-top: 30px; font-size: 18px; text-transform: uppercase; letter-spacing: 0.05em; }
+            .meta { color: #64748b; font-size: 14px; margin-bottom: 40px; }
+            .section { margin-bottom: 30px; }
+            .point-list { list-style-type: disc; padding-left: 20px; }
+            .point-list li { margin-bottom: 10px; line-height: 1.5; }
+            .ref { font-size: 11px; color: #94a3b8; background: #f1f5f9; padding: 2px 6px; border-radius: 4px; margin-left: 8px; }
+            
+            table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 13px; }
+            th, td { border: 1px solid #cbd5e1; padding: 12px; vertical-align: top; }
+            th { background-color: #f8fafc; text-align: left; font-weight: bold; color: #475569; }
+            td ul { margin: 0; padding-left: 15px; }
+            td li { margin-bottom: 6px; }
+            .debate-title { background-color: #f1f5f9; font-weight: bold; }
+            
+            @media print {
+              body { padding: 0; }
+              button { display: none; }
+              .page-break { page-break-before: always; }
+            }
+          </style>
+        </head>
+        <body>
+          <h1>${currentAnalysis.chapter}</h1>
+          <div class="meta">
+            Generated on ${new Date(currentAnalysis.lastUpdated).toLocaleDateString()} • 
+            Analysis of ${currentAnalysis.questionCount} Questions
+          </div>
 
-    navigator.clipboard.writeText(text);
-    setCopyStatus("Copied!");
-    setTimeout(() => setCopyStatus("Copy Full Analysis"), 2000);
+          <div class="section">
+            <h2>AO1: Knowledge & Definitions</h2>
+            <ul class="point-list">
+              ${currentAnalysis.ao1.map(p => `<li>${p.point} <span class="ref">${p.sourceRefs.join(', ')}</span></li>`).join('')}
+            </ul>
+          </div>
+
+          <div class="section">
+             <h2>AO2: Analysis Chains</h2>
+             <ul class="point-list">
+               ${currentAnalysis.ao2.map(p => `<li>${p.point} <span class="ref">${p.sourceRefs.join(', ')}</span></li>`).join('')}
+             </ul>
+          </div>
+
+          <div class="section">
+             <h2>AO3: General Evaluation</h2>
+             <ul class="point-list">
+               ${currentAnalysis.ao3.map(p => `<li>${p.point} <span class="ref">${p.sourceRefs.join(', ')}</span></li>`).join('')}
+             </ul>
+          </div>
+
+          <div class="section page-break">
+             <h2>Debates & Policy Evaluation</h2>
+             <table>
+                <thead>
+                   <tr>
+                      <th width="20%">Topic</th>
+                      <th width="26%">Pros / Effectiveness</th>
+                      <th width="26%">Cons / Limitations</th>
+                      <th width="28%">Dependencies / Evaluation</th>
+                   </tr>
+                </thead>
+                <tbody>
+                   ${currentAnalysis.debates.map(d => `
+                      <tr>
+                         <td class="debate-title">
+                            ${d.topic}
+                            <div style="margin-top:5px; font-size:10px; color:#94a3b8;">${d.sourceRefs.join(', ')}</div>
+                         </td>
+                         <td><ul>${d.pros.map(i => `<li>${i}</li>`).join('')}</ul></td>
+                         <td><ul>${d.cons.map(i => `<li>${i}</li>`).join('')}</ul></td>
+                         <td><ul>${d.dependencies.map(i => `<li>${i}</li>`).join('')}</ul></td>
+                      </tr>
+                   `).join('')}
+                </tbody>
+             </table>
+          </div>
+          
+          <script>
+             window.onload = function() { window.print(); }
+          </script>
+        </body>
+      </html>
+    `;
+
+    printWindow.document.write(html);
+    printWindow.document.close();
+  };
+
+  const handleExportWord = () => {
+    if (!currentAnalysis) return;
+
+    let htmlBody = `
+        <h1 style="color:#2E74B5; font-size:24pt; font-family: Calibri, sans-serif;">Topic Analysis: ${currentAnalysis.chapter}</h1>
+        <p style="font-family: Calibri, sans-serif;"><strong>Last Updated:</strong> ${new Date(currentAnalysis.lastUpdated).toLocaleDateString()}</p>
+        <p style="font-family: Calibri, sans-serif;"><strong>Questions Analyzed:</strong> ${currentAnalysis.questionCount}</p>
+        <hr/>
+    `;
+
+    // Helper for lists
+    const renderList = (title: string, color: string, items: AnalysisPoint[]) => `
+        <h2 style="color:${color}; font-family: Calibri, sans-serif; font-size:16pt; margin-top:20px;">${title}</h2>
+        <ul style="font-family: Calibri, sans-serif;">
+            ${items.map(i => `
+                <li style="margin-bottom:8px;">
+                    ${i.point} 
+                    <span style="color:#888; font-size:9pt;">[${i.sourceRefs.join(', ')}]</span>
+                </li>
+            `).join('')}
+        </ul>
+    `;
+
+    htmlBody += renderList("AO1: Knowledge & Understanding", "#1F4E79", currentAnalysis.ao1);
+    htmlBody += renderList("AO2: Analysis Chains", "#7030A0", currentAnalysis.ao2);
+    htmlBody += renderList("AO3: General Evaluation", "#C55A11", currentAnalysis.ao3);
+
+    // Debates Table
+    if (currentAnalysis.debates.length > 0) {
+        htmlBody += `<h2 style="color:#2E74B5; font-family: Calibri, sans-serif; font-size:16pt; margin-top:30px;">Debates & Evaluation Matrix</h2>`;
+        htmlBody += `<table border="1" style="border-collapse: collapse; width: 100%; font-family: Calibri, sans-serif;">
+            <thead>
+                <tr style="background-color:#F2F2F2;">
+                    <th style="padding:10px; width:20%;">Topic</th>
+                    <th style="padding:10px; width:25%;">Pros / Effectiveness</th>
+                    <th style="padding:10px; width:25%;">Cons / Limitations</th>
+                    <th style="padding:10px; width:30%;">Dependencies / Evaluation</th>
+                </tr>
+            </thead>
+            <tbody>
+        `;
+
+        currentAnalysis.debates.forEach(d => {
+            htmlBody += `
+                <tr>
+                    <td style="padding:10px; vertical-align:top; background-color:#F9F9F9;">
+                        <strong>${d.topic}</strong><br/>
+                        <span style="font-size:9pt; color:#888;">${d.sourceRefs.join(', ')}</span>
+                    </td>
+                    <td style="padding:10px; vertical-align:top;"><ul>${d.pros.map(i => `<li>${i}</li>`).join('')}</ul></td>
+                    <td style="padding:10px; vertical-align:top;"><ul>${d.cons.map(i => `<li>${i}</li>`).join('')}</ul></td>
+                    <td style="padding:10px; vertical-align:top;"><ul>${d.dependencies.map(i => `<li>${i}</li>`).join('')}</ul></td>
+                </tr>
+            `;
+        });
+
+        htmlBody += `</tbody></table>`;
+    }
+
+    const fullHtml = `
+        <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+        <head>
+            <meta charset="utf-8">
+            <title>Topic Analysis Export</title>
+            <style>body { font-family: 'Calibri', 'Arial', sans-serif; font-size: 11pt; }</style>
+        </head>
+        <body>${htmlBody}</body>
+        </html>
+    `;
+
+    const blob = new Blob([fullHtml], { type: 'application/msword' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `Analysis_${currentAnalysis.chapter.substring(0,20).replace(/[^a-z0-9]/gi, '_')}.doc`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setShowExportMenu(false);
   };
 
   return (
@@ -220,21 +360,32 @@ const TopicAnalysis: React.FC<Props> = ({ questions, savedAnalyses, onSaveAnalys
              </div>
 
              {currentAnalysis && (
-                 <button
-                    onClick={handleCopyAll}
-                    className={`px-4 py-2 font-medium rounded-lg shadow-sm flex items-center gap-2 transition-all ${
-                        copyStatus === "Copied!" 
-                        ? "bg-green-100 text-green-700 border border-green-200" 
-                        : "bg-white text-slate-700 border border-slate-200 hover:bg-slate-50"
-                    }`}
-                 >
-                    {copyStatus === "Copied!" ? (
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-                    ) : (
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" /></svg>
-                    )}
-                    {copyStatus}
-                 </button>
+                 <div className="relative">
+                     <button
+                        onClick={() => setShowExportMenu(!showExportMenu)}
+                        className="bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 font-medium px-4 py-2 rounded-lg shadow-sm flex items-center gap-2 transition-all"
+                     >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                        Export Report
+                        <svg className={`w-3 h-3 transition-transform ${showExportMenu ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                     </button>
+                     
+                     {showExportMenu && (
+                         <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-slate-100 z-50 overflow-hidden animate-fade-in-down">
+                             <button onClick={handleExportWord} className="w-full text-left px-4 py-3 hover:bg-blue-50 flex items-center gap-3 text-sm text-slate-700">
+                                 <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                 Download Word (.doc)
+                             </button>
+                             <button onClick={handlePrint} className="w-full text-left px-4 py-3 hover:bg-blue-50 flex items-center gap-3 text-sm text-slate-700 border-t border-slate-50">
+                                 <svg className="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
+                                 Print / Save PDF
+                             </button>
+                         </div>
+                     )}
+                     
+                     {/* Backdrop to close menu */}
+                     {showExportMenu && <div className="fixed inset-0 z-40" onClick={() => setShowExportMenu(false)}></div>}
+                 </div>
              )}
 
              <button
