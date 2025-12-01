@@ -502,20 +502,29 @@ export const analyzeTopicMarkSchemes = async (
       I have provided a list of questions and their mark schemes for the chapter: "${chapterTitle}".
       
       **Your Task:**
-      Analyze these to create a "Master Summary" of what is required for AO1, AO2, and AO3 in this specific chapter.
-      Group similar points together. For example, if multiple questions ask for the definition of "Public Good", merge them into one AO1 point and list all source references.
-
+      Analyze these to create a "Master Summary" of requirements for this chapter.
+      
+      **Specific Focus on Debates & Evaluation:**
+      This chapter likely contains comparative debates (e.g., Market vs Mixed Economy, Indirect Tax vs Subsidy).
+      I need you to extract these specific comparisons and evaluations.
+      
       **Input Data:**
       ${JSON.stringify(inputs)}
 
       **Output Requirements (JSON):**
-      - **ao1 (Knowledge):** List key definitions, diagrams, and facts required.
-      - **ao2 (Analysis):** List common logical chains or analytical mechanisms (e.g. "Price mechanism functions").
-      - **ao3 (Evaluation):** List common evaluation arguments or judgment criteria used in this chapter.
       
-      For each point, provide:
-      - 'point': A concise summary of the requirement.
-      - 'sourceRefs': An array of the 'ref' strings provided in the input (e.g. ["2023 May/June Q2a", "2024 Feb/March Q3b"]).
+      1. **ao1 (Knowledge):** Key definitions/facts.
+      2. **ao2 (Analysis):** Common logical chains.
+      3. **ao3 (Evaluation):** General evaluation points.
+      
+      4. **debates (NEW SECTION):** 
+         Identify specific comparative topics or policy evaluations found in these questions.
+         For each topic (e.g., "Planned Economy", "Subsidies", "Market Mechanism"), provide:
+         - **pros**: List of benefits/advantages/effectiveness arguments.
+         - **cons**: List of limitations/disadvantages/problems (The "However..." points).
+         - **dependencies**: List of "Depends on..." factors (e.g., "Depends on PED", "Depends on government information").
+      
+      For each point in all sections, provide 'sourceRefs' (e.g. ["2023 May/June Q2a"]).
     `;
 
     const response = await ai.models.generateContent({
@@ -555,6 +564,19 @@ export const analyzeTopicMarkSchemes = async (
                   sourceRefs: { type: Type.ARRAY, items: { type: Type.STRING } }
                 }
               }
+            },
+            debates: {
+              type: Type.ARRAY,
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  topic: { type: Type.STRING, description: "The subject of the debate (e.g. Market Economy)" },
+                  pros: { type: Type.ARRAY, items: { type: Type.STRING } },
+                  cons: { type: Type.ARRAY, items: { type: Type.STRING } },
+                  dependencies: { type: Type.ARRAY, items: { type: Type.STRING }, description: "Factors that determine success (Depends on...)" },
+                  sourceRefs: { type: Type.ARRAY, items: { type: Type.STRING } }
+                }
+              }
             }
           }
         }
@@ -569,7 +591,8 @@ export const analyzeTopicMarkSchemes = async (
       questionCount: questions.length,
       ao1: json.ao1 || [],
       ao2: json.ao2 || [],
-      ao3: json.ao3 || []
+      ao3: json.ao3 || [],
+      debates: json.debates || []
     };
 
   } catch (error) {

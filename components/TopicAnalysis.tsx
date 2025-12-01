@@ -1,6 +1,6 @@
 
 import React, { useState, useMemo } from 'react';
-import { Question, SyllabusTopic, ChapterAnalysis, AnalysisPoint } from '../types';
+import { Question, SyllabusTopic, ChapterAnalysis, AnalysisPoint, DebateAnalysis } from '../types';
 import { SYLLABUS_STRUCTURE, Level } from '../syllabusData';
 import { analyzeTopicMarkSchemes } from '../services/geminiService';
 
@@ -16,7 +16,7 @@ const AnalysisCard: React.FC<{ title: string, color: string, points: AnalysisPoi
       <h3 className="font-bold text-slate-800">{title}</h3>
       <span className="text-xs bg-white/50 px-2 py-0.5 rounded-full font-medium text-slate-600">{points.length} points</span>
     </div>
-    <div className="p-4 overflow-y-auto custom-scroll flex-1">
+    <div className="p-4 overflow-y-auto custom-scroll flex-1 h-64 md:h-auto">
       {points.length === 0 ? (
         <p className="text-sm text-slate-400 italic">No specific points identified yet.</p>
       ) : (
@@ -37,6 +37,64 @@ const AnalysisCard: React.FC<{ title: string, color: string, points: AnalysisPoi
           ))}
         </ul>
       )}
+    </div>
+  </div>
+);
+
+const DebateCard: React.FC<{ debate: DebateAnalysis }> = ({ debate }) => (
+  <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-6">
+    <div className="bg-slate-800 px-4 py-3 border-b border-slate-700 flex justify-between items-center">
+        <h3 className="font-bold text-white tracking-wide">{debate.topic}</h3>
+        <div className="flex gap-1">
+             {debate.sourceRefs.slice(0, 3).map((ref, i) => (
+                 <span key={i} className="text-[10px] text-slate-300 bg-slate-700 px-1.5 rounded">{ref}</span>
+             ))}
+             {debate.sourceRefs.length > 3 && <span className="text-[10px] text-slate-300 bg-slate-700 px-1.5 rounded">+{debate.sourceRefs.length - 3}</span>}
+        </div>
+    </div>
+    <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-100">
+        
+        {/* Pros */}
+        <div className="p-4">
+            <h4 className="text-xs font-bold text-emerald-600 uppercase mb-3 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-500"></span> Advantages / Effectiveness
+            </h4>
+            <ul className="space-y-2">
+                {debate.pros.length > 0 ? debate.pros.map((item, i) => (
+                    <li key={i} className="text-sm text-slate-700 leading-snug pl-2 border-l-2 border-emerald-100">
+                        {item}
+                    </li>
+                )) : <li className="text-sm text-slate-400 italic">None listed</li>}
+            </ul>
+        </div>
+
+        {/* Cons */}
+        <div className="p-4">
+            <h4 className="text-xs font-bold text-rose-600 uppercase mb-3 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-rose-500"></span> Limitations / Problems
+            </h4>
+            <ul className="space-y-2">
+                {debate.cons.length > 0 ? debate.cons.map((item, i) => (
+                    <li key={i} className="text-sm text-slate-700 leading-snug pl-2 border-l-2 border-rose-100">
+                        {item}
+                    </li>
+                )) : <li className="text-sm text-slate-400 italic">None listed</li>}
+            </ul>
+        </div>
+
+        {/* Dependencies */}
+        <div className="p-4 bg-slate-50/50">
+             <h4 className="text-xs font-bold text-purple-600 uppercase mb-3 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-purple-500"></span> Depends On...
+            </h4>
+            <ul className="space-y-2">
+                {debate.dependencies.length > 0 ? debate.dependencies.map((item, i) => (
+                    <li key={i} className="text-sm text-slate-700 leading-snug pl-2 border-l-2 border-purple-200">
+                        {item}
+                    </li>
+                )) : <li className="text-sm text-slate-400 italic">No specific dependencies listed</li>}
+            </ul>
+        </div>
     </div>
   </div>
 );
@@ -100,7 +158,25 @@ const TopicAnalysis: React.FC<Props> = ({ questions, savedAnalyses, onSaveAnalys
     });
     text += `\n`;
 
-    text += `=== AO3: Evaluation Points ===\n`;
+    if (currentAnalysis.debates && currentAnalysis.debates.length > 0) {
+        text += `=== DEBATES & EVALUATION SUMMARIES ===\n\n`;
+        currentAnalysis.debates.forEach((d) => {
+            text += `TOPIC: ${d.topic.toUpperCase()}\n`;
+            
+            text += `  [PROS / EFFECTIVENESS]:\n`;
+            d.pros.forEach(p => text += `  - ${p}\n`);
+            
+            text += `  [CONS / LIMITATIONS]:\n`;
+            d.cons.forEach(p => text += `  - ${p}\n`);
+            
+            text += `  [DEPENDS ON]:\n`;
+            d.dependencies.forEach(p => text += `  - ${p}\n`);
+            
+            text += `  [Refs: ${d.sourceRefs.join(', ')}]\n\n`;
+        });
+    }
+
+    text += `=== General AO3 Points ===\n`;
     currentAnalysis.ao3.forEach((p, i) => {
         text += `${i + 1}. ${p.point}\n   [Refs: ${p.sourceRefs.join(', ')}]\n`;
     });
@@ -113,7 +189,7 @@ const TopicAnalysis: React.FC<Props> = ({ questions, savedAnalyses, onSaveAnalys
   return (
     <div className="h-full flex flex-col bg-slate-50 overflow-hidden">
       {/* Controls Bar */}
-      <div className="bg-white border-b border-slate-200 p-4 shadow-sm z-10 flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
+      <div className="bg-white border-b border-slate-200 p-4 shadow-sm z-10 flex flex-col md:flex-row gap-4 items-start md:items-center justify-between flex-shrink-0">
          <div className="flex flex-col gap-2 w-full md:w-auto">
              <div className="flex gap-2">
                  <div className="bg-slate-100 p-1 rounded-lg inline-flex">
@@ -182,12 +258,30 @@ const TopicAnalysis: React.FC<Props> = ({ questions, savedAnalyses, onSaveAnalys
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 overflow-hidden p-6">
+      <div className="flex-1 overflow-y-auto custom-scroll p-6">
         {currentAnalysis ? (
-           <div className="h-full grid grid-cols-1 md:grid-cols-3 gap-6">
-              <AnalysisCard title="AO1: Knowledge & Understanding" color="bg-blue-50" points={currentAnalysis.ao1} />
-              <AnalysisCard title="AO2: Analysis Chains" color="bg-purple-50" points={currentAnalysis.ao2} />
-              <AnalysisCard title="AO3: Evaluation Points" color="bg-amber-50" points={currentAnalysis.ao3} />
+           <div className="space-y-6">
+              
+              {/* General AO Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-auto md:h-96">
+                  <AnalysisCard title="AO1: Knowledge & Understanding" color="bg-blue-50" points={currentAnalysis.ao1} />
+                  <AnalysisCard title="AO2: Analysis Chains" color="bg-purple-50" points={currentAnalysis.ao2} />
+                  <AnalysisCard title="AO3: General Evaluation" color="bg-amber-50" points={currentAnalysis.ao3} />
+              </div>
+
+              {/* Debate / Comparison Section */}
+              {currentAnalysis.debates && currentAnalysis.debates.length > 0 && (
+                  <div>
+                      <h2 className="text-sm font-extrabold text-slate-500 uppercase tracking-widest mb-4 border-b border-slate-200 pb-2">
+                        Key Debates & Policy Evaluations (Limitations & Dependencies)
+                      </h2>
+                      <div className="space-y-6">
+                          {currentAnalysis.debates.map((debate, idx) => (
+                              <DebateCard key={idx} debate={debate} />
+                          ))}
+                      </div>
+                  </div>
+              )}
            </div>
         ) : (
            <div className="h-full flex flex-col items-center justify-center text-slate-400">
@@ -196,7 +290,7 @@ const TopicAnalysis: React.FC<Props> = ({ questions, savedAnalyses, onSaveAnalys
                </div>
                <h3 className="text-xl font-bold text-slate-600 mb-2">Topic Analysis</h3>
                <p className="max-w-md text-center">
-                 Select a chapter and click "Generate Analysis" to have AI aggregate all AO1, AO2, and AO3 points from the mark schemes in that chapter.
+                 Select a chapter and click "Generate Analysis". The AI will now summarize comparative debates, focusing on pros, cons (limitations), and "it depends" (dependencies).
                </p>
                <p className="mt-4 text-sm font-medium text-slate-500">
                   {chapterQuestions.length} questions available for {selectedChapter}
@@ -207,7 +301,7 @@ const TopicAnalysis: React.FC<Props> = ({ questions, savedAnalyses, onSaveAnalys
       
       {/* Footer Info */}
       {currentAnalysis && (
-        <div className="bg-white border-t border-slate-200 px-6 py-2 text-xs text-slate-400 flex justify-between items-center">
+        <div className="bg-white border-t border-slate-200 px-6 py-2 text-xs text-slate-400 flex justify-between items-center flex-shrink-0">
             <span>Last Updated: {new Date(currentAnalysis.lastUpdated).toLocaleString()}</span>
             <span>Based on {currentAnalysis.questionCount} questions</span>
         </div>

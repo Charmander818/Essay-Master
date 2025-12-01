@@ -68,6 +68,14 @@ export interface AnalysisPoint {
   sourceRefs: string[]; // e.g. "Jun 23 22 Q2a"
 }
 
+export interface DebateAnalysis {
+  topic: string; // e.g. "Market Economy", "Indirect Taxes"
+  pros: string[]; // Advantages / Effectiveness
+  cons: string[]; // Disadvantages / Limitations
+  dependencies: string[]; // "Depends on..." factors (e.g. PED, Govt Corruption)
+  sourceRefs: string[];
+}
+
 export interface ChapterAnalysis {
   chapter: string;
   lastUpdated: string; // ISO Date
@@ -75,4 +83,5 @@ export interface ChapterAnalysis {
   ao1: AnalysisPoint[];
   ao2: AnalysisPoint[];
   ao3: AnalysisPoint[];
+  debates: DebateAnalysis[]; // New field for detailed evaluative breakdown
 }
