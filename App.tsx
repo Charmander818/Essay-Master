@@ -434,9 +434,11 @@ const App: React.FC = () => {
                         <>
                         {mode === AppMode.GENERATOR && (
                             <EssayGenerator 
-                            question={selectedQuestion} 
-                            savedEssay={getQuestionState(selectedQuestion.id).generatorEssay}
-                            onSave={(essay) => updateQuestionState(selectedQuestion.id, { generatorEssay: essay })}
+                              question={selectedQuestion} 
+                              savedEssay={getQuestionState(selectedQuestion.id).generatorEssay}
+                              savedDeconstruction={getQuestionState(selectedQuestion.id).deconstruction}
+                              onSave={(essay) => updateQuestionState(selectedQuestion.id, { generatorEssay: essay })}
+                              onSaveDeconstruction={(deconstruction) => updateQuestionState(selectedQuestion.id, { deconstruction })}
                             />
                         )}
                         {mode === AppMode.IMPROVER && (

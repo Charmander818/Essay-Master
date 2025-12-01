@@ -98,6 +98,49 @@ export const generateModelAnswer = async (question: Question): Promise<string> =
   }
 };
 
+export const generateQuestionDeconstruction = async (questionText: string): Promise<string> => {
+    try {
+        checkForApiKey();
+        const prompt = `
+        You are an expert Economics tutor helping a student decode an exam question.
+        
+        **Question:** "${questionText}"
+        
+        **Task:** 
+        Break down this question prompt into its components. Explain exactly which part of the text implies which Assessment Objective (AO).
+        
+        **Required Output Format (Markdown):**
+        
+        **1. AO1 (Knowledge & Understanding)**
+        *Identifying Key Terms:*
+        - "[Quote word from question]" → Requires definition of...
+        - "[Quote phrase]" → Requires explanation of concept...
+        
+        **2. AO2 (Analysis)**
+        *Identifying the Mechanism:*
+        - "[Quote 'Explain', 'Analyse' or causal phrase]" → Requires a logical chain connecting [X] to [Y].
+        - Identify the specific relationships to analyse (e.g., "Relationship between Interest Rates and Investment").
+        
+        **3. AO3 (Evaluation)**
+        *Identifying the Debate:*
+        - "[Quote 'Assess', 'Evaluate', 'Consider']" → Requires judgment.
+        - *Context Clue:* "[Quote specific context e.g., 'low income country']" → Evaluation must focus on this specific scenario.
+        - Identify the counter-argument or "it depends" factors required here.
+        
+        Keep it concise and actionable.
+        `;
+
+        const response = await ai.models.generateContent({
+            model: 'gemini-2.5-flash',
+            contents: prompt,
+        });
+        return response.text || "Error analyzing question.";
+    } catch (error: any) {
+        console.error("Deconstruction Error:", error);
+        return "Failed to analyze question. Check API Key.";
+    }
+};
+
 export const gradeEssay = async (question: Question, studentEssay: string, imagesBase64?: string[]): Promise<string> => {
   try {
     checkForApiKey();

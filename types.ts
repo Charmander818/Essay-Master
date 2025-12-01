@@ -44,6 +44,7 @@ export interface QuestionState {
   graderEssay: string;
   graderFeedback: string;
   realTimeEssay: string;
+  deconstruction?: string; // Markdown analysis of the question prompt
   
   // Logic Trainer / Cloze State
   clozeData?: {

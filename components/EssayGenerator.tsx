@@ -1,23 +1,28 @@
 
 import React, { useState, useEffect } from 'react';
 import { Question } from '../types';
-import { generateModelAnswer } from '../services/geminiService';
+import { generateModelAnswer, generateQuestionDeconstruction } from '../services/geminiService';
 import ReactMarkdown from 'react-markdown';
 
 interface Props {
   question: Question;
   savedEssay: string;
+  savedDeconstruction?: string;
   onSave: (essay: string) => void;
+  onSaveDeconstruction: (deconstruction: string) => void;
 }
 
-const EssayGenerator: React.FC<Props> = ({ question, savedEssay, onSave }) => {
+const EssayGenerator: React.FC<Props> = ({ question, savedEssay, savedDeconstruction, onSave, onSaveDeconstruction }) => {
   const [essay, setEssay] = useState<string>(savedEssay);
+  const [deconstruction, setDeconstruction] = useState<string>(savedDeconstruction || "");
   const [loading, setLoading] = useState(false);
+  const [analyzing, setAnalyzing] = useState(false);
 
   // Update local state when prop changes (e.g. switching questions)
   useEffect(() => {
     setEssay(savedEssay);
-  }, [savedEssay, question.id]);
+    setDeconstruction(savedDeconstruction || "");
+  }, [savedEssay, savedDeconstruction, question.id]);
 
   const handleGenerate = async () => {
     setLoading(true);
@@ -25,6 +30,14 @@ const EssayGenerator: React.FC<Props> = ({ question, savedEssay, onSave }) => {
     setEssay(result);
     onSave(result);
     setLoading(false);
+  };
+
+  const handleDeconstruct = async () => {
+    setAnalyzing(true);
+    const result = await generateQuestionDeconstruction(question.questionText);
+    setDeconstruction(result);
+    onSaveDeconstruction(result);
+    setAnalyzing(false);
   };
 
   const handleDownload = () => {
@@ -47,6 +60,40 @@ const EssayGenerator: React.FC<Props> = ({ question, savedEssay, onSave }) => {
           <span className="flex-shrink-0 bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full ml-4">
             {question.maxMarks} Marks
           </span>
+        </div>
+
+        {/* Question Deconstruction Section */}
+        <div className="mb-6 border border-indigo-100 bg-indigo-50/50 rounded-lg p-4">
+            <div className="flex justify-between items-center mb-2">
+                <h3 className="text-sm font-bold text-indigo-900 uppercase tracking-wide">Question Breakdown (AO1/AO2/AO3)</h3>
+                {!deconstruction && (
+                    <button 
+                        onClick={handleDeconstruct}
+                        disabled={analyzing}
+                        className="text-xs bg-indigo-600 text-white px-3 py-1.5 rounded-md hover:bg-indigo-700 transition-colors flex items-center gap-2"
+                    >
+                        {analyzing ? (
+                            <>
+                             <span className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                             Analyzing...
+                            </>
+                        ) : (
+                            <>
+                             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                             Analyze Requirements
+                            </>
+                        )}
+                    </button>
+                )}
+            </div>
+            
+            {deconstruction ? (
+                <div className="prose prose-sm prose-indigo max-w-none">
+                    <ReactMarkdown>{deconstruction}</ReactMarkdown>
+                </div>
+            ) : (
+                <p className="text-sm text-indigo-400 italic">Click analyze to break down the question text into assessment objectives.</p>
+            )}
         </div>
 
         <details className="mb-6 group">
