@@ -422,7 +422,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                if (!chapters || Object.keys(chapters).length === 0) return null;
 
                // Calculate total questions for this topic based on current filters
-               const topicTotalCount = Object.values(chapters).reduce((acc, curr: Question[]) => acc + curr.length, 0);
+               const topicTotalCount = Object.values(chapters).reduce((acc: number, curr: Question[]) => acc + curr.length, 0);
 
                const sortedChapters = getSortedChapters(chapters);
 

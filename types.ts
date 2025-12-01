@@ -58,5 +58,20 @@ export enum AppMode {
   GENERATOR = "Model Essay Generator",
   IMPROVER = "Logic Trainer",
   GRADER = "Essay Grader",
-  COACH = "Real-time Coach"
+  COACH = "Real-time Coach",
+  ANALYSIS = "Topic Analysis"
+}
+
+export interface AnalysisPoint {
+  point: string;
+  sourceRefs: string[]; // e.g. "Jun 23 22 Q2a"
+}
+
+export interface ChapterAnalysis {
+  chapter: string;
+  lastUpdated: string; // ISO Date
+  questionCount: number;
+  ao1: AnalysisPoint[];
+  ao2: AnalysisPoint[];
+  ao3: AnalysisPoint[];
 }

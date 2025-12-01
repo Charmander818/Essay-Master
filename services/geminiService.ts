@@ -1,5 +1,5 @@
 import { GoogleGenAI, Type } from "@google/genai";
-import { Question, ClozeBlank, ClozeFeedback } from "../types";
+import { Question, ClozeBlank, ClozeFeedback, ChapterAnalysis } from "../types";
 
 // Basic check for API key existence
 const apiKey = process.env.API_KEY;
@@ -436,6 +436,101 @@ export const evaluateClozeAnswers = async (
 
   } catch (error) {
     console.error("Cloze Evaluation Error:", error);
+    return null;
+  }
+};
+
+export const analyzeTopicMarkSchemes = async (
+  chapterTitle: string, 
+  questions: Question[]
+): Promise<ChapterAnalysis | null> => {
+  try {
+    checkForApiKey();
+
+    // Prepare inputs: ID, Year/Variant, Question Text, Mark Scheme
+    const inputs = questions.map(q => ({
+      ref: `${q.year} ${q.variant} Q${q.questionNumber}`,
+      text: q.questionText,
+      ms: q.markScheme
+    }));
+
+    const prompt = `
+      You are a senior Cambridge Economics Examiner.
+      I have provided a list of questions and their mark schemes for the chapter: "${chapterTitle}".
+      
+      **Your Task:**
+      Analyze these to create a "Master Summary" of what is required for AO1, AO2, and AO3 in this specific chapter.
+      Group similar points together. For example, if multiple questions ask for the definition of "Public Good", merge them into one AO1 point and list all source references.
+
+      **Input Data:**
+      ${JSON.stringify(inputs)}
+
+      **Output Requirements (JSON):**
+      - **ao1 (Knowledge):** List key definitions, diagrams, and facts required.
+      - **ao2 (Analysis):** List common logical chains or analytical mechanisms (e.g. "Price mechanism functions").
+      - **ao3 (Evaluation):** List common evaluation arguments or judgment criteria used in this chapter.
+      
+      For each point, provide:
+      - 'point': A concise summary of the requirement.
+      - 'sourceRefs': An array of the 'ref' strings provided in the input (e.g. ["2023 May/June Q2a", "2024 Feb/March Q3b"]).
+    `;
+
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            ao1: {
+              type: Type.ARRAY,
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  point: { type: Type.STRING },
+                  sourceRefs: { type: Type.ARRAY, items: { type: Type.STRING } }
+                }
+              }
+            },
+            ao2: {
+              type: Type.ARRAY,
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  point: { type: Type.STRING },
+                  sourceRefs: { type: Type.ARRAY, items: { type: Type.STRING } }
+                }
+              }
+            },
+            ao3: {
+              type: Type.ARRAY,
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  point: { type: Type.STRING },
+                  sourceRefs: { type: Type.ARRAY, items: { type: Type.STRING } }
+                }
+              }
+            }
+          }
+        }
+      }
+    });
+
+    const json = JSON.parse(response.text || "{}");
+    
+    return {
+      chapter: chapterTitle,
+      lastUpdated: new Date().toISOString(),
+      questionCount: questions.length,
+      ao1: json.ao1 || [],
+      ao2: json.ao2 || [],
+      ao3: json.ao3 || []
+    };
+
+  } catch (error) {
+    console.error("Topic Analysis Error:", error);
     return null;
   }
 };
