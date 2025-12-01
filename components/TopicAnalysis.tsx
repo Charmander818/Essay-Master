@@ -46,6 +46,7 @@ const TopicAnalysis: React.FC<Props> = ({ questions, savedAnalyses, onSaveAnalys
   const [selectedTopic, setSelectedTopic] = useState<SyllabusTopic>(SYLLABUS_STRUCTURE["AS"].topics[0]);
   const [selectedChapter, setSelectedChapter] = useState<string>("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [copyStatus, setCopyStatus] = useState("Copy Full Analysis");
 
   // Initialize chapter when topic changes
   useMemo(() => {
@@ -81,6 +82,34 @@ const TopicAnalysis: React.FC<Props> = ({ questions, savedAnalyses, onSaveAnalys
     setSelectedTopic(newTopic);
   };
 
+  const handleCopyAll = () => {
+    if (!currentAnalysis) return;
+
+    let text = `Topic Analysis: ${currentAnalysis.chapter}\n`;
+    text += `Questions Analyzed: ${currentAnalysis.questionCount}\n\n`;
+
+    text += `=== AO1: Knowledge & Understanding ===\n`;
+    currentAnalysis.ao1.forEach((p, i) => {
+        text += `${i + 1}. ${p.point}\n   [Refs: ${p.sourceRefs.join(', ')}]\n`;
+    });
+    text += `\n`;
+
+    text += `=== AO2: Analysis Chains ===\n`;
+    currentAnalysis.ao2.forEach((p, i) => {
+        text += `${i + 1}. ${p.point}\n   [Refs: ${p.sourceRefs.join(', ')}]\n`;
+    });
+    text += `\n`;
+
+    text += `=== AO3: Evaluation Points ===\n`;
+    currentAnalysis.ao3.forEach((p, i) => {
+        text += `${i + 1}. ${p.point}\n   [Refs: ${p.sourceRefs.join(', ')}]\n`;
+    });
+
+    navigator.clipboard.writeText(text);
+    setCopyStatus("Copied!");
+    setTimeout(() => setCopyStatus("Copy Full Analysis"), 2000);
+  };
+
   return (
     <div className="h-full flex flex-col bg-slate-50 overflow-hidden">
       {/* Controls Bar */}
@@ -108,11 +137,30 @@ const TopicAnalysis: React.FC<Props> = ({ questions, savedAnalyses, onSaveAnalys
              </div>
          </div>
 
-         <div className="flex items-center gap-4">
-             <div className="text-right hidden md:block">
+         <div className="flex items-center gap-2">
+             <div className="text-right hidden md:block mr-2">
                  <p className="text-xs font-bold text-slate-500 uppercase">Questions in Chapter</p>
                  <p className="text-lg font-bold text-blue-600">{chapterQuestions.length}</p>
              </div>
+
+             {currentAnalysis && (
+                 <button
+                    onClick={handleCopyAll}
+                    className={`px-4 py-2 font-medium rounded-lg shadow-sm flex items-center gap-2 transition-all ${
+                        copyStatus === "Copied!" 
+                        ? "bg-green-100 text-green-700 border border-green-200" 
+                        : "bg-white text-slate-700 border border-slate-200 hover:bg-slate-50"
+                    }`}
+                 >
+                    {copyStatus === "Copied!" ? (
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                    ) : (
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" /></svg>
+                    )}
+                    {copyStatus}
+                 </button>
+             )}
+
              <button
                 onClick={handleAnalyze}
                 disabled={isAnalyzing || chapterQuestions.length === 0}
