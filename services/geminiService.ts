@@ -106,24 +106,50 @@ export const generateQuestionDeconstruction = async (questionText: string): Prom
         
         **Question:** "${questionText}"
         
+        **Official CIE Command Word Definitions:**
+        The student must adhere to these definitions when answering:
+        - **Analyse**: examine in detail to show meaning, identify elements and the relationship between them
+        - **Assess**: make an informed judgement
+        - **Calculate**: work out from given facts, figures or information
+        - **Comment**: give an informed opinion
+        - **Compare**: identify/comment on similarities and/or differences
+        - **Consider**: review and respond to given information
+        - **Define**: give precise meaning
+        - **Demonstrate**: show how or give an example
+        - **Describe**: state the points of a topic / give characteristics and main features
+        - **Discuss**: write about issue(s) or topic(s) in depth in a structured way
+        - **Evaluate**: judge or calculate the quality, importance, amount, or value of something
+        - **Explain**: set out purposes or reasons / make the relationships between things clear / say why and/or how and support with relevant evidence
+        - **Give**: produce an answer from a given source or recall/memory
+        - **Identify**: name/select/recognise
+        - **Justify**: support a case with evidence/argument
+        - **Outline**: set out the main points
+        - **State**: express in clear terms
+
         **Task:** 
-        Break down this question prompt into its components. Explain exactly which part of the text implies which Assessment Objective (AO).
+        Break down this question prompt into its components.
         
         **Required Output Format (Markdown):**
         
-        **1. AO1 (Knowledge & Understanding)**
+        **1. Command Word Analysis**
+        - **Command Word:** [e.g. "Assess" or "Explain"]
+        - **Definition:** [Quote the specific definition from the list above]
+        - **Implication:** [Briefly explain what this means for the essay structure, e.g., "Requires a two-sided argument ending with a judgment"]
+
+        **2. AO1 (Knowledge & Understanding)**
         *Identifying Key Terms:*
         - "[Quote word from question]" → Requires definition of...
         - "[Quote phrase]" → Requires explanation of concept...
         
-        **2. AO2 (Analysis)**
+        **3. AO2 (Analysis)**
         *Identifying the Mechanism:*
         - "[Quote 'Explain', 'Analyse' or causal phrase]" → Requires a logical chain connecting [X] to [Y].
         - Identify the specific relationships to analyse (e.g., "Relationship between Interest Rates and Investment").
+        - *Guidance:* Refer back to the command word definition (e.g., if "Explain", ensure relationships are made clear).
         
-        **3. AO3 (Evaluation)**
+        **4. AO3 (Evaluation)**
         *Identifying the Debate:*
-        - "[Quote 'Assess', 'Evaluate', 'Consider']" → Requires judgment.
+        - "[Quote 'Assess', 'Evaluate', 'Consider', 'Discuss']" → Requires judgment.
         - *Context Clue:* "[Quote specific context e.g., 'low income country']" → Evaluation must focus on this specific scenario.
         - Identify the counter-argument or "it depends" factors required here.
         
