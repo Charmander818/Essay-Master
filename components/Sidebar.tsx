@@ -1,4 +1,5 @@
-import React, { useMemo, useState, useEffect } from 'react';
+
+import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { Question, SyllabusTopic, QuestionState } from '../types';
 import { SYLLABUS_STRUCTURE, Level } from '../syllabusData';
 
@@ -16,6 +17,8 @@ interface SidebarProps {
   onOpenCodeExport: () => void;
   isBatchProcessing: boolean;
   batchProgress: string;
+  onBackup: () => void;
+  onRestore: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 type FilterMode = 'all' | 'saved' | 'custom';
@@ -107,12 +110,15 @@ const Sidebar: React.FC<SidebarProps> = ({
   onBatchGenerate,
   onOpenCodeExport,
   isBatchProcessing,
-  batchProgress
+  batchProgress,
+  onBackup,
+  onRestore
 }) => {
   const [filterMode, setFilterMode] = useState<FilterMode>('all');
   const [selectedLevel, setSelectedLevel] = useState<Level>('AS');
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOption, setSortOption] = useState<SortOption>('syllabus');
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
   // New Filter States
   const [yearFilter, setYearFilter] = useState<string>('all');
@@ -525,7 +531,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 </div>
             </div>
          )}
-         <div className="grid grid-cols-3 gap-2">
+         <div className="grid grid-cols-3 gap-2 mb-2">
              <button
                onClick={onBatchGenerate}
                disabled={isBatchProcessing}
@@ -548,13 +554,36 @@ const Sidebar: React.FC<SidebarProps> = ({
                Excel
              </button>
          </div>
-         <button
-            onClick={onOpenCodeExport}
-            className="mt-2 w-full text-[10px] text-slate-400 hover:text-blue-600 font-medium flex items-center justify-center gap-1 transition-colors"
-         >
-            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m-4-4v12" /></svg>
-            Sync Data (Download data.ts)
-         </button>
+         <div className="grid grid-cols-3 gap-2">
+             <button 
+                onClick={onBackup}
+                className="px-2 py-1.5 bg-indigo-50 border border-indigo-100 text-indigo-700 text-[10px] font-bold uppercase tracking-wide rounded shadow-sm hover:bg-indigo-100 transition-colors"
+                title="Save backup to file"
+             >
+                Backup
+             </button>
+             <button 
+                onClick={() => fileInputRef.current?.click()}
+                className="px-2 py-1.5 bg-amber-50 border border-amber-100 text-amber-700 text-[10px] font-bold uppercase tracking-wide rounded shadow-sm hover:bg-amber-100 transition-colors"
+                title="Restore from backup file"
+             >
+                Restore
+             </button>
+             <button
+                onClick={onOpenCodeExport}
+                className="px-2 py-1.5 bg-slate-100 border border-slate-200 text-slate-600 text-[10px] font-bold uppercase tracking-wide rounded shadow-sm hover:bg-slate-200 transition-colors"
+                title="Download source code update"
+             >
+                Sync Code
+             </button>
+         </div>
+         <input 
+            type="file" 
+            ref={fileInputRef} 
+            onChange={onRestore} 
+            accept=".json" 
+            className="hidden" 
+         />
       </div>
     </div>
   );

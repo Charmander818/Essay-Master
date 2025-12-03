@@ -171,6 +171,60 @@ const App: React.FC = () => {
     }
   };
 
+  // --- Backup & Restore ---
+  const handleBackup = () => {
+    const data = {
+      customQuestions,
+      deletedIds,
+      questionStates,
+      topicAnalyses,
+      exportDate: new Date().toISOString(),
+      appVersion: "1.2"
+    };
+    
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `CIE_Econ_Backup_${new Date().toISOString().slice(0, 10)}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleRestore = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const json = JSON.parse(event.target?.result as string);
+        
+        // Basic validation
+        if (!json.questionStates && !json.customQuestions) {
+             alert("Invalid backup file. Missing critical data.");
+             return;
+        }
+
+        if (window.confirm("WARNING: This will overwrite your current local data (essays, analysis, custom questions). Are you sure you want to proceed?")) {
+            if (json.customQuestions) setCustomQuestions(json.customQuestions);
+            if (json.deletedIds) setDeletedIds(json.deletedIds);
+            if (json.questionStates) setQuestionStates(json.questionStates);
+            if (json.topicAnalyses) setTopicAnalyses(json.topicAnalyses);
+            
+            alert("Data restored successfully!");
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Failed to parse backup file. Please ensure it is a valid JSON file created by this app.");
+      }
+    };
+    reader.readAsText(file);
+    // Reset input so the same file can be selected again if needed
+    e.target.value = '';
+  };
+
   const handleBatchGenerate = async () => {
     if (isBatchProcessing) return;
     if (!window.confirm("This will automatically generate Model Essays and Cloze Exercises for all questions that don't have them yet. This process may take several minutes due to AI rate limits. Continue?")) return;
@@ -225,7 +279,6 @@ const App: React.FC = () => {
 
   const handleExportAll = () => {
     // ... existing export logic ...
-    // To keep file size manageable for this edit, keeping logic same as before but ensuring no changes lost.
     const dateStr = new Date().toLocaleDateString();
     let htmlBody = `
         <h1 style="color:#2E74B5; font-size:24pt; font-family: Calibri, sans-serif;">CIE A Level Economics (9708) - Study Bank</h1>
@@ -376,6 +429,8 @@ const App: React.FC = () => {
         isBatchProcessing={isBatchProcessing}
         batchProgress={batchProgress}
         onOpenCodeExport={() => setIsCodeExportOpen(true)}
+        onBackup={handleBackup}
+        onRestore={handleRestore}
       />
       
       <main className="flex-1 flex flex-col h-screen overflow-hidden">
