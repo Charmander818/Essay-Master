@@ -216,6 +216,7 @@ export const gradeEssay = async (question: Question, studentEssay: string, image
     }
 
     let gradingRubric = "";
+    let tableInstructions = "";
     
     if (question.maxMarks === 8) {
        gradingRubric = `
@@ -226,12 +227,26 @@ export const gradeEssay = async (question: Question, studentEssay: string, image
        **AO2 (3 marks): Logic Chains.** Paragraphs must follow: Topic Sentence -> Logical Chain (A->B->C->Z) -> Terminology. Penalize "Assertions" (statements without the 'why').
        **AO3 (2 marks): Evaluation.** 1 mark for answering the "extent" (When is A true? When is B true?). 1 mark for valid justification.
        `;
+       
+       tableInstructions = `
+      Rows:
+      1. **AO1 (Knowledge) (Max 3)**: Check definitions against textbook precision.
+      2. **AO2 (Analysis) (Max 3)**: Check logical chains (A->B->C->Z). In "How to Improve", provide the exact missing link in their logic chain.
+      3. **AO3 (Evaluation) (Max 2)**: Check judgement & context. In "How to Improve", give a specific "Depends on" factor they should have used.
+       `;
     } else {
+       // Default logic (usually 12 marks)
        gradingRubric = `
        **Strict Marking Logic (Part b - 12 Marks):**
        **Structure Check:** **Intro:** Did they answer the question/state a thesis immediately? **Body:** Are there distinct points (e.g. 3 Pros / 3 Cons)? One point per paragraph?
        **AO1 + AO2 (Max 8 marks):** **Chain of Reasoning:** Look for "A -> B -> C -> Z". If they skip steps, mark as L2 (max 5 marks). **Context:** Must apply to the specific context.
        **AO3 (Max 4 marks):** **Judgment:** A clear final decision. **Justification:** Must include "Depends on" factors (Time lags, Elasticity, etc.).
+       `;
+
+       tableInstructions = `
+      Rows:
+      1. **AO1 + AO2 (Knowledge & Analysis) (Max 8)**: Check definitions and detailed logical chains (A -> B -> C -> Z). In "How to Improve", provide the exact missing link in their logic chain.
+      2. **AO3 (Evaluation) (Max 4)**: Check judgement, context, and "depends on" factors. In "How to Improve", give a specific evaluation point they missed.
        `;
     }
 
@@ -261,10 +276,7 @@ export const gradeEssay = async (question: Question, studentEssay: string, image
       | AO Category | Score | Strengths | Weaknesses | How to Improve (Specific Gap) |
       |---|---|---|---|---|
       
-      Rows:
-      1. **AO1 (Knowledge)**: Check definitions against textbook precision.
-      2. **AO2 (Analysis)**: Check logical chains (A->B->C->Z). In "How to Improve", provide the exact missing link in their logic chain.
-      3. **AO3 (Evaluation)**: Check judgement & context. In "How to Improve", give a specific "Depends on" factor they should have used.
+      ${tableInstructions}
     `;
 
     parts.push({ text: prompt });
