@@ -1,7 +1,9 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Question } from '../types';
 import { gradeEssay } from '../services/geminiService';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 interface Props {
   question: Question;
@@ -84,9 +86,9 @@ const EssayGrader: React.FC<Props> = ({ question, savedInput, savedFeedback, onS
   };
 
   return (
-    <div className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-8rem)]">
-      {/* Input Side */}
-      <div className="flex flex-col h-full">
+    <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-6 h-[calc(100vh-8rem)]">
+      {/* Input Side (5 columns) */}
+      <div className="flex flex-col h-full lg:col-span-5">
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex-1 flex flex-col overflow-hidden">
           <div className="flex justify-between items-start mb-3 flex-shrink-0">
              <h3 className="text-sm font-semibold text-slate-700">Your Answer</h3>
@@ -173,8 +175,8 @@ const EssayGrader: React.FC<Props> = ({ question, savedInput, savedFeedback, onS
         </div>
       </div>
 
-      {/* Feedback Side */}
-      <div className="flex flex-col h-full overflow-hidden">
+      {/* Feedback Side (7 columns) */}
+      <div className="flex flex-col h-full overflow-hidden lg:col-span-7">
         <div className={`bg-white rounded-xl shadow-sm border border-slate-200 p-6 h-full overflow-y-auto custom-scroll ${!feedback ? 'flex items-center justify-center' : ''}`}>
           {!feedback ? (
             <div className="text-center text-slate-400">
@@ -203,7 +205,7 @@ const EssayGrader: React.FC<Props> = ({ question, savedInput, savedFeedback, onS
                     {copyStatus}
                  </button>
               </div>
-              <ReactMarkdown>{feedback}</ReactMarkdown>
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{feedback}</ReactMarkdown>
             </div>
           )}
         </div>

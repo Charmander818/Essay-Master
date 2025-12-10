@@ -220,75 +220,51 @@ export const gradeEssay = async (question: Question, studentEssay: string, image
     if (question.maxMarks === 8) {
        gradingRubric = `
        **Strict Marking Logic (Part a - 8 Marks):**
-       
-       **Structure Check (Crucial):**
-       - Did the student identify the "AND" in the question? 
-       - Did they address the part *before* the "and" and the part *after* the "and"?
-       - **AO2 Rule:** Did they analyze the sides **independently** without mixing comparison into the analysis paragraphs? Comparison belongs in Conclusion.
-       
-       **AO1 (3 marks): Bookwork**
-       - Definitions must be precise textbook definitions.
-       - "Inflation is rising prices" = 0. "Sustained increase in general price level" = 1.
-       
-       **AO2 (3 marks): Logic Chains**
-       - Paragraphs must follow: Topic Sentence -> Logical Chain (A->B->C->Z) -> Terminology.
-       - Penalize "Assertions" (statements without the 'why').
-       
-       **AO3 (2 marks): Evaluation**
-       - 1 mark: Answering the "extent" (When is A true? When is B true?).
-       - 1 mark: Valid justification/Conclusion.
+       **Structure Check:** Did the student identify the "AND" in the question? Did they address the part *before* the "and" and the part *after* the "and"?
+       **AO2 Rule:** Did they analyze the sides **independently** without mixing comparison into the analysis paragraphs? Comparison belongs in Conclusion.
+       **AO1 (3 marks): Bookwork.** Definitions must be precise textbook definitions.
+       **AO2 (3 marks): Logic Chains.** Paragraphs must follow: Topic Sentence -> Logical Chain (A->B->C->Z) -> Terminology. Penalize "Assertions" (statements without the 'why').
+       **AO3 (2 marks): Evaluation.** 1 mark for answering the "extent" (When is A true? When is B true?). 1 mark for valid justification.
        `;
     } else {
        gradingRubric = `
        **Strict Marking Logic (Part b - 12 Marks):**
-       
-       **Structure Check:**
-       - **Intro:** Did they answer the question/state a thesis immediately?
-       - **Body:** Are there distinct points (e.g. 3 Pros / 3 Cons)? One point per paragraph?
-       
-       **AO1 + AO2 (Max 8 marks):**
-       - **Chain of Reasoning:** Look for "A -> B -> C -> Z". 
-       - If they skip steps (e.g., "Investment leads to growth" without explaining AD or LRAS), mark as L2 (max 5 marks).
-       - **Context:** Must apply to the specific context (e.g. "Developing Economy").
-       
-       **AO3 (Max 4 marks):**
-       - **Judgment:** A clear final decision.
-       - **Justification:** Must include "Depends on" factors (Time lags, Elasticity, etc.).
-       - **Justification Score:** 2 marks are strictly for the justifications. "Not always effective" is not enough. Why?
+       **Structure Check:** **Intro:** Did they answer the question/state a thesis immediately? **Body:** Are there distinct points (e.g. 3 Pros / 3 Cons)? One point per paragraph?
+       **AO1 + AO2 (Max 8 marks):** **Chain of Reasoning:** Look for "A -> B -> C -> Z". If they skip steps, mark as L2 (max 5 marks). **Context:** Must apply to the specific context.
+       **AO3 (Max 4 marks):** **Judgment:** A clear final decision. **Justification:** Must include "Depends on" factors (Time lags, Elasticity, etc.).
        `;
     }
 
     const prompt = `
-      You are a **strict** Cambridge International AS Level Economics (9708) Examiner.
+      You are a **strict** Cambridge International AS Level Economics Examiner.
       Your goal is to grade the student's essay to professional standards.
-
-      **CRITICAL GRADING PHILOSOPHY:**
-      1. **AO1 is Bookwork:** If definitions don't match the textbook, penalize.
-      2. **AO2 is Logical Chains:** "A causes Z" is an assertion (0 marks). "A causes B, which causes C, leading to Z" is analysis.
-      3. **Structure Matters:** 
-         - For 8-mark questions, ensure they split the answer based on the "AND" in the prompt.
-         - For 12-mark questions, ensure they have an introduction that answers the question and a balanced body.
-      4. **Evaluation (AO3):** Requires "When/If" logic (e.g., "This policy is best WHEN demand is elastic...").
 
       **Question:** ${question.questionText}
       **Max Marks:** ${question.maxMarks}
+      **Official Mark Scheme:** ${question.markScheme}
+      **Rubric:** ${gradingRubric}
+      **Student Essay:** ${essayContentText}
+
+      **OUTPUT INSTRUCTIONS (MANDATORY FORMAT):**
+
+      **Section 1: Overall Summary**
+      - Total Score: X / ${question.maxMarks}
+      - Brief 1-sentence overall verdict.
+
+      **Section 2: Sequential Commentary (Paragraph by Paragraph)**
+      - Read the essay **chronologically** (Intro -> Body 1 -> Body 2 -> Conclusion).
+      - For each section, briefly point out what was done well or what logic was skipped.
+      - Quote specific phrases where logic broke down.
+
+      **Section 3: Detailed Scoring Table (Markdown)**
+      You MUST output a Markdown table with the following columns:
+      | AO Category | Score | Strengths | Weaknesses | How to Improve (Specific Gap) |
+      |---|---|---|---|---|
       
-      **Official Mark Scheme Guidance:**
-      ${question.markScheme}
-
-      **Rubric:**
-      ${gradingRubric}
-
-      **Student Essay:**
-      ${essayContentText}
-
-      **Instructions for Output:**
-      1. **Total Score:** Give a specific mark out of ${question.maxMarks}. Be stingy.
-      2. **Breakdown:** Show marks for AO1, AO2, and AO3 separately.
-      3. **Detailed Critique:**
-         - **Structure Check:** Comment on whether they followed the Part (a) vs Part (b) structure correctly.
-         - **Logical Gaps:** Quote where they made an assertion instead of a chain.
-         - **Next Step:** Provide one concrete way to improve the logical chain or structure.
+      Rows:
+      1. **AO1 (Knowledge)**: Check definitions against textbook precision.
+      2. **AO2 (Analysis)**: Check logical chains (A->B->C->Z). In "How to Improve", provide the exact missing link in their logic chain.
+      3. **AO3 (Evaluation)**: Check judgement & context. In "How to Improve", give a specific "Depends on" factor they should have used.
     `;
 
     parts.push({ text: prompt });
