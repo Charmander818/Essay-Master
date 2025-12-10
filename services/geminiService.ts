@@ -25,46 +25,62 @@ export const generateModelAnswer = async (question: Question): Promise<string> =
 
     if (question.maxMarks === 8) {
       instructions = `
-      **Structure Requirements for 8 Marks (Part a):**
+      **STRICT STRUCTURE FOR 8 MARKS (Part a):**
       
-      **[AO1: Knowledge & Understanding] (3 marks)**
-      - Provide precise, textbook definitions. 
-      - Example: Do not just say "inflation is rising prices". Say "inflation is a sustained increase in the general price level".
-      - If a diagram is relevant, describe it explicitly (axes, curves, shifts).
+      **1. Deconstruct the Question (Mental Step):**
+      - Identify the "AND" in the question. You MUST address the part before the "and" and the part after the "and".
+      - Even if the second part is small ("consider the extent"), you must follow the structure below.
       
-      **[AO2: Analysis] (3 marks)**
-      - **CRITICAL:** Use complete logical chains of reasoning (A -> B -> C -> D).
-      - Do not skip steps. Explain the *mechanism*.
-      - Example: Instead of "Depreciation increases inflation", write "Depreciation reduces the exchange rate -> imports become relatively more expensive -> costs of raw materials rise -> SRAS shifts left -> Cost-Push Inflation."
+      **2. Introduction (AO1 - Bookwork):**
+      - Define the Key Terms exactly as they appear in the CIE Textbook. 
+      - Do not "wing it". Use formal definitions.
       
-      **[AO3: Evaluation] (2 marks)**
-      - Provide a specific evaluative comment based on the context (e.g., "This is more likely in countries with few natural resources because...").
-      - **Mandatory:** A clear, justified conclusion.
+      **3. AO2 Analysis (The Core):**
+      - **Rule:** Analyze Side A and Side B **INDEPENDENTLY**. 
+      - **Do NOT compare** them here. Comparison belongs in AO3.
+      - **Paragraph Structure:** Topic Sentence -> Logical Chain (A leads to B leads to C leads to Z) -> Economic Term.
+      - **Content:** 
+        - Explain the mechanism for the part before the "and".
+        - Explain the mechanism for the part after the "and".
+      
+      **4. AO3 Evaluation (The Judgment):**
+      - **Task:** Answer the "Extent" or "Whether".
+      - **Structure:** 
+        - "In what specific situation is A true?"
+        - "In what specific situation is B true?"
+        - **Conclusion:** A clear judgment supported by a specific justification (not just "it is not always effective").
       `;
     } else if (question.maxMarks === 12) {
       instructions = `
-      **Structure Requirements for 12 Marks (Part b):**
+      **STRICT STRUCTURE FOR 12 MARKS (Part b):**
       
-      **[AO1 & AO2: Knowledge, Understanding & Analysis] (8 marks)**
-      - **Detailed** logical chains are required. No assertions without explanation.
-      - **Context:** You MUST apply your analysis to the specific context in the question (e.g., "high income country", "developing economy").
-      - Provide a balanced argument (Pros vs Cons, or Method A vs Method B).
+      **1. Introduction:**
+      - Define Key Terms (if not done in Part a).
+      - **Crucial:** State your intended answer/thesis immediately (e.g., "Inflation is generally more serious than unemployment because..."). Do not wait until the end to reveal your stance.
       
-      **[AO3: Evaluation] (4 marks)**
-      - Critically assess the arguments (e.g., assumptions, short-run vs long-run, elasticity, magnitude).
-      - Provide a detailed, justified conclusion that weighs the arguments.
+      **2. Body Paragraphs (AO2 - Analysis):**
+      - **Requirement:** 6 distinct points/paragraphs (e.g., 3 Pros / 3 Cons, or Policy A + 2 limits / Policy B + 2 limits).
+      - **Paragraph Formula:** 
+        1. **Topic Sentence:** State the specific point.
+        2. **Logical Chain:** Explain the mechanism step-by-step (A -> B -> C -> Z). Never skip steps.
+        3. **Economic Terminology:** Use precise words.
+      
+      **3. Conclusion (AO3 - Evaluation):**
+      - **The Judgment:** Provide a final decision.
+      - **The Justification:** Provide at least 2 specific reasons (e.g., "It depends on the time lag...", "It depends on the elasticity...").
+      - **Context:** Must relate to the specific economy type mentioned (e.g., Developing, High Income).
       `;
     } else {
       instructions = `
       **General High-Standard Requirements:**
-      - **AO1:** Define key terms precisely.
-      - **AO2:** Develop detailed analytical chains. No logical jumps.
-      - **AO3:** Evaluate significance and conclude.
+      - **AO1:** Textbook definitions.
+      - **AO2:** Detailed analytical chains. A -> B -> C -> Z.
+      - **AO3:** Evaluate "Depends on" factors and conclude.
       `;
     }
 
     const prompt = `
-      You are a **world-class Cambridge International AS Level Economics Examiner**.
+      You are a **world-class Cambridge International AS Level Economics Examiner and Tutor**.
       Write a **perfect, full-mark model essay** for the following question.
       
       **Question:** ${question.questionText}
@@ -72,16 +88,16 @@ export const generateModelAnswer = async (question: Question): Promise<string> =
       **Mark Scheme Guidance:**
       ${question.markScheme}
       
-      **Strict Writing Standards:**
-      1. **Precision:** Use exact economic terminology (e.g., "Aggregate Demand", "Real GDP", "SRAS", "Purchasing Power").
-      2. **Logical Chains:** Never make an assertion without explaining the mechanism. Every point must form a closed loop.
-      3. **Context is King:** If the question mentions a specific scenario (e.g., "country with few natural resources"), your answer **must** hinge on that fact.
+      **Writing Philosophy:**
+      1. **AO1 is Bookwork:** Definitions must be textbook accurate.
+      2. **AO2 is Logic:** Every paragraph must have a Topic Sentence and a complete Logical Chain (A->Z).
+      3. **AO3 is Extent:** For "Extent/Assess" questions, AO2 analyzes sides separately. AO3 provides the comparison ("When is A better? When is B better?").
       
       **Instructions:**
       ${instructions}
       
       - The tone should be academic, professional, and exam-focused.
-      - Use the bold headers exactly as specified above.
+      - Use bold headers for **Introduction**, **Analysis**, and **Evaluation**.
     `;
 
     const response = await ai.models.generateContent({
@@ -200,77 +216,59 @@ export const gradeEssay = async (question: Question, studentEssay: string, image
     }
 
     let gradingRubric = "";
-    let rubricTitle = "";
-
+    
     if (question.maxMarks === 8) {
-       rubricTitle = "Cambridge AS Level 8-Mark Rubric (Strict)";
        gradingRubric = `
-       **Strict Marking Logic (3/3/2 Split):**
+       **Strict Marking Logic (Part a - 8 Marks):**
        
-       **AO1: Knowledge & Understanding (3 marks)**
-       - **Requirements:** Precise definitions + Accurate Diagram (if asked/relevant).
-       - **Strictness:** 
-         - "Inflation is rising prices" = 0 marks. 
-         - "Inflation is a sustained increase in the general price level" = 1 mark.
-         - If a diagram is missing or inaccurate when asked for, cap AO1.
-
-       **AO2: Analysis (3 marks)**
-       - **Requirements:** DETAILED Logical Chains of Reasoning (A -> B -> C -> D).
-       - **Strictness:** 
-         - **0 Marks for Assertions:** "Depreciation causes inflation" is an assertion. 0 Marks.
-         - **High Marks:** Must show the mechanism. "Depreciation reduces the value of currency -> import prices rise -> raw material costs increase -> SRAS shifts left -> Cost Push Inflation."
-         - **Context:** If the question mentions "few natural resources", the analysis MUST explain why this matters (e.g., dependency on imports).
-
-       **AO3: Evaluation (2 marks)**
-       - 1 mark for specific evaluative comment (e.g., "depends on PED of imports").
-       - 1 mark **strictly** for a valid Conclusion.
+       **Structure Check (Crucial):**
+       - Did the student identify the "AND" in the question? 
+       - Did they address the part *before* the "and" and the part *after* the "and"?
+       - **AO2 Rule:** Did they analyze the sides **independently** without mixing comparison into the analysis paragraphs? Comparison belongs in Conclusion.
+       
+       **AO1 (3 marks): Bookwork**
+       - Definitions must be precise textbook definitions.
+       - "Inflation is rising prices" = 0. "Sustained increase in general price level" = 1.
+       
+       **AO2 (3 marks): Logic Chains**
+       - Paragraphs must follow: Topic Sentence -> Logical Chain (A->B->C->Z) -> Terminology.
+       - Penalize "Assertions" (statements without the 'why').
+       
+       **AO3 (2 marks): Evaluation**
+       - 1 mark: Answering the "extent" (When is A true? When is B true?).
+       - 1 mark: Valid justification/Conclusion.
        `;
     } else {
-       // 12 Mark Logic based on Tables A & B from Official Mark Scheme
-       rubricTitle = "Cambridge AS Level 12-Mark Levels-Based Rubric (Strict)";
        gradingRubric = `
-       **TABLE A: AO1 Knowledge & Understanding + AO2 Analysis (Max 8 marks)**
+       **Strict Marking Logic (Part b - 12 Marks):**
        
-       *Level 3 (6–8 marks):*
-       - **Detailed** knowledge and **Developed** analysis.
-       - **Logical Chains:** Reasoning must be complete (no logical jumps). 
-         - *Bad:* "Investment increases growth." 
-         - *Good:* "Investment is a component of AD -> AD shifts right -> Real GDP increases -> Economic Growth." OR "Investment increases capital stock -> LRAS shifts right -> Potential growth."
-       - **Context:** Analysis must be applied to the specific context in the question.
+       **Structure Check:**
+       - **Intro:** Did they answer the question/state a thesis immediately?
+       - **Body:** Are there distinct points (e.g. 3 Pros / 3 Cons)? One point per paragraph?
        
-       *Level 2 (3–5 marks):*
-       - Some knowledge, but explanations are limited or generic.
-       - **Assertions:** Points are stated but not fully explained.
-       - **Partial Accuracy:** Diagrams may be missing labels or shifts.
-       - **One-sided:** Answers that only look at one side (e.g., only advantages) are CAPPED at Level 2.
-
-       *Level 1 (1–2 marks):*
-       - Descriptive, errors, or very brief.
-
-       **TABLE B: AO3 Evaluation (Max 4 marks)**
+       **AO1 + AO2 (Max 8 marks):**
+       - **Chain of Reasoning:** Look for "A -> B -> C -> Z". 
+       - If they skip steps (e.g., "Investment leads to growth" without explaining AD or LRAS), mark as L2 (max 5 marks).
+       - **Context:** Must apply to the specific context (e.g. "Developing Economy").
        
-       *Level 2 (3–4 marks):*
-       - **Justified Conclusion:** The conclusion must follow logically from the analysis.
-       - **Developed Evaluation:** "Depends on X" is explained (e.g., "Depends on the elasticity of demand because if PED is inelastic...").
-       
-       *Level 1 (1–2 marks):*
-       - Vague/General conclusion ("It depends").
-       - **One-sided:** Answers that are one-sided get 0 marks for Evaluation.
+       **AO3 (Max 4 marks):**
+       - **Judgment:** A clear final decision.
+       - **Justification:** Must include "Depends on" factors (Time lags, Elasticity, etc.).
+       - **Justification Score:** 2 marks are strictly for the justifications. "Not always effective" is not enough. Why?
        `;
     }
 
     const prompt = `
       You are a **strict** Cambridge International AS Level Economics (9708) Examiner.
-      Your goal is to grade the student's essay to professional standards, specifically penalizing logical gaps and superficial answers.
+      Your goal is to grade the student's essay to professional standards.
 
-      **CRITICAL GRADING RULES:**
-      1. **No "Benefit of the Doubt":** If a student skips a logical step (e.g. jumps from "depreciation" to "inflation" without explaining *import prices*), DO NOT give credit for Analysis. Mark it as an Assertion.
-      2. **Terminology:** Require standard economic terms (e.g., "Aggregate Demand", "Real GDP", "SRAS", "Purchasing Power").
-      3. **The "Why" Rule:** Every point must form a logical loop.
-         - *Example of Failure:* "Depreciation increases exports." (Assertion)
-         - *Example of Success:* "Depreciation makes exports cheaper in foreign currency terms -> increases international competitiveness -> quantity demanded for exports rises -> Export revenue rises (assuming elastic demand)." (Analysis)
-      4. **Context Matters:** If the question includes specific context (e.g., "low income country", "resource scarce"), the answer MUST use that context to get top marks.
-      5. **Multiple Pages:** If multiple images are provided, they are ordered pages of the same essay. Read them sequentially.
+      **CRITICAL GRADING PHILOSOPHY:**
+      1. **AO1 is Bookwork:** If definitions don't match the textbook, penalize.
+      2. **AO2 is Logical Chains:** "A causes Z" is an assertion (0 marks). "A causes B, which causes C, leading to Z" is analysis.
+      3. **Structure Matters:** 
+         - For 8-mark questions, ensure they split the answer based on the "AND" in the prompt.
+         - For 12-mark questions, ensure they have an introduction that answers the question and a balanced body.
+      4. **Evaluation (AO3):** Requires "When/If" logic (e.g., "This policy is best WHEN demand is elastic...").
 
       **Question:** ${question.questionText}
       **Max Marks:** ${question.maxMarks}
@@ -278,7 +276,7 @@ export const gradeEssay = async (question: Question, studentEssay: string, image
       **Official Mark Scheme Guidance:**
       ${question.markScheme}
 
-      **${rubricTitle}:**
+      **Rubric:**
       ${gradingRubric}
 
       **Student Essay:**
@@ -288,10 +286,9 @@ export const gradeEssay = async (question: Question, studentEssay: string, image
       1. **Total Score:** Give a specific mark out of ${question.maxMarks}. Be stingy.
       2. **Breakdown:** Show marks for AO1, AO2, and AO3 separately.
       3. **Detailed Critique:**
-         - **Identify Logical Jumps:** Quote specific sentences where the student made an **Assertion** instead of an **Explanation**. Show exactly what step was missing.
-         - **Context Check:** Did they use the specific context (e.g. "few natural resources")? If not, penalize.
-         - **Terminology:** Highlight imprecise language.
-         - **Next Step:** Provide one concrete way to turn their Level 2 point into a Level 3 point.
+         - **Structure Check:** Comment on whether they followed the Part (a) vs Part (b) structure correctly.
+         - **Logical Gaps:** Quote where they made an assertion instead of a chain.
+         - **Next Step:** Provide one concrete way to improve the logical chain or structure.
     `;
 
     parts.push({ text: prompt });
