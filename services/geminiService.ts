@@ -21,66 +21,61 @@ export const generateModelAnswer = async (question: Question): Promise<string> =
   try {
     checkForApiKey();
     
-    let instructions = "";
+    const cieStandards = `
+    **CIE ECONOMICS WRITING STANDARDS (STRICT ADHERENCE REQUIRED):**
+
+    **1. Essay Structure:**
+      - **Introduction (AO1):** 
+        - Define Key Terms exactly as they appear in the official CIE Textbook (Bamford/Grant).
+        - Briefly state the essay's intent/scope to set the context.
+      - **Analysis (AO2):**
+        - **Paragraph Structure:** Start with a **Topic Sentence** (A->Z summary). Then provide a **Complete Logical Chain** (A -> B -> C ... -> Z).
+        - **Content:**
+          - For **8 marks**: Write 2 distinct, fully developed points/paragraphs.
+          - For **12 marks**: Write 6 distinct points (e.g., 3 arguments for, 3 arguments against/limitations).
+          - For **20 marks**: Comprehensive coverage.
+      - **Conclusion (Evaluation AO3):**
+        - **Make a Stand:** Provide a clear judgement.
+        - **Justify the Stand:** Explain *why* this judgement holds true (e.g., "In the short run X, but in the long run Y").
+        - **Something Special:** Add contextual nuance or insight to wake up the examiner.
+
+    **2. Five Goals for Full Marks:**
+      - **Master Textbook:** Definitions must be accurate.
+      - **Economic Terminology:** MANDATORY. Do not use layman terms. 
+        - *Bad:* "People have more money." -> *Good:* "Increase in purchasing power/disposable income."
+        - *Bad:* "People want to buy." -> *Good:* "Effective demand increases."
+      - **Complete Logical Chains:** Do not skip steps. 
+        - *Example:* Income ↑ -> Purchasing Power ↑ -> Normal Good -> Demand ↑ -> Shortage at original price -> Upward pressure on price -> Price ↑.
+      - **Make a Judgement:** Weigh the pros/cons based on the specific situation.
+      - **Context:** Apply all points to the specific market/economy in the question.
+    `;
+
+    let specificInstructions = "";
 
     if (question.maxMarks === 8) {
-      instructions = `
-      **STRICT STRUCTURE FOR 8 MARKS (Part a):**
-      
-      **1. Deconstruct the Question (Mental Step):**
-      - Identify the "AND" in the question. You MUST address the part before the "and" and the part after the "and".
-      - Even if the second part is small ("consider the extent"), you must follow the structure below.
-      
-      **2. Introduction (AO1 - Bookwork):**
-      - Define the Key Terms exactly as they appear in the CIE Textbook. 
-      - Do not "wing it". Use formal definitions.
-      
-      **3. AO2 Analysis (The Core):**
-      - **Rule:** Analyze Side A and Side B **INDEPENDENTLY**. 
-      - **Do NOT compare** them here. Comparison belongs in AO3.
-      - **Paragraph Structure:** Topic Sentence -> Logical Chain (A leads to B leads to C leads to Z) -> Economic Term.
-      - **Content:** 
-        - Explain the mechanism for the part before the "and".
-        - Explain the mechanism for the part after the "and".
-      
-      **4. AO3 Evaluation (The Judgment):**
-      - **Task:** Answer the "Extent" or "Whether".
-      - **Structure:** 
-        - "In what specific situation is A true?"
-        - "In what specific situation is B true?"
-        - **Conclusion:** A clear judgment supported by a specific justification (not just "it is not always effective").
+      specificInstructions = `
+      **Specific 8-Mark Strategy (Part a):**
+      - **Mental Step:** Identify the "AND" in the question. Address the part before and after the "and".
+      - **Analysis:** 2 Detailed Paragraphs. Analyse sides INDEPENDENTLY (do not compare yet).
+      - **Evaluation:** Answer the "extent" or "whether" in the conclusion.
       `;
     } else if (question.maxMarks === 12) {
-      instructions = `
-      **STRICT STRUCTURE FOR 12 MARKS (Part b):**
-      
-      **1. Introduction:**
-      - Define Key Terms (if not done in Part a).
-      - **Crucial:** State your intended answer/thesis immediately (e.g., "Inflation is generally more serious than unemployment because..."). Do not wait until the end to reveal your stance.
-      
-      **2. Body Paragraphs (AO2 - Analysis):**
-      - **Requirement:** 6 distinct points/paragraphs (e.g., 3 Pros / 3 Cons, or Policy A + 2 limits / Policy B + 2 limits).
-      - **Paragraph Formula:** 
-        1. **Topic Sentence:** State the specific point.
-        2. **Logical Chain:** Explain the mechanism step-by-step (A -> B -> C -> Z). Never skip steps.
-        3. **Economic Terminology:** Use precise words.
-      
-      **3. Conclusion (AO3 - Evaluation):**
-      - **The Judgment:** Provide a final decision.
-      - **The Justification:** Provide at least 2 specific reasons (e.g., "It depends on the time lag...", "It depends on the elasticity...").
-      - **Context:** Must relate to the specific economy type mentioned (e.g., Developing, High Income).
+      specificInstructions = `
+      **Specific 12-Mark Strategy (Part b):**
+      - **Intro:** Definitions + Thesis.
+      - **Body:** **6 distinct points** (e.g., 3 advantages, 3 disadvantages). Each point = 1 Paragraph with full logic chain.
+      - **Conclusion:** Final Judgement + Justification + "Something Special".
       `;
     } else {
-      instructions = `
-      **General High-Standard Requirements:**
-      - **AO1:** Textbook definitions.
-      - **AO2:** Detailed analytical chains. A -> B -> C -> Z.
-      - **AO3:** Evaluate "Depends on" factors and conclude.
+      specificInstructions = `
+      **General/A2 Strategy:**
+      - Ensure comprehensive coverage of the syllabus points relevant to the question.
+      - Focus heavily on detailed logical chains and evaluative weight.
       `;
     }
 
     const prompt = `
-      You are a **world-class Cambridge International AS Level Economics Examiner and Tutor**.
+      You are a **world-class Cambridge International AS/A Level Economics Examiner**.
       Write a **perfect, full-mark model essay** for the following question.
       
       **Question:** ${question.questionText}
@@ -88,16 +83,12 @@ export const generateModelAnswer = async (question: Question): Promise<string> =
       **Mark Scheme Guidance:**
       ${question.markScheme}
       
-      **Writing Philosophy:**
-      1. **AO1 is Bookwork:** Definitions must be textbook accurate.
-      2. **AO2 is Logic:** Every paragraph must have a Topic Sentence and a complete Logical Chain (A->Z).
-      3. **AO3 is Extent:** For "Extent/Assess" questions, AO2 analyzes sides separately. AO3 provides the comparison ("When is A better? When is B better?").
+      ${cieStandards}
       
-      **Instructions:**
-      ${instructions}
+      ${specificInstructions}
       
       - The tone should be academic, professional, and exam-focused.
-      - Use bold headers for **Introduction**, **Analysis**, and **Evaluation**.
+      - Use bold headers for **Introduction**, **Analysis**, and **Conclusion**.
     `;
 
     const response = await ai.models.generateContent({
@@ -215,38 +206,48 @@ export const gradeEssay = async (question: Question, studentEssay: string, image
        }
     }
 
+    const coreCriteria = `
+    **CRITICAL GRADING CRITERIA (CIE STANDARDS):**
+    1. **Terminology:** Deduct marks for layman terms (e.g., "money" instead of "purchasing power", "want" instead of "effective demand").
+    2. **Logic Chains:** Deduct marks for broken chains. The student MUST show every step (A->B->C->Z). 
+       - *Example of error:* "Prices rose because demand rose." (Missing: shortage, pressure).
+    3. **Structure:** 
+       - Introduction must define terms.
+       - Body paragraphs must start with Topic Sentences.
+       - Conclusion must have a Judgement + Justification.
+    4. **Context:** Arguments must explicitly reference the specific context (e.g., Low Income Country).
+    `;
+
     let gradingRubric = "";
     let tableInstructions = "";
     
     if (question.maxMarks === 8) {
        gradingRubric = `
-       **Strict Marking Logic (Part a - 8 Marks):**
-       **Structure Check:** Did the student identify the "AND" in the question? Did they address the part *before* the "and" and the part *after* the "and"?
-       **AO2 Rule:** Did they analyze the sides **independently** without mixing comparison into the analysis paragraphs? Comparison belongs in Conclusion.
-       **AO1 (3 marks): Bookwork.** Definitions must be precise textbook definitions.
-       **AO2 (3 marks): Logic Chains.** Paragraphs must follow: Topic Sentence -> Logical Chain (A->B->C->Z) -> Terminology. Penalize "Assertions" (statements without the 'why').
-       **AO3 (2 marks): Evaluation.** 1 mark for answering the "extent" (When is A true? When is B true?). 1 mark for valid justification.
+       ${coreCriteria}
+       **8-Mark Specifics:**
+       - **AO1 (Max 3):** Accurate Definitions.
+       - **AO2 (Max 3):** 2 distinct points. Complete logical chains required for full marks.
+       - **AO3 (Max 2):** Judgement answering the "extent/whether".
        `;
        
        tableInstructions = `
       Rows:
-      1. **AO1 (Knowledge) (Max 3)**: Check definitions against textbook precision.
-      2. **AO2 (Analysis) (Max 3)**: Check logical chains (A->B->C->Z). In "How to Improve", provide the exact missing link in their logic chain.
-      3. **AO3 (Evaluation) (Max 2)**: Check judgement & context. In "How to Improve", give a specific "Depends on" factor they should have used.
+      1. **AO1 (Knowledge) (Max 3)**: Check definitions. Identify any layman terms used.
+      2. **AO2 (Analysis) (Max 3)**: Check for 2 distinct points and complete logic chains (A->B->C->Z). Identify specifically which step is missing in their chain.
+      3. **AO3 (Evaluation) (Max 2)**: Check for judgement and justification.
        `;
     } else {
-       // Default logic (usually 12 marks)
        gradingRubric = `
-       **Strict Marking Logic (Part b - 12 Marks):**
-       **Structure Check:** **Intro:** Did they answer the question/state a thesis immediately? **Body:** Are there distinct points (e.g. 3 Pros / 3 Cons)? One point per paragraph?
-       **AO1 + AO2 (Max 8 marks):** **Chain of Reasoning:** Look for "A -> B -> C -> Z". If they skip steps, mark as L2 (max 5 marks). **Context:** Must apply to the specific context.
-       **AO3 (Max 4 marks):** **Judgment:** A clear final decision. **Justification:** Must include "Depends on" factors (Time lags, Elasticity, etc.).
+       ${coreCriteria}
+       **12-Mark Specifics:**
+       - **AO1 + AO2 (Max 8):** 6 distinct points (e.g. 3 pros, 3 cons) with complete chains and definitions.
+       - **AO3 (Max 4):** Clear Judgement + Justification + "Something Special" (context/nuance).
        `;
 
        tableInstructions = `
       Rows:
-      1. **AO1 + AO2 (Knowledge & Analysis) (Max 8)**: Check definitions and detailed logical chains (A -> B -> C -> Z). In "How to Improve", provide the exact missing link in their logic chain.
-      2. **AO3 (Evaluation) (Max 4)**: Check judgement, context, and "depends on" factors. In "How to Improve", give a specific evaluation point they missed.
+      1. **AO1+AO2 (Knowledge & Analysis) (Max 8)**: Check definitions and 6 logic chains. Penalize missing steps or terminology heavily.
+      2. **AO3 (Evaluation) (Max 4)**: Check Judgement, Justification, and Context.
        `;
     }
 
@@ -267,9 +268,9 @@ export const gradeEssay = async (question: Question, studentEssay: string, image
       - Brief 1-sentence overall verdict.
 
       **Section 2: Sequential Commentary (Paragraph by Paragraph)**
-      - Read the essay **chronologically** (Intro -> Body 1 -> Body 2 -> Conclusion).
-      - For each section, briefly point out what was done well or what logic was skipped.
-      - Quote specific phrases where logic broke down.
+      - Read the essay **chronologically**.
+      - **CRITICAL:** Point out every instance of colloquial language and provide the correct economic term.
+      - **CRITICAL:** Point out broken logic chains (e.g. "You jumped from X to Z without explaining Y").
 
       **Section 3: Detailed Scoring Table (Markdown)**
       You MUST output a Markdown table with the following columns:
@@ -319,16 +320,17 @@ export const getRealTimeCoaching = async (question: Question, currentText: strin
       **Current Draft:** "${currentText}"
 
       **Grading Standards:**
-      - **AO1:** Only award if definitions are precise (e.g. "SRAS shift", not just "supply change").
-      - **AO2:** Only award if **logical chains are complete**. If they jump from A to Z, do not give the mark. They must show the mechanism (A -> B -> C -> Z).
-      - **AO3:** Only award for evaluation that refers to the specific context (e.g., "few natural resources").
+      - **AO1:** Precision of Definitions. **Use of correct Economic Terminology** is mandatory (e.g. "Effective Demand", "Purchasing Power").
+      - **AO2:** **Complete Logical Chains**. A -> B -> C -> Z. No skipping steps. (e.g. Income -> Purchasing Power -> Demand -> Shortage -> Price).
+      - **AO3:** Contextual Evaluation. Judgement with Justification.
 
       **Task:**
       1. Estimate current AO1, AO2, AO3 scores (integers). Be stingy.
       2. Calculate Total.
-      3. **Advice:** Identify the most immediate logical gap. 
-         - *Example:* "You said depreciation causes inflation. Explain WHY. Mention import prices and production costs."
-         - *Example:* "You defined inflation loosely. Use 'sustained increase in general price level'."
+      3. **Advice:** Identify the most immediate logical gap or terminology error.
+         - *Example:* "Use 'purchasing power' instead of 'more money'."
+         - *Example:* "You jumped from demand to price. Mention 'shortage' first."
+         - *Example:* "Define [Term] before analysing it."
       4. Keep advice brief (under 50 words).
     `;
 
@@ -377,8 +379,8 @@ export const generateClozeExercise = async (modelEssay: string): Promise<{ textW
       **Instructions:**
       1. Identify **8 to 12** critical parts to remove.
       2. Target:
-         - **AO1:** Key definitions/terms.
-         - **AO2:** Logical connectors or middle steps in analysis chains.
+         - **AO1:** Key Definitions and Terminology (e.g. "Purchasing Power").
+         - **AO2:** Logical connectors or middle steps in analysis chains (e.g. "Shortage", "Incentive").
          - **AO3:** Evaluative qualifiers.
       3. Replace with [BLANK_1], [BLANK_2], etc.
       4. Return JSON with the text and the list of blanks + hints.
