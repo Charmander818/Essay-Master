@@ -219,7 +219,7 @@ export const gradeEssay = async (question: Question, studentEssay: string, image
     `;
 
     let gradingRubric = "";
-    let tableInstructions = "";
+    let aoBreakdown = "";
     
     if (question.maxMarks === 8) {
        gradingRubric = `
@@ -230,11 +230,10 @@ export const gradeEssay = async (question: Question, studentEssay: string, image
        - **AO3 (Max 2):** Judgement answering the "extent/whether".
        `;
        
-       tableInstructions = `
-      Rows:
-      1. **AO1 (Knowledge) (Max 3)**: Check definitions. Identify any layman terms used.
-      2. **AO2 (Analysis) (Max 3)**: Check for 2 distinct points and complete logic chains (A->B->C->Z). Identify specifically which step is missing in their chain.
-      3. **AO3 (Evaluation) (Max 2)**: Check for judgement and justification.
+       aoBreakdown = `
+       1. **AO1 (Knowledge) (Max 3)**
+       2. **AO2 (Analysis) (Max 3)**
+       3. **AO3 (Evaluation) (Max 2)**
        `;
     } else {
        gradingRubric = `
@@ -244,10 +243,9 @@ export const gradeEssay = async (question: Question, studentEssay: string, image
        - **AO3 (Max 4):** Clear Judgement + Justification + "Something Special" (context/nuance).
        `;
 
-       tableInstructions = `
-      Rows:
-      1. **AO1+AO2 (Knowledge & Analysis) (Max 8)**: Check definitions and 6 logic chains. Penalize missing steps or terminology heavily.
-      2. **AO3 (Evaluation) (Max 4)**: Check Judgement, Justification, and Context.
+       aoBreakdown = `
+       1. **AO1 + AO2 (Knowledge & Analysis) (Max 8)**
+       2. **AO3 (Evaluation) (Max 4)**
        `;
     }
 
@@ -267,17 +265,36 @@ export const gradeEssay = async (question: Question, studentEssay: string, image
       - Total Score: X / ${question.maxMarks}
       - Brief 1-sentence overall verdict.
 
-      **Section 2: Sequential Commentary (Paragraph by Paragraph)**
+      **Section 2: Structure & Organization Assessment**
+      - **Introduction:** Did they define key terms? (Yes/No + Comment)
+      - **Body:** Are there clear paragraphs? Do they start with **Topic Sentences**? (Yes/No + Comment)
+      - **Conclusion:** Is there a clear judgement? (Yes/No + Comment)
+      - **Overall flow:** Is it coherent or disjointed?
+
+      **Section 3: Sequential Commentary (Paragraph by Paragraph)**
       - Read the essay **chronologically**.
       - **CRITICAL:** Point out every instance of colloquial language and provide the correct economic term.
       - **CRITICAL:** Point out broken logic chains (e.g. "You jumped from X to Z without explaining Y").
 
-      **Section 3: Detailed Scoring Table (Markdown)**
-      You MUST output a Markdown table with the following columns:
-      | AO Category | Score | Strengths | Weaknesses | How to Improve (Specific Gap) |
-      |---|---|---|---|---|
+      **Section 4: Detailed Scoring Breakdown (List Format)**
+      DO NOT USE A TABLE. Use a structured list to ensure it can be copied into Word documents easily.
       
-      ${tableInstructions}
+      For each category in this list:
+      ${aoBreakdown}
+      
+      Provide the following details using this exact Markdown format:
+      
+      ### [Category Name] (Score: X/Max)
+      **Strengths:**
+      - [Point 1]
+      - [Point 2]
+      
+      **Weaknesses:**
+      - [Specific missing term or logic chain]
+      - [Specific error]
+      
+      **Specific Improvements:**
+      - [Exact advice on what to write instead]
     `;
 
     parts.push({ text: prompt });
@@ -285,6 +302,9 @@ export const gradeEssay = async (question: Question, studentEssay: string, image
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash',
       contents: { parts: parts },
+      config: {
+        temperature: 0, // Force deterministic output for consistency
+      }
     });
     return response.text || "Error grading essay.";
   } catch (error: any) {
