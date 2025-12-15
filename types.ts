@@ -60,7 +60,8 @@ export enum AppMode {
   IMPROVER = "Logic Trainer",
   GRADER = "Essay Grader",
   COACH = "Real-time Coach",
-  ANALYSIS = "Topic Analysis"
+  ANALYSIS = "Topic Analysis",
+  SNIPPET = "Sentence Improver"
 }
 
 export interface AnalysisPoint {

@@ -5,7 +5,8 @@ import EssayGenerator from './components/EssayGenerator';
 import EssayGrader from './components/EssayGrader';
 import RealTimeWriter from './components/RealTimeWriter';
 import EssayImprover from './components/EssayImprover';
-import TopicAnalysis from './components/TopicAnalysis'; // Import new component
+import TopicAnalysis from './components/TopicAnalysis'; 
+import SentenceImprover from './components/SentenceImprover'; // Import new component
 import AddQuestionModal from './components/AddQuestionModal';
 import CodeExportModal from './components/CodeExportModal';
 import { Question, AppMode, QuestionState, ChapterAnalysis } from './types';
@@ -15,7 +16,7 @@ import { generateModelAnswer, generateClozeExercise } from './services/geminiSer
 const STORAGE_KEY_CUSTOM_QUESTIONS = 'cie_econ_custom_questions_v2';
 const STORAGE_KEY_DELETED_IDS = 'cie_econ_deleted_ids_v1';
 const STORAGE_KEY_WORK = 'cie_economics_work_v1';
-const STORAGE_KEY_ANALYSIS = 'cie_econ_topic_analyses_v1'; // New key
+const STORAGE_KEY_ANALYSIS = 'cie_econ_topic_analyses_v1';
 const SESSION_KEY_AUTH = 'cie_econ_auth_session';
 
 // Basic protection.
@@ -442,6 +443,11 @@ const App: React.FC = () => {
                   <h2 className="text-lg font-bold text-slate-800">Question Bank Analysis</h2>
                   <p className="text-sm text-slate-500">Aggregate insights by chapter</p>
                </div>
+            ) : mode === AppMode.SNIPPET ? (
+               <div>
+                  <h2 className="text-lg font-bold text-slate-800">Snippet Improver</h2>
+                  <p className="text-sm text-slate-500">Upgrade individual sentences or paragraphs</p>
+               </div>
             ) : selectedQuestion ? (
               <div>
                  <h2 className="text-lg font-bold text-slate-800">{selectedQuestion.paper} - {selectedQuestion.variant} {selectedQuestion.year}</h2>
@@ -463,7 +469,7 @@ const App: React.FC = () => {
                     : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
-                {m}
+                {m === AppMode.SNIPPET ? "Snippet Improver" : m}
               </button>
             ))}
           </div>
@@ -471,7 +477,7 @@ const App: React.FC = () => {
 
         {/* Content Area */}
         <div className="flex-1 overflow-y-auto custom-scroll relative">
-            {/* Analysis Mode (Full Screen, no specific question selected needed) */}
+            {/* Analysis Mode */}
             {mode === AppMode.ANALYSIS && (
                  <div className="absolute inset-0">
                     <TopicAnalysis 
@@ -481,9 +487,16 @@ const App: React.FC = () => {
                     />
                  </div>
             )}
+            
+            {/* Snippet Mode */}
+            {mode === AppMode.SNIPPET && (
+                 <div className="absolute inset-0 bg-slate-50">
+                    <SentenceImprover question={selectedQuestion} />
+                 </div>
+            )}
 
             {/* Question-Specific Modes */}
-            {mode !== AppMode.ANALYSIS && (
+            {mode !== AppMode.ANALYSIS && mode !== AppMode.SNIPPET && (
                 <div className="p-8">
                     {selectedQuestion ? (
                         <>

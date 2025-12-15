@@ -613,3 +613,61 @@ export const analyzeTopicMarkSchemes = async (
     return null;
   }
 };
+
+export const improveSnippet = async (
+  snippet: string,
+  context?: string
+): Promise<{ improved: string, explanation: string, aoFocus: string }> => {
+  try {
+    checkForApiKey();
+
+    const prompt = `
+      You are a strict Cambridge Economics Examiner.
+      A student has written a short snippet (sentence or paragraph) for an essay.
+      
+      **Goal:** Improve this specific snippet to meet A* standards.
+      
+      **Focus Areas:**
+      1. **AO2 Logic Chain:** Ensure a complete transmission mechanism (A -> B -> C -> Z). Fill in any missing links (e.g., "shortage", "upward pressure").
+      2. **AO3 Evaluation:** If the snippet is evaluative, add depth (short-run vs long-run, magnitude, elasticities).
+      3. **Terminology:** Replace layman terms with precise economic definitions.
+      
+      **Context (Optional):** ${context || "General Economics"}
+      **Student Snippet:** "${snippet}"
+      
+      **Return JSON:**
+      {
+        "improved": "The rewritten, high-quality version.",
+        "explanation": "Bulleted list explaining specifically what missing logic links or terms were added.",
+        "aoFocus": "AO2 (Logic Chain)" or "AO3 (Evaluation)" based on what was fixed most.
+      }
+    `;
+
+    const response = await ai.models.generateContent({
+        model: 'gemini-2.5-flash',
+        contents: prompt,
+        config: {
+            responseMimeType: "application/json",
+            responseSchema: {
+                type: Type.OBJECT,
+                properties: {
+                    improved: { type: Type.STRING },
+                    explanation: { type: Type.STRING },
+                    aoFocus: { type: Type.STRING }
+                }
+            }
+        }
+    });
+
+    const json = JSON.parse(response.text || "{}");
+    return {
+        improved: json.improved || "Error generating improvement.",
+        explanation: json.explanation || "No explanation provided.",
+        aoFocus: json.aoFocus || "General"
+    };
+
+  } catch (error) {
+      console.error("Snippet Improver Error:", error);
+      return { improved: "", explanation: "API Error", aoFocus: "" };
+  }
+};
