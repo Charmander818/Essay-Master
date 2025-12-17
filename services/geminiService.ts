@@ -24,28 +24,27 @@ export const generateModelAnswer = async (question: Question): Promise<string> =
     const cieStandards = `
     **CIE ECONOMICS WRITING STANDARDS (STRICT ADHERENCE REQUIRED):**
 
-    **1. Essay Structure:**
+    **1. Mark Scheme Priority:**
+      - The essay **MUST** explicitly cover every single knowledge point, analysis link, and evaluation factor mentioned in the **Mark Scheme Guidance** provided below. This is the primary requirement.
+
+    **2. Essay Structure:**
       - **Introduction (AO1):** 
-        - Define Key Terms exactly as they appear in the official CIE Textbook (Bamford/Grant).
+        - Define Key Terms exactly as they appear in the official CIE Textbook.
         - Briefly state the essay's intent/scope to set the context.
       - **Analysis (AO2):**
         - **Paragraph Structure:** Start with a **Topic Sentence** (A->Z summary). Then provide a **Complete Logical Chain** (A -> B -> C ... -> Z).
         - **Content:**
-          - For **8 marks**: Write 2 distinct, fully developed points/paragraphs.
-          - For **12 marks**: Write 6 distinct points (e.g., 3 arguments for, 3 arguments against/limitations).
-          - For **20 marks**: Comprehensive coverage.
+          - For **8 marks**: Write 2 distinct, fully developed points/paragraphs (matching the MS).
+          - For **12 marks**: Write 6 distinct points (e.g., 3 arguments for, 3 arguments against/limitations) or as dictated by the MS.
       - **Conclusion (Evaluation AO3):**
         - **Make a Stand:** Provide a clear judgement.
         - **Justify the Stand:** Explain *why* this judgement holds true (e.g., "In the short run X, but in the long run Y").
         - **Something Special:** Add contextual nuance or insight to wake up the examiner.
 
-    **2. Five Goals for Full Marks:**
+    **3. Five Goals for Full Marks:**
       - **Master Textbook:** Definitions must be accurate.
       - **Economic Terminology:** MANDATORY. Do not use layman terms. 
-        - *Bad:* "People have more money." -> *Good:* "Increase in purchasing power/disposable income."
-        - *Bad:* "People want to buy." -> *Good:* "Effective demand increases."
       - **Complete Logical Chains:** Do not skip steps. 
-        - *Example:* Income ↑ -> Purchasing Power ↑ -> Normal Good -> Demand ↑ -> Shortage at original price -> Upward pressure on price -> Price ↑.
       - **Make a Judgement:** Weigh the pros/cons based on the specific situation.
       - **Context:** Apply all points to the specific market/economy in the question.
     `;
@@ -80,7 +79,7 @@ export const generateModelAnswer = async (question: Question): Promise<string> =
       
       **Question:** ${question.questionText}
       **Max Marks:** ${question.maxMarks}
-      **Mark Scheme Guidance:**
+      **Mark Scheme Guidance (CRITICAL - MUST FOLLOW):**
       ${question.markScheme}
       
       ${cieStandards}
@@ -208,14 +207,15 @@ export const gradeEssay = async (question: Question, studentEssay: string, image
 
     const coreCriteria = `
     **CRITICAL GRADING CRITERIA (CIE STANDARDS):**
-    1. **Terminology:** Deduct marks for layman terms (e.g., "money" instead of "purchasing power", "want" instead of "effective demand").
-    2. **Logic Chains:** Deduct marks for broken chains. The student MUST show every step (A->B->C->Z). 
+    
+    **PRIORITY 1: MARK SCHEME ADHERENCE**
+    - You must FIRST check if the essay covers the specific points listed in the **Official Mark Scheme** provided.
+    - If a point is in the Mark Scheme but missing from the essay, it is a MAJOR weakness.
+    
+    **PRIORITY 2: LOGIC & TERMINOLOGY**
+    - **Terminology:** Deduct marks for layman terms (e.g., "money" instead of "purchasing power").
+    - **Logic Chains:** Deduct marks for broken chains. The student MUST show every step (A->B->C->Z). 
        - *Example of error:* "Prices rose because demand rose." (Missing: shortage, pressure).
-    3. **Structure:** 
-       - Introduction must define terms.
-       - Body paragraphs must start with Topic Sentences.
-       - Conclusion must have a Judgement + Justification.
-    4. **Context:** Arguments must explicitly reference the specific context (e.g., Low Income Country).
     `;
 
     let gradingRubric = "";
@@ -263,21 +263,19 @@ export const gradeEssay = async (question: Question, studentEssay: string, image
 
       **Section 1: Overall Summary**
       - Total Score: X / ${question.maxMarks}
-      - Brief 1-sentence overall verdict.
+      - Brief verdict.
 
-      **Section 2: Structure & Organization Assessment**
-      - **Introduction:** Did they define key terms? (Yes/No + Comment)
-      - **Body:** Are there clear paragraphs? Do they start with **Topic Sentences**? (Yes/No + Comment)
-      - **Conclusion:** Is there a clear judgement? (Yes/No + Comment)
-      - **Overall flow:** Is it coherent or disjointed?
+      **Section 2: Mark Scheme & Structure Check**
+      - **Mark Scheme Coverage:** [Explicitly state: "You missed Point X from the mark scheme" or "You covered Point Y well"]
+      - **Structure:** [Comment on Introduction, Paragraph Structure, Conclusion]
 
       **Section 3: Sequential Commentary (Paragraph by Paragraph)**
       - Read the essay **chronologically**.
-      - **CRITICAL:** Point out every instance of colloquial language and provide the correct economic term.
-      - **CRITICAL:** Point out broken logic chains (e.g. "You jumped from X to Z without explaining Y").
+      - Point out every instance of colloquial language.
+      - Point out broken logic chains (e.g. "You jumped from X to Z without explaining Y").
 
       **Section 4: Detailed Scoring Breakdown (List Format)**
-      DO NOT USE A TABLE. Use a structured list to ensure it can be copied into Word documents easily.
+      DO NOT USE A TABLE. Use a structured list.
       
       For each category in this list:
       ${aoBreakdown}
@@ -287,14 +285,13 @@ export const gradeEssay = async (question: Question, studentEssay: string, image
       ### [Category Name] (Score: X/Max)
       **Strengths:**
       - [Point 1]
-      - [Point 2]
       
       **Weaknesses:**
       - [Specific missing term or logic chain]
-      - [Specific error]
+      - [Specific Mark Scheme point missed]
       
-      **Specific Improvements:**
-      - [Exact advice on what to write instead]
+      **Actionable Rewrite Suggestion (HOW TO IMPROVE):**
+      - [Draft a specific sentence or logic chain the student *should* have written to get the mark. e.g. "Instead of 'prices go up', write: 'The shortage creates upward pressure on prices...'"]
     `;
 
     parts.push({ text: prompt });
@@ -336,21 +333,23 @@ export const getRealTimeCoaching = async (question: Question, currentText: strin
       **Question:** ${question.questionText}
       **Total Marks:** ${question.maxMarks}
       **${distribution}**
-      **Mark Scheme:** ${question.markScheme}
+      **Mark Scheme Targets:** ${question.markScheme}
       **Current Draft:** "${currentText}"
 
       **Grading Standards:**
-      - **AO1:** Precision of Definitions. **Use of correct Economic Terminology** is mandatory (e.g. "Effective Demand", "Purchasing Power").
-      - **AO2:** **Complete Logical Chains**. A -> B -> C -> Z. No skipping steps. (e.g. Income -> Purchasing Power -> Demand -> Shortage -> Price).
-      - **AO3:** Contextual Evaluation. Judgement with Justification.
+      1. **Mark Scheme:** Check if they are mentioning the points listed in the Mark Scheme.
+      2. **AO1:** Precision of Definitions. Use of correct Economic Terminology is mandatory.
+      3. **AO2:** Complete Logical Chains (A -> B -> C -> Z).
+      4. **AO3:** Contextual Evaluation.
 
       **Task:**
       1. Estimate current AO1, AO2, AO3 scores (integers). Be stingy.
       2. Calculate Total.
-      3. **Advice:** Identify the most immediate logical gap or terminology error.
-         - *Example:* "Use 'purchasing power' instead of 'more money'."
-         - *Example:* "You jumped from demand to price. Mention 'shortage' first."
-         - *Example:* "Define [Term] before analysing it."
+      3. **Advice:** 
+         - Compare current draft against Mark Scheme. Identify what is missing.
+         - **PROVIDE A FIX:** Tell them *how* to improve.
+         - *Example:* "You missed the 'rationing' function from the mark scheme. Explain how price allocates scarce resources."
+         - *Example:* "Change 'money' to 'purchasing power'."
       4. Keep advice brief (under 50 words).
     `;
 
