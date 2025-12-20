@@ -1,11 +1,12 @@
 
+import { GoogleGenAI, Type } from "@google/genai";
 import React, { useState } from 'react';
 import { Question, SyllabusTopic } from '../types';
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  questions: Question[]; // Updated to accept all questions
+  questions: Question[]; 
 }
 
 const CodeExportModal: React.FC<Props> = ({ isOpen, onClose, questions }) => {
@@ -13,14 +14,20 @@ const CodeExportModal: React.FC<Props> = ({ isOpen, onClose, questions }) => {
 
   if (!isOpen) return null;
 
+  // Helper to escape strings for JS code generation, including backslashes to avoid \u errors
+  const escapeForCode = (str: string) => {
+    return str
+      .replace(/\\/g, '\\\\') // Escape backslashes first!
+      .replace(/`/g, '\\`')
+      .replace(/\$/g, '\\$');
+  };
+
   const generateFullFileContent = () => {
     const questionObjects = questions.map(q => {
-      // Find the key in SyllabusTopic enum that matches the value q.topic
       const topicKey = (Object.keys(SyllabusTopic) as Array<keyof typeof SyllabusTopic>).find(
         key => SyllabusTopic[key] === q.topic
       ) || 'BASIC_IDEAS';
 
-      // Create a string representation of the object, matching data.ts format
       return `  {
     id: "${q.id}",
     year: "${q.year}",
@@ -31,7 +38,7 @@ const CodeExportModal: React.FC<Props> = ({ isOpen, onClose, questions }) => {
     chapter: "${q.chapter}",
     maxMarks: ${q.maxMarks},
     questionText: ${JSON.stringify(q.questionText)},
-    markScheme: \`${q.markScheme.replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`
+    markScheme: \`${escapeForCode(q.markScheme)}\`
   }`;
     });
 
@@ -69,12 +76,12 @@ ${questionObjects.join(',\n')}
         <div className="p-6 border-b border-slate-100 bg-white rounded-t-xl">
            <h2 className="text-xl font-bold text-slate-800">Sync Your Changes</h2>
            <p className="text-sm text-slate-500 mt-2">
-             You have added custom questions. To save them permanently so everyone can see them on Vercel:
+             You have added custom questions. To save them permanently:
            </p>
            <ol className="list-decimal list-inside text-sm text-slate-600 mt-2 space-y-1">
              <li>Click <strong>Download data.ts</strong> below.</li>
-             <li>Replace the existing <code className="bg-slate-100 px-1 rounded text-slate-800 font-mono">data.ts</code> file in your project folder with this new file.</li>
-             <li>Push to GitHub to deploy.</li>
+             <li>Replace the existing <code className="bg-slate-100 px-1 rounded text-slate-800 font-mono">data.ts</code> file in your project folder.</li>
+             <li>This fix prevents "Invalid Unicode escape sequence" errors by properly escaping backslashes.</li>
            </ol>
         </div>
         
