@@ -2,21 +2,8 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { Question, ClozeBlank, ClozeFeedback, ChapterAnalysis } from "../types";
 
-const apiKey = process.env.API_KEY;
-let ai: GoogleGenAI;
-if (apiKey) {
-    ai = new GoogleGenAI({ apiKey: apiKey });
-}
-
-const checkForApiKey = () => {
-    if (!apiKey) {
-        throw new Error("API Key missing.");
-    }
-};
-
 /**
  * MANDATORY SYMBOL & FORMATTING PROTOCOL
- * Prevents rendering bugs like $\uparrow$ and ensures readability.
  */
 const FORMATTING_PROTOCOL = `
 **STRICT FORMATTING RULES (CRITICAL):**
@@ -33,9 +20,6 @@ const FORMATTING_PROTOCOL = `
    - In Section 4 (Commentary), use horizontal separators "---" between different paragraphs.
 `;
 
-/**
- * OFFICIAL CIE 9708 LEVEL DESCRIPTORS
- */
 const CIE_OFFICIAL_RUBRIC = `
 **CIE OFFICIAL LEVEL DESCRIPTORS:**
 - AO1+AO2: Level 3 (6-8m: Detailed/Full), Level 2 (3-5m: Limited), Level 1 (1-2m: Descriptive).
@@ -50,9 +34,16 @@ const CIE_LOGIC_TRUTH = `
 3. Exchange Rates: Appreciation -> Export prices rise, Import prices fall -> AD shifts LEFT.
 `;
 
+// Helper to get fresh client
+const getAIClient = () => {
+  const key = process.env.API_KEY;
+  if (!key) throw new Error("API_KEY environment variable is missing.");
+  return new GoogleGenAI({ apiKey: key });
+};
+
 export const generateModelAnswer = async (question: Question): Promise<string> => {
   try {
-    checkForApiKey();
+    const ai = getAIClient();
     const prompt = `
       You are a world-class CIE Economics Examiner. Write a full-mark essay following this EXACT structure:
 
@@ -84,21 +75,27 @@ export const generateModelAnswer = async (question: Question): Promise<string> =
     `;
     const response = await ai.models.generateContent({ model: 'gemini-3-pro-preview', contents: prompt });
     return response.text || "Error.";
-  } catch (error) { return "Failed to generate."; }
+  } catch (error) { 
+    console.error("Gemini Error:", error);
+    return "Failed to generate. Please check if API_KEY is set in Vercel settings."; 
+  }
 };
 
 export const generateQuestionDeconstruction = async (questionText: string): Promise<string> => {
     try {
-        checkForApiKey();
+        const ai = getAIClient();
         const prompt = `Analyze CIE requirements for: "${questionText}". Use clear vertical lists. No LaTeX. No code blocks.`;
         const response = await ai.models.generateContent({ model: 'gemini-3-pro-preview', contents: prompt });
         return response.text || "Error.";
-    } catch (error) { return "Error."; }
+    } catch (error) { 
+      console.error(error);
+      return "Error."; 
+    }
 };
 
 export const gradeEssay = async (question: Question, studentEssay: string, imagesBase64?: string[]): Promise<string> => {
   try {
-    checkForApiKey();
+    const ai = getAIClient();
     const parts: any[] = [];
     let essayContent = studentEssay;
 
@@ -158,16 +155,20 @@ export const gradeEssay = async (question: Question, studentEssay: string, image
       config: { temperature: 0 }
     });
     return response.text || "Error.";
-  } catch (error) { return "Error grading."; }
+  } catch (error) { 
+    console.error(error);
+    return "Error grading."; 
+  }
 };
 
 export const getRealTimeCoaching = async (question: Question, currentText: string): Promise<{ao1: number, ao2: number, ao3: number, total: number, advice: string}> => {
   try {
-    checkForApiKey();
+    const ai = getAIClient();
     const prompt = `
       You are a CIE Coach. Analyze current draft: "${currentText}"
       Question: ${question.questionText}
       
+      ${CIE_OFFICIAL_RUBRIC}
       ${CIE_LOGIC_TRUTH}
       ${FORMATTING_PROTOCOL}
 
@@ -180,7 +181,6 @@ export const getRealTimeCoaching = async (question: Question, currentText: strin
       model: 'gemini-3-pro-preview',
       contents: prompt,
       config: { 
-        // ... previous config
         responseMimeType: "application/json",
         responseSchema: {
           type: Type.OBJECT,
@@ -196,24 +196,30 @@ export const getRealTimeCoaching = async (question: Question, currentText: strin
       }
     });
     return JSON.parse(response.text || "{}");
-  } catch (error) { return { ao1: 0, ao2: 0, ao3: 0, total: 0, advice: "Error." }; }
+  } catch (error) { 
+    console.error(error);
+    return { ao1: 0, ao2: 0, ao3: 0, total: 0, advice: "Error connecting to AI." }; 
+  }
 };
 
 export const generateClozeExercise = async (modelEssay: string): Promise<{ textWithBlanks: string, blanks: ClozeBlank[] } | null> => {
   try {
-    checkForApiKey();
+    const ai = getAIClient();
     const response = await ai.models.generateContent({
       model: 'gemini-3-pro-preview',
       contents: `Create a logic chain exercise from: ${modelEssay}. NO LaTeX. NO code blocks.`,
       config: { responseMimeType: "application/json" }
     });
     return JSON.parse(response.text || "{}");
-  } catch (error) { return null; }
+  } catch (error) { 
+    console.error(error);
+    return null; 
+  }
 };
 
 export const evaluateClozeAnswers = async (blanks: ClozeBlank[], userAnswers: Record<number, string>): Promise<Record<number, ClozeFeedback> | null> => {
   try {
-    checkForApiKey();
+    const ai = getAIClient();
     const response = await ai.models.generateContent({
       model: 'gemini-3-pro-preview',
       contents: `Grade these: ${JSON.stringify(userAnswers)} against ${JSON.stringify(blanks)}. No leading spaces.`,
@@ -223,29 +229,38 @@ export const evaluateClozeAnswers = async (blanks: ClozeBlank[], userAnswers: Re
     const map: Record<number, ClozeFeedback> = {};
     json.feedback?.forEach((f: any) => map[f.id] = f);
     return map;
-  } catch (error) { return null; }
+  } catch (error) { 
+    console.error(error);
+    return null; 
+  }
 };
 
 export const analyzeTopicMarkSchemes = async (chapterTitle: string, questions: Question[]): Promise<ChapterAnalysis | null> => {
   try {
-    checkForApiKey();
+    const ai = getAIClient();
     const response = await ai.models.generateContent({
       model: 'gemini-3-pro-preview',
       contents: `Analyze trends for ${chapterTitle}. Qs: ${JSON.stringify(questions)}. NO code blocks.`,
       config: { responseMimeType: "application/json" }
     });
     return JSON.parse(response.text || "{}");
-  } catch (error) { return null; }
+  } catch (error) { 
+    console.error(error);
+    return null; 
+  }
 };
 
 export const improveSnippet = async (snippet: string, context?: string): Promise<{ improved: string, explanation: string, aoFocus: string }> => {
   try {
-    checkForApiKey();
+    const ai = getAIClient();
     const response = await ai.models.generateContent({
       model: 'gemini-3-pro-preview',
       contents: `Improve to CIE Level 3 Analysis: ${snippet}. Context: ${context}\n\n${CIE_LOGIC_TRUTH}\n${FORMATTING_PROTOCOL}`,
       config: { responseMimeType: "application/json" }
     });
     return JSON.parse(response.text || "{}");
-  } catch (error) { return { improved: "", explanation: "Error", aoFocus: "" }; }
+  } catch (error) { 
+    console.error(error);
+    return { improved: "", explanation: "Error", aoFocus: "" }; 
+  }
 };
