@@ -1,4 +1,4 @@
-// Updated to follow @google/genai best practices and fix API key sourcing.
+
 import { GoogleGenAI, Type } from "@google/genai";
 import { Question, ClozeBlank, ClozeFeedback, ChapterAnalysis } from "../types";
 
@@ -7,7 +7,7 @@ import { Question, ClozeBlank, ClozeFeedback, ChapterAnalysis } from "../types";
  */
 const FORMATTING_PROTOCOL = `
 **STRICT FORMATTING RULES (CRITICAL):**
-1. **NO CODE BLOCKS:** Do NOT wrap your response or any section in backticks (\`\`\`). Output standard text.
+1. **NO CODE BLOCKS:** Do NOT wrap your response or any section in backticks (\` \` \`). Output standard text.
 2. **NO INDENTATION:** Never start a line with spaces or tabs.
 3. **NO LATEX:** Never use "$" or LaTeX symbols.
 4. **SYMBOL SUBSTITUTES:** 
@@ -32,63 +32,66 @@ const CIE_LOGIC_TRUTH = `
 3. Exchange Rates: Appreciation -> Export prices rise, Import prices fall -> AD shifts LEFT.
 `;
 
-// Helper to get fresh client. API key must be obtained exclusively from process.env.API_KEY as per guidelines.
+// Model selection: Using Flash for basic tasks, Pro for complex reasoning
+const FLASH_MODEL = 'gemini-3-flash-preview';
+const PRO_MODEL = 'gemini-3-pro-preview';
+
+// Initialize the GoogleGenAI instance inside a helper to ensure process.env.API_KEY is accessible
 const getAIClient = () => {
-  return new GoogleGenAI({ apiKey: process.env.API_KEY });
+  const key = process.env.API_KEY;
+  if (!key || key === "undefined" || key.length < 5) {
+    throw new Error("INVALID_API_KEY");
+  }
+  return new GoogleGenAI({ apiKey: key });
 };
 
-// Generate high-quality model answers using gemini-3-pro-preview
+// Generate a high-quality model answer using the Pro model
 export const generateModelAnswer = async (question: Question): Promise<string> => {
   try {
     const ai = getAIClient();
     const prompt = `
-      You are a world-class CIE Economics Examiner. Write a full-mark essay for the following question, strictly following this structure:
-
-      # SECTION 1: ESSAY RESPONSE
-
-      **1. Introduction (Concentrated AO1):** 
-      Start by defining ALL key terms immediately. Define inflation. Define Monetary Policy (Demand-side). Define Supply-side Policy. Ensure definitions are precise and clear.
-
-      **2. Monetary Policy Analysis (AO2) & Its Limitations:** 
-      Explain the transmission mechanism (Interest rates -> Cost of borrowing -> C and I -> AD shift left -> P falls). Mention the exchange rate effect (Hot money -> Appreciation -> Import prices fall). 
-      IMMEDIATELY following this analysis, discuss the limitations of monetary policy (Time lags of 18-24 months, conflict with growth and unemployment, effectiveness if interest rates are already low).
-
-      **3. Supply-side Policy Analysis (AO2) & Its Limitations:** 
-      Explain how it increases productive potential (Investment in education/infrastructure -> Productivity -> LRAS shifts right -> Lower unit costs -> P falls while Y rises). 
-      IMMEDIATELY following this, discuss the limitations of supply-side policy (Very long time lags, high opportunity cost for government budget, uncertain outcomes).
-
-      **4. Evaluation (Expanded AO3 - The "Depends On" discussion):** 
-      Discuss in detail:
-      - Scenario A (Time Horizon): Why Monetary is more successful in the Short Run due to its speed and implementation by independent central banks, vs why Supply-side is the only sustainable solution for the Long Run.
-      - Scenario B (Cause of Inflation): If inflation is Demand-pull, why Monetary is the direct tool. If inflation is Cost-push (Stagflation), explain why Monetary policy would be damaging (deep recession) and why Supply-side is the "most successful" as it tackles the root cause without reducing output.
-
-      **5. Conclusion:** Final justified judgement on which is "more successful" based on the specific context of the economy.
-
+      You are a world-class CIE Economics Examiner. Write a full-mark essay for the following question:
       Question: ${question.questionText}
+      
+      Required Structure:
+      1. Intro (Concentrated AO1 Definitions)
+      2. Policy A Analysis (AO2) + Immediate Limitations
+      3. Policy B Analysis (AO2) + Immediate Limitations
+      4. Detailed Evaluation (AO3): Discuss scenarios (SR vs LR, Demand vs Cost-push causes)
+      5. Conclusion
       
       ${CIE_OFFICIAL_RUBRIC}
       ${CIE_LOGIC_TRUTH}
       ${FORMATTING_PROTOCOL}
     `;
-    const response = await ai.models.generateContent({ model: 'gemini-3-pro-preview', contents: prompt });
-    return response.text || "Error generating content.";
+    const response = await ai.models.generateContent({ 
+      model: PRO_MODEL, 
+      contents: prompt 
+    });
+    return response.text || "No response generated.";
   } catch (error: any) { 
-    console.error("Gemini Error:", error);
-    return "Failed to generate. Ensure your API key is correctly configured and has appropriate billing status."; 
+    console.error("Gemini Generation Error:", error);
+    if (error.message === "INVALID_API_KEY") {
+        return "❌ API Key Error: The API Key is missing. Check Vercel Settings and Redeploy.";
+    }
+    if (error.message?.includes("billing") || error.message?.includes("403")) {
+        return "❌ Permission Error: Your API key might not have access to this model or requires billing. Try using a different API Key from Google AI Studio.";
+    }
+    return `⚠️ Error: ${error.message || "Failed to connect to AI."}`; 
   }
 };
 
-// Deconstruct questions for better understanding of requirements
+// Analyze question requirements using the Flash model
 export const generateQuestionDeconstruction = async (questionText: string): Promise<string> => {
     try {
         const ai = getAIClient();
-        const prompt = `Analyze CIE requirements for: "${questionText}". Use clear vertical lists. No LaTeX. No code blocks.`;
-        const response = await ai.models.generateContent({ model: 'gemini-3-pro-preview', contents: prompt });
+        const prompt = `Deconstruct this CIE Econ question into AO1/AO2/AO3 requirements: "${questionText}". No code blocks.`;
+        const response = await ai.models.generateContent({ model: FLASH_MODEL, contents: prompt });
         return response.text || "Error.";
-    } catch (error) { return "Error."; }
+    } catch (error) { return "Error analyzing question."; }
 };
 
-// Strict grading using gemini-3-pro-preview with image support for OCR
+// Grade student essays multimodally using the Pro model for accuracy
 export const gradeEssay = async (question: Question, studentEssay: string, imagesBase64?: string[]): Promise<string> => {
   try {
     const ai = getAIClient();
@@ -100,65 +103,43 @@ export const gradeEssay = async (question: Question, studentEssay: string, image
          const cleanBase64 = img.replace(/^data:image\/[a-zA-Z+]+;base64,/, "");
          parts.push({ inlineData: { mimeType: 'image/jpeg', data: cleanBase64 } });
        });
-       essayContent += `\n\n[Note: Evaluate the sequence of handwritten images provided.]`;
+       essayContent += `\n\n[Images provided]`;
     }
 
     const prompt = `
-      You are a strict CIE Economics Examiner. Grade the work below.
+      You are a strict CIE Economics Examiner. Grade this student essay:
       Question: ${question.questionText}
       Mark Scheme: ${question.markScheme}
       Student Work: ${essayContent}
 
+      Output Required:
+      # Section 1: Fatal Logic Check
+      # Section 2: Level-Based Marking Summary
+      # Section 3: Paragraph Commentary
+      # Section 4: Corrective Logic Chains
+
       ${CIE_OFFICIAL_RUBRIC}
       ${CIE_LOGIC_TRUTH}
       ${FORMATTING_PROTOCOL}
-
-      **REQUIRED OUTPUT SECTIONS (STRICT VERTICAL LAYOUT):**
-
-      # 🚨 Section 1: Fatal Logic Check
-      [Check logic. If AS shifts left to reduce inflation, label it "FATAL ERROR".]
-
-      # 📊 Section 2: Level-Based Marking Summary
-      - **AO1 + AO2 Score:** X / 8 (Level X)
-      - **AO3 Score:** X / 4 (Level Y)
-      - **Total Score:** X / 12
-      - **Overall Verdict:** [1 sentence summary]
-
-      # 🎯 Section 3: Mark Scheme Alignment
-      - Hits: [Points covered]
-      - Misses: [Critical missing links]
-
-      # 📝 Section 4: Paragraph-by-Paragraph Commentary
-      [Deep analysis for each paragraph. Use "---" between paragraphs.]
-
-      # 📉 Section 5: Corrective Logic Chains
-      **Student Fault:** [Identify a specific broken chain]
-      **Standard Logic Chain:** [Provide the EXACT A -> B -> C -> D chain in text]
     `;
 
     parts.push({ text: prompt });
     const response = await ai.models.generateContent({
-      model: 'gemini-3-pro-preview',
+      model: PRO_MODEL,
       contents: { parts: parts },
       config: { temperature: 0 }
     });
-    return response.text || "Error grading essay.";
-  } catch (error) { return "Error grading."; }
+    return response.text || "Error grading.";
+  } catch (error) { return "Error during grading."; }
 };
 
-// Real-time coaching feedback using responseSchema for consistent JSON
+// Provide real-time coaching with specific scoring breakdown using JSON response schema
 export const getRealTimeCoaching = async (question: Question, currentText: string): Promise<{ao1: number, ao2: number, ao3: number, total: number, advice: string}> => {
   try {
     const ai = getAIClient();
-    const prompt = `
-      You are a CIE Coach. Analyze current draft: "${currentText}"
-      Question: ${question.questionText}
-      ${CIE_LOGIC_TRUTH}
-      ${FORMATTING_PROTOCOL}
-      Return scores and advice.
-    `;
+    const prompt = `Analyze current draft for CIE requirements. Question: ${question.questionText}. Draft: "${currentText}". Return JSON.`;
     const response = await ai.models.generateContent({
-      model: 'gemini-3-pro-preview',
+      model: FLASH_MODEL,
       contents: prompt,
       config: { 
         responseMimeType: "application/json",
@@ -176,16 +157,16 @@ export const getRealTimeCoaching = async (question: Question, currentText: strin
       }
     });
     return JSON.parse(response.text || "{}");
-  } catch (error) { return { ao1: 0, ao2: 0, ao3: 0, total: 0, advice: "Error fetching feedback." }; }
+  } catch (error) { return { ao1: 0, ao2: 0, ao3: 0, total: 0, advice: "Connection failed." }; }
 };
 
-// Create logic training exercises with structured schema
+// Generate cloze exercises using the Flash model
 export const generateClozeExercise = async (modelEssay: string): Promise<{ textWithBlanks: string, blanks: ClozeBlank[] } | null> => {
   try {
     const ai = getAIClient();
     const response = await ai.models.generateContent({
-      model: 'gemini-3-pro-preview',
-      contents: `Create a logic chain exercise from: ${modelEssay}. NO LaTeX. NO code blocks.`,
+      model: FLASH_MODEL,
+      contents: `Create logic exercise from: ${modelEssay}. JSON format.`,
       config: { 
         responseMimeType: "application/json",
         responseSchema: {
@@ -213,13 +194,13 @@ export const generateClozeExercise = async (modelEssay: string): Promise<{ textW
   } catch (error) { return null; }
 };
 
-// Evaluate student answers in the logic trainer
+// Evaluate user answers in cloze exercises using the Flash model
 export const evaluateClozeAnswers = async (blanks: ClozeBlank[], userAnswers: Record<number, string>): Promise<Record<number, ClozeFeedback> | null> => {
   try {
     const ai = getAIClient();
     const response = await ai.models.generateContent({
-      model: 'gemini-3-pro-preview',
-      contents: `Grade these: ${JSON.stringify(userAnswers)} against ${JSON.stringify(blanks)}.`,
+      model: FLASH_MODEL,
+      contents: `Grade logic answers: ${JSON.stringify(userAnswers)} against ${JSON.stringify(blanks)}. JSON.`,
       config: { 
         responseMimeType: "application/json",
         responseSchema: {
@@ -249,13 +230,13 @@ export const evaluateClozeAnswers = async (blanks: ClozeBlank[], userAnswers: Re
   } catch (error) { return null; }
 };
 
-// Analyze chapter-wide trends and common mark scheme points
+// Analyze syllabus trends for a chapter using the Pro model
 export const analyzeTopicMarkSchemes = async (chapterTitle: string, questions: Question[]): Promise<ChapterAnalysis | null> => {
   try {
     const ai = getAIClient();
     const response = await ai.models.generateContent({
-      model: 'gemini-3-pro-preview',
-      contents: `Analyze trends for ${chapterTitle}. Qs: ${JSON.stringify(questions)}.`,
+      model: PRO_MODEL,
+      contents: `Analyze chapter trends for: ${chapterTitle}. Context Questions: ${JSON.stringify(questions)}. JSON format.`,
       config: { 
         responseMimeType: "application/json",
         responseSchema: {
@@ -264,53 +245,10 @@ export const analyzeTopicMarkSchemes = async (chapterTitle: string, questions: Q
             chapter: { type: Type.STRING },
             lastUpdated: { type: Type.STRING },
             questionCount: { type: Type.NUMBER },
-            ao1: {
-              type: Type.ARRAY,
-              items: {
-                type: Type.OBJECT,
-                properties: {
-                  point: { type: Type.STRING },
-                  sourceRefs: { type: Type.ARRAY, items: { type: Type.STRING } }
-                },
-                required: ["point", "sourceRefs"]
-              }
-            },
-            ao2: {
-              type: Type.ARRAY,
-              items: {
-                type: Type.OBJECT,
-                properties: {
-                  point: { type: Type.STRING },
-                  sourceRefs: { type: Type.ARRAY, items: { type: Type.STRING } }
-                },
-                required: ["point", "sourceRefs"]
-              }
-            },
-            ao3: {
-              type: Type.ARRAY,
-              items: {
-                type: Type.OBJECT,
-                properties: {
-                  point: { type: Type.STRING },
-                  sourceRefs: { type: Type.ARRAY, items: { type: Type.STRING } }
-                },
-                required: ["point", "sourceRefs"]
-              }
-            },
-            debates: {
-              type: Type.ARRAY,
-              items: {
-                type: Type.OBJECT,
-                properties: {
-                  topic: { type: Type.STRING },
-                  pros: { type: Type.ARRAY, items: { type: Type.STRING } },
-                  cons: { type: Type.ARRAY, items: { type: Type.STRING } },
-                  dependencies: { type: Type.ARRAY, items: { type: Type.STRING } },
-                  sourceRefs: { type: Type.ARRAY, items: { type: Type.STRING } }
-                },
-                required: ["topic", "pros", "cons", "dependencies", "sourceRefs"]
-              }
-            }
+            ao1: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { point: { type: Type.STRING }, sourceRefs: { type: Type.ARRAY, items: { type: Type.STRING } } }, required: ["point", "sourceRefs"] } },
+            ao2: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { point: { type: Type.STRING }, sourceRefs: { type: Type.ARRAY, items: { type: Type.STRING } } }, required: ["point", "sourceRefs"] } },
+            ao3: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { point: { type: Type.STRING }, sourceRefs: { type: Type.ARRAY, items: { type: Type.STRING } } }, required: ["point", "sourceRefs"] } },
+            debates: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { topic: { type: Type.STRING }, pros: { type: Type.ARRAY, items: { type: Type.STRING } }, cons: { type: Type.ARRAY, items: { type: Type.STRING } }, dependencies: { type: Type.ARRAY, items: { type: Type.STRING } }, sourceRefs: { type: Type.ARRAY, items: { type: Type.STRING } } }, required: ["topic", "pros", "cons", "dependencies", "sourceRefs"] } }
           },
           required: ["chapter", "lastUpdated", "questionCount", "ao1", "ao2", "ao3", "debates"]
         }
@@ -320,13 +258,13 @@ export const analyzeTopicMarkSchemes = async (chapterTitle: string, questions: Q
   } catch (error) { return null; }
 };
 
-// Improve specific essay snippets to Level 3 analysis quality
+// Improve economics snippets using the Pro model for high-level reasoning
 export const improveSnippet = async (snippet: string, context?: string): Promise<{ improved: string, explanation: string, aoFocus: string }> => {
   try {
     const ai = getAIClient();
     const response = await ai.models.generateContent({
-      model: 'gemini-3-pro-preview',
-      contents: `Improve to CIE Level 3 Analysis: ${snippet}. Context: ${context}\n\n${CIE_LOGIC_TRUTH}\n${FORMATTING_PROTOCOL}`,
+      model: PRO_MODEL,
+      contents: `Improve this economics snippet to CIE Level 3 Analysis: ${snippet}. Context: ${context}`,
       config: { 
         responseMimeType: "application/json",
         responseSchema: {
@@ -341,5 +279,5 @@ export const improveSnippet = async (snippet: string, context?: string): Promise
       }
     });
     return JSON.parse(response.text || "{}");
-  } catch (error) { return { improved: "Error during snippet improvement.", explanation: "Check your API configuration.", aoFocus: "" }; }
+  } catch (error) { return { improved: "Error.", explanation: "Error.", aoFocus: "" }; }
 };
