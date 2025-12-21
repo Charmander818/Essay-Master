@@ -7,142 +7,107 @@ import { Question, ClozeBlank, ClozeFeedback, ChapterAnalysis } from "../types";
  */
 const FORMATTING_PROTOCOL = `
 **STRICT FORMATTING RULES (CRITICAL):**
-1. **NO CODE BLOCKS:** Do NOT wrap your response or any section in backticks (\` \` \`). Output standard text.
+1. **NO CODE BLOCKS:** Do NOT wrap your response in backticks (\`\`\`).
 2. **NO INDENTATION:** Never start a line with spaces or tabs.
-3. **NO LATEX:** Never use "$" or LaTeX symbols.
-4. **SYMBOL SUBSTITUTES:** 
-   - Use "Increase" or "Rising" instead of Up-arrow.
-   - Use "Decrease" or "Falling" instead of Down-arrow.
-   - Use "->" for logic chains.
-   - Use "P1", "P2", "Y1", "Y2" for diagram labels.
-5. **VERTICAL SPACING:** 
-   - Use DOUBLE line breaks between major sections.
-`;
-
-const CIE_OFFICIAL_RUBRIC = `
-**CIE OFFICIAL LEVEL DESCRIPTORS:**
-- AO1+AO2: Level 3 (6-8m: Detailed/Full).
-- AO3: Level 2 (3-4m: Justified).
+3. **SYMBOL SUBSTITUTES:** Use "->" for logic chains, "Increase" or "Decrease" instead of arrows.
+4. **VERTICAL SPACING:** Use DOUBLE line breaks between major sections.
 `;
 
 const CIE_LOGIC_TRUTH = `
 **STRICT CIE ECONOMIC LOGIC:**
-1. Supply-side: AS/LRAS shifts RIGHT to reduce inflation. (Shifting LEFT is a FATAL ERROR).
+1. Supply-side: AS/LRAS shifts RIGHT to reduce inflation.
 2. AD Shifts: AD LEFT -> Price Level FALLS. AD RIGHT -> Price Level RISES.
-3. Exchange Rates: Appreciation -> Export prices rise, Import prices fall -> AD shifts LEFT.
+3. Exchange Rates: Appreciation -> AD shifts LEFT.
 `;
 
-// Model selection: Using Flash for basic tasks, Pro for complex reasoning
-const FLASH_MODEL = 'gemini-3-flash-preview';
-const PRO_MODEL = 'gemini-3-pro-preview';
+// CRITICAL FIX: Use the 'flash' model which is free and extremely fast.
+const SAFE_MODEL = 'gemini-3-flash-preview';
 
-// Initialize the GoogleGenAI instance inside a helper to ensure process.env.API_KEY is accessible
+/**
+ * Initializes the GoogleGenAI client using the API key from environment variables.
+ */
 const getAIClient = () => {
-  const key = process.env.API_KEY;
-  if (!key || key === "undefined" || key.length < 5) {
-    throw new Error("INVALID_API_KEY");
-  }
-  return new GoogleGenAI({ apiKey: key });
+  // Always use direct access to process.env.API_KEY for the constructor.
+  return new GoogleGenAI({ apiKey: process.env.API_KEY });
 };
 
-// Generate a high-quality model answer using the Pro model
 export const generateModelAnswer = async (question: Question): Promise<string> => {
   try {
     const ai = getAIClient();
     const prompt = `
-      You are a world-class CIE Economics Examiner. Write a full-mark essay for the following question:
-      Question: ${question.questionText}
-      
-      Required Structure:
-      1. Intro (Concentrated AO1 Definitions)
-      2. Policy A Analysis (AO2) + Immediate Limitations
-      3. Policy B Analysis (AO2) + Immediate Limitations
-      4. Detailed Evaluation (AO3): Discuss scenarios (SR vs LR, Demand vs Cost-push causes)
-      5. Conclusion
-      
-      ${CIE_OFFICIAL_RUBRIC}
+      You are a CIE Economics Examiner. Write a full-mark essay for: "${question.questionText}".
+      Structure: Intro (AO1) -> Policy Analysis (AO2) -> Evaluation (AO3) -> Conclusion.
       ${CIE_LOGIC_TRUTH}
       ${FORMATTING_PROTOCOL}
     `;
     const response = await ai.models.generateContent({ 
-      model: PRO_MODEL, 
-      contents: prompt 
+      model: SAFE_MODEL, 
+      contents: prompt,
+      config: {
+        thinkingConfig: { thinkingBudget: 0 } // Explicitly disable to avoid latency/billing issues where appropriate
+      }
     });
-    return response.text || "No response generated.";
+    // Use .text property to get the generated text
+    return response.text || "No response.";
   } catch (error: any) { 
-    console.error("Gemini Generation Error:", error);
-    if (error.message === "INVALID_API_KEY") {
-        return "❌ API Key Error: The API Key is missing. Check Vercel Settings and Redeploy.";
-    }
-    if (error.message?.includes("billing") || error.message?.includes("403")) {
-        return "❌ Permission Error: Your API key might not have access to this model or requires billing. Try using a different API Key from Google AI Studio.";
-    }
-    return `⚠️ Error: ${error.message || "Failed to connect to AI."}`; 
+    console.error("Gemini Error:", error);
+    return `⚠️ 错误: ${error.message?.includes("billing") ? "检测到您的 API Key 尚未开启付费，请确保在 Google AI Studio 中使用的是免费层级，并确保本项目已切换到 Flash 模型（已在代码中为您切换）。" : error.message}`;
   }
 };
 
-// Analyze question requirements using the Flash model
 export const generateQuestionDeconstruction = async (questionText: string): Promise<string> => {
     try {
         const ai = getAIClient();
-        const prompt = `Deconstruct this CIE Econ question into AO1/AO2/AO3 requirements: "${questionText}". No code blocks.`;
-        const response = await ai.models.generateContent({ model: FLASH_MODEL, contents: prompt });
+        const response = await ai.models.generateContent({ 
+            model: SAFE_MODEL, 
+            contents: `Deconstruct this CIE Econ question: "${questionText}" into AO1/AO2/AO3 requirements.`,
+            config: { thinkingConfig: { thinkingBudget: 0 } }
+        });
+        // Use .text property to get the generated text
         return response.text || "Error.";
-    } catch (error) { return "Error analyzing question."; }
+    } catch (error) { return "Error analyzing."; }
 };
 
-// Grade student essays multimodally using the Pro model for accuracy
 export const gradeEssay = async (question: Question, studentEssay: string, imagesBase64?: string[]): Promise<string> => {
   try {
     const ai = getAIClient();
     const parts: any[] = [];
-    let essayContent = studentEssay;
-
     if (imagesBase64 && imagesBase64.length > 0) {
        imagesBase64.forEach((img) => {
          const cleanBase64 = img.replace(/^data:image\/[a-zA-Z+]+;base64,/, "");
          parts.push({ inlineData: { mimeType: 'image/jpeg', data: cleanBase64 } });
        });
-       essayContent += `\n\n[Images provided]`;
     }
 
     const prompt = `
-      You are a strict CIE Economics Examiner. Grade this student essay:
+      Grade this CIE Econ Essay:
       Question: ${question.questionText}
       Mark Scheme: ${question.markScheme}
-      Student Work: ${essayContent}
-
-      Output Required:
-      # Section 1: Fatal Logic Check
-      # Section 2: Level-Based Marking Summary
-      # Section 3: Paragraph Commentary
-      # Section 4: Corrective Logic Chains
-
-      ${CIE_OFFICIAL_RUBRIC}
+      Work: ${studentEssay}
       ${CIE_LOGIC_TRUTH}
       ${FORMATTING_PROTOCOL}
     `;
 
     parts.push({ text: prompt });
     const response = await ai.models.generateContent({
-      model: PRO_MODEL,
+      model: SAFE_MODEL,
       contents: { parts: parts },
-      config: { temperature: 0 }
+      config: { temperature: 0, thinkingConfig: { thinkingBudget: 0 } }
     });
+    // Use .text property to get the generated text
     return response.text || "Error grading.";
   } catch (error) { return "Error during grading."; }
 };
 
-// Provide real-time coaching with specific scoring breakdown using JSON response schema
 export const getRealTimeCoaching = async (question: Question, currentText: string): Promise<{ao1: number, ao2: number, ao3: number, total: number, advice: string}> => {
   try {
     const ai = getAIClient();
-    const prompt = `Analyze current draft for CIE requirements. Question: ${question.questionText}. Draft: "${currentText}". Return JSON.`;
     const response = await ai.models.generateContent({
-      model: FLASH_MODEL,
-      contents: prompt,
+      model: SAFE_MODEL,
+      contents: `Evaluate this draft for Question: ${question.questionText}. Draft: "${currentText}". JSON output.`,
       config: { 
         responseMimeType: "application/json",
+        thinkingConfig: { thinkingBudget: 0 },
         responseSchema: {
           type: Type.OBJECT,
           properties: {
@@ -156,19 +121,20 @@ export const getRealTimeCoaching = async (question: Question, currentText: strin
         }
       }
     });
+    // Use .text property to get the generated text
     return JSON.parse(response.text || "{}");
   } catch (error) { return { ao1: 0, ao2: 0, ao3: 0, total: 0, advice: "Connection failed." }; }
 };
 
-// Generate cloze exercises using the Flash model
 export const generateClozeExercise = async (modelEssay: string): Promise<{ textWithBlanks: string, blanks: ClozeBlank[] } | null> => {
   try {
     const ai = getAIClient();
     const response = await ai.models.generateContent({
-      model: FLASH_MODEL,
-      contents: `Create logic exercise from: ${modelEssay}. JSON format.`,
+      model: SAFE_MODEL,
+      contents: `Generate cloze exercise JSON from: ${modelEssay}`,
       config: { 
         responseMimeType: "application/json",
+        thinkingConfig: { thinkingBudget: 0 },
         responseSchema: {
           type: Type.OBJECT,
           properties: {
@@ -190,39 +156,23 @@ export const generateClozeExercise = async (modelEssay: string): Promise<{ textW
         }
       }
     });
+    // Use .text property to get the generated text
     return JSON.parse(response.text || "{}");
   } catch (error) { return null; }
 };
 
-// Evaluate user answers in cloze exercises using the Flash model
 export const evaluateClozeAnswers = async (blanks: ClozeBlank[], userAnswers: Record<number, string>): Promise<Record<number, ClozeFeedback> | null> => {
   try {
     const ai = getAIClient();
     const response = await ai.models.generateContent({
-      model: FLASH_MODEL,
-      contents: `Grade logic answers: ${JSON.stringify(userAnswers)} against ${JSON.stringify(blanks)}. JSON.`,
+      model: SAFE_MODEL,
+      contents: `Grade logic answers JSON: ${JSON.stringify(userAnswers)} against ${JSON.stringify(blanks)}.`,
       config: { 
         responseMimeType: "application/json",
-        responseSchema: {
-          type: Type.OBJECT,
-          properties: {
-            feedback: {
-              type: Type.ARRAY,
-              items: {
-                type: Type.OBJECT,
-                properties: {
-                  id: { type: Type.NUMBER },
-                  score: { type: Type.NUMBER },
-                  comment: { type: Type.STRING }
-                },
-                required: ["id", "score", "comment"]
-              }
-            }
-          },
-          required: ["feedback"]
-        }
+        thinkingConfig: { thinkingBudget: 0 }
       }
     });
+    // Use .text property to get the generated text
     const json = JSON.parse(response.text || "{}");
     const map: Record<number, ClozeFeedback> = {};
     json.feedback?.forEach((f: any) => map[f.id] = f);
@@ -230,54 +180,34 @@ export const evaluateClozeAnswers = async (blanks: ClozeBlank[], userAnswers: Re
   } catch (error) { return null; }
 };
 
-// Analyze syllabus trends for a chapter using the Pro model
 export const analyzeTopicMarkSchemes = async (chapterTitle: string, questions: Question[]): Promise<ChapterAnalysis | null> => {
   try {
     const ai = getAIClient();
     const response = await ai.models.generateContent({
-      model: PRO_MODEL,
-      contents: `Analyze chapter trends for: ${chapterTitle}. Context Questions: ${JSON.stringify(questions)}. JSON format.`,
+      model: SAFE_MODEL,
+      contents: `Analyze chapter trends for: ${chapterTitle}. JSON format. Questions Data: ${JSON.stringify(questions)}`,
       config: { 
         responseMimeType: "application/json",
-        responseSchema: {
-          type: Type.OBJECT,
-          properties: {
-            chapter: { type: Type.STRING },
-            lastUpdated: { type: Type.STRING },
-            questionCount: { type: Type.NUMBER },
-            ao1: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { point: { type: Type.STRING }, sourceRefs: { type: Type.ARRAY, items: { type: Type.STRING } } }, required: ["point", "sourceRefs"] } },
-            ao2: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { point: { type: Type.STRING }, sourceRefs: { type: Type.ARRAY, items: { type: Type.STRING } } }, required: ["point", "sourceRefs"] } },
-            ao3: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { point: { type: Type.STRING }, sourceRefs: { type: Type.ARRAY, items: { type: Type.STRING } } }, required: ["point", "sourceRefs"] } },
-            debates: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { topic: { type: Type.STRING }, pros: { type: Type.ARRAY, items: { type: Type.STRING } }, cons: { type: Type.ARRAY, items: { type: Type.STRING } }, dependencies: { type: Type.ARRAY, items: { type: Type.STRING } }, sourceRefs: { type: Type.ARRAY, items: { type: Type.STRING } } }, required: ["topic", "pros", "cons", "dependencies", "sourceRefs"] } }
-          },
-          required: ["chapter", "lastUpdated", "questionCount", "ao1", "ao2", "ao3", "debates"]
-        }
+        thinkingConfig: { thinkingBudget: 0 }
       }
     });
+    // Use .text property to get the generated text
     return JSON.parse(response.text || "{}");
   } catch (error) { return null; }
 };
 
-// Improve economics snippets using the Pro model for high-level reasoning
 export const improveSnippet = async (snippet: string, context?: string): Promise<{ improved: string, explanation: string, aoFocus: string }> => {
   try {
     const ai = getAIClient();
     const response = await ai.models.generateContent({
-      model: PRO_MODEL,
-      contents: `Improve this economics snippet to CIE Level 3 Analysis: ${snippet}. Context: ${context}`,
+      model: SAFE_MODEL,
+      contents: `Improve this economics snippet: ${snippet}. Context: ${context || "None"}. JSON format.`,
       config: { 
         responseMimeType: "application/json",
-        responseSchema: {
-          type: Type.OBJECT,
-          properties: {
-            improved: { type: Type.STRING },
-            explanation: { type: Type.STRING },
-            aoFocus: { type: Type.STRING }
-          },
-          required: ["improved", "explanation", "aoFocus"]
-        }
+        thinkingConfig: { thinkingBudget: 0 }
       }
     });
+    // Use .text property to get the generated text
     return JSON.parse(response.text || "{}");
   } catch (error) { return { improved: "Error.", explanation: "Error.", aoFocus: "" }; }
 };
